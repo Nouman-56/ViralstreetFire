@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>VIRAL STREET | Premium Free | Indian & Pakistani Scandals</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #0a0a0a; font-family: 'Inter', sans-serif; color: #ffffff; overflow-x: hidden; }
+        ::-webkit-scrollbar { width: 6px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #1a1a1a; }
+        ::-webkit-scrollbar-thumb { background: #e50914; border-radius: 4px; }
+        
+        .header { background: linear-gradient(180deg, rgba(0,0,0,0.98) 0%, rgba(0,0,0,0.8) 70%, transparent 100%); padding: 20px 40px; position: sticky; top: 0; z-index: 1000; transition: all 0.3s ease; }
+        .header-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+        .viral-logo { text-decoration: none; display: flex; flex-direction: column; line-height: 0.9; }
+        .viral-text { font-family: 'Bebas Neue', 'Oswald', 'Impact', 'Arial Black', sans-serif; font-size: 52px; font-weight: 900; letter-spacing: 3px; color: #FFD700; text-shadow: 3px 3px 0px rgba(0,0,0,0.5), 0px 0px 15px rgba(255,215,0,0.4); display: inline-block; }
+        .street-text { font-family: 'Bebas Neue', 'Oswald', 'Impact', 'Arial Black', sans-serif; font-size: 52px; font-weight: 900; letter-spacing: 3px; color: #E50914; text-shadow: 2px 2px 0px rgba(0,0,0,0.5), 0px 0px 10px rgba(229,9,20,0.4); display: inline-block; margin-left: 8px; }
+        .logo-tagline { font-size: 11px; letter-spacing: 3px; color: #888; margin-top: 5px; font-weight: 500; }
+        @media (max-width: 768px) { .viral-text, .street-text { font-size: 32px; letter-spacing: 1px; } .logo-tagline { font-size: 8px; } }
+        
+        .search-box { display: flex; align-items: center; background: rgba(0,0,0,0.75); border: 1px solid rgba(255,255,255,0.2); border-radius: 30px; padding: 8px 18px; transition: all 0.3s; }
+        .search-box:focus-within { border-color: #E50914; box-shadow: 0 0 8px rgba(229,9,20,0.3); }
+        .search-box input { background: transparent; border: none; padding: 8px; color: white; width: 250px; outline: none; font-size: 14px; }
+        .search-box button { background: transparent; border: none; color: white; cursor: pointer; transition: all 0.3s; }
+        .search-box button:hover { color: #E50914; }
+        
+        .hero-section { max-width: 100%; margin: 0 auto; position: relative; margin-top: -80px; }
+        .slider-container { position: relative; overflow: hidden; border-radius: 0; }
+        .slider-wrapper { display: flex; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); cursor: grab; }
+        .slide { min-width: 100%; position: relative; aspect-ratio: 16/9; }
+        .slide img { width: 100%; height: 100%; object-fit: cover; }
+        .slide-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 50%, transparent 100%); padding: 80px 60px 40px; }
+        .slide-badge { display: inline-block; background: #E50914; padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; margin-bottom: 15px; text-transform: uppercase; }
+        .slide-title { font-size: 48px; font-weight: 800; margin-bottom: 15px; max-width: 60%; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+        .slide-desc { font-size: 16px; color: #ddd; max-width: 50%; line-height: 1.5; }
+        .slider-nav button { position: absolute; top: 50%; transform: translateY(-50%); width: 45px; height: 45px; background: rgba(0,0,0,0.6); border: none; border-radius: 50%; color: white; cursor: pointer; transition: all 0.3s; z-index: 10; backdrop-filter: blur(4px); }
+        .slider-nav button:hover { background: #E50914; transform: translateY(-50%) scale(1.1); }
+        .slider-nav button:first-child { left: 20px; }
+        .slider-nav button:last-child { right: 20px; }
+        .slider-dots { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 12px; z-index: 10; }
+        .dot { width: 10px; height: 10px; background: rgba(255,255,255,0.5); border-radius: 50%; cursor: pointer; transition: all 0.3s; }
+        .dot.active { width: 30px; background: #E50914; border-radius: 10px; }
+        
+        .categories { max-width: 1400px; margin: 30px auto 20px; padding: 0 40px; display: flex; gap: 15px; flex-wrap: wrap; overflow-x: auto; }
+        .cat-btn { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); padding: 8px 24px; border-radius: 30px; color: #fff; cursor: pointer; transition: all 0.3s; font-size: 14px; font-weight: 500; white-space: nowrap; }
+        .cat-btn:hover, .cat-btn.active { background: #E50914; border-color: #E50914; transform: scale(1.05); }
+        
+        .section-title { max-width: 1400px; margin: 40px auto 20px; padding: 0 40px; font-size: 24px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+        .section-title i { color: #E50914; font-size: 28px; }
+        .section-title .badge { background: #E50914; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; margin-left: 10px; }
+        
+        .movies-container { max-width: 1400px; margin: 0 auto; padding: 0 40px 20px; }
+        .movies-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 25px; }
+        
+        .movie-card { background: #151515; border-radius: 12px; overflow: hidden; transition: all 0.3s ease; cursor: pointer; position: relative; border: 1px solid rgba(255,255,255,0.05); }
+        .movie-card:hover { transform: translateY(-8px) scale(1.02); z-index: 10; box-shadow: 0 20px 35px rgba(0,0,0,0.6); border-color: #e50914; }
+        .movie-thumbnail { position: relative; aspect-ratio: 2/3; overflow: hidden; }
+        .movie-thumbnail img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+        .movie-card:hover .movie-thumbnail img { transform: scale(1.08); }
+        .movie-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; }
+        .movie-card:hover .movie-overlay { opacity: 1; }
+        .play-icon { width: 55px; height: 55px; background: #E50914; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: transform 0.3s; }
+        .play-icon i { font-size: 22px; margin-left: 3px; }
+        .play-icon:hover { transform: scale(1.15); }
+        .movie-info { padding: 14px; }
+        .movie-title { font-weight: 600; font-size: 14px; margin-bottom: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; }
+        .movie-meta { display: flex; justify-content: space-between; font-size: 12px; color: #b3b3b3; }
+        .movie-year { color: #b3b3b3; }
+        .movie-views { color: #e50914; font-size: 11px; margin-top: 4px; display: flex; align-items: center; gap: 4px; }
+        .movie-views i { font-size: 10px; }
+        .category-badge { position: absolute; top: 10px; right: 10px; padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: bold; z-index: 5; }
+        .badge-premium { background: linear-gradient(135deg, #f5af19, #f12711); color: white; }
+        .badge-indian { background: #ff9933; color: #000; }
+        .badge-pakistani { background: #01411c; color: white; }
+        .badge-all { background: #3498db; color: white; }
+        
+        .public-buttons { display: flex; gap: 10px; margin-top: 10px; }
+        .play-now-btn, .download-btn { flex: 1; padding: 8px 0; border-radius: 30px; font-size: 12px; font-weight: 600; cursor: pointer; text-align: center; transition: all 0.2s; border: none; }
+        .play-now-btn { background: #E50914; color: white; }
+        .play-now-btn:hover { background: #ff1a1a; transform: scale(1.02); }
+        .download-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; }
+        .download-btn:hover { background: #E50914; border-color: #E50914; }
+        
+        .admin-panel { position: fixed; bottom: 30px; right: 30px; z-index: 200; }
+        .admin-toggle { width: 55px; height: 55px; background: #E50914; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 20px rgba(229,9,20,0.5); }
+        .admin-toggle:hover { transform: scale(1.1); box-shadow: 0 6px 25px rgba(229,9,20,0.7); }
+        .admin-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1001; display: none; align-items: center; justify-content: center; }
+        .admin-modal.active { display: flex; }
+        .admin-form { background: #151515; border-radius: 20px; padding: 30px; width: 90%; max-width: 800px; max-height: 85vh; overflow-y: auto; }
+        .admin-form h3, .admin-form h4 { color: #E50914; margin-bottom: 15px; margin-top: 20px; }
+        .admin-form input, .admin-form select, .admin-form textarea { width: 100%; background: #2a2a2a; border: 1px solid #3d3d3d; border-radius: 10px; padding: 12px; color: white; margin-bottom: 12px; outline: none; }
+        .admin-form input:focus, .admin-form select:focus { border-color: #E50914; }
+        .admin-form button { background: #E50914; border: none; color: white; padding: 12px; border-radius: 10px; cursor: pointer; width: 100%; font-weight: 600; margin-bottom: 10px; transition: 0.2s; }
+        .admin-form button:hover { opacity: 0.9; transform: scale(1.01); }
+        .movie-list-admin, .slider-list-admin { margin-top: 15px; max-height: 200px; overflow-y: auto; }
+        .admin-movie-item, .admin-slider-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #3d3d3d; gap: 10px; }
+        .edit-movie-btn { background: #3498db; border: none; color: white; padding: 5px 12px; border-radius: 6px; cursor: pointer; margin-right: 5px; }
+        .delete-movie, .delete-slider { background: rgba(229,9,20,0.3); border: 1px solid #e50914; color: #e50914; padding: 5px 12px; border-radius: 6px; cursor: pointer; }
+        .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.95); color: white; padding: 12px 28px; border-radius: 40px; z-index: 4000; animation: fadeInOut 2.5s ease; border-left: 4px solid #E50914; font-size: 14px; }
+        @keyframes fadeInOut { 0% { opacity: 0; transform: translateX(-50%) translateY(20px); } 15% { opacity: 1; transform: translateX(-50%) translateY(0); } 85% { opacity: 1; } 100% { opacity: 0; transform: translateX(-50%) translateY(20px); } }
+        .empty-state { text-align: center; padding: 60px; color: #666; }
+        
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); z-index: 3000; display: none; align-items: center; justify-content: center; }
+        .modal.active { display: flex; }
+        .modal-content { width: 90%; max-width: 1000px; background: #151515; border-radius: 16px; overflow: hidden; }
+        .modal-header { padding: 18px 22px; display: flex; justify-content: space-between; align-items: center; background: #0a0a0a; border-bottom: 1px solid #2a2a2a; }
+        .modal-header h3 { color: #E50914; }
+        .close-modal { background: rgba(255,255,255,0.1); border: none; width: 36px; height: 36px; border-radius: 50%; color: white; cursor: pointer; transition: all 0.3s; }
+        .close-modal:hover { background: #E50914; }
+        .video-container { background: #000; }
+        .video-container video { width: 100%; display: block; }
+        
+        @media (max-width: 768px) {
+            .header { padding: 15px 20px; }
+            .header-content { flex-direction: column; }
+            .slide-title { font-size: 24px; max-width: 100%; }
+            .slide-desc { font-size: 12px; max-width: 100%; }
+            .slide-overlay { padding: 40px 20px 20px; }
+            .categories, .section-title, .movies-container { padding: 0 20px; }
+            .movies-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; }
+            .admin-panel { bottom: 20px; right: 20px; }
+            .admin-toggle { width: 45px; height: 45px; }
+        }
+        @media (min-width: 1200px) { .movies-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 28px; } }
+    </style>
+</head>
+<body>
+    <div class="header" id="header">
+        <div class="header-content">
+            <a class="viral-logo" style="text-decoration: none;">
+                <div><span class="viral-text">VIRAL</span><span class="street-text">STREET</span></div>
+                <div class="logo-tagline">🔥 SCANDALS EXPOSED 🔥</div>
+            </a>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search videos...">
+                <button id="searchBtn"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="hero-section">
+        <div class="slider-container">
+            <div class="slider-wrapper" id="sliderWrapper"></div>
+            <div class="slider-nav"><button id="prevSlide"><i class="fas fa-chevron-left"></i></button><button id="nextSlide"><i class="fas fa-chevron-right"></i></button></div>
+            <div class="slider-dots" id="sliderDots"></div>
+        </div>
+    </div>
+
+    <div class="categories" id="categoriesContainer"></div>
+
+    <div class="section-title"><i class="fas fa-video"></i><span id="categoryTitle">All Videos</span><span class="badge">Watch Now</span></div>
+    <div class="movies-container"><div class="movies-grid" id="videosGrid"></div></div>
+
+    <div class="modal" id="videoModal">
+        <div class="modal-content">
+            <div class="modal-header"><h3 id="modalTitle">Now Playing</h3><button class="close-modal" onclick="closeModal()"><i class="fas fa-times"></i></button></div>
+            <div class="video-container"><video id="videoPlayer" controls playsinline><source id="videoSource" src=""></video></div>
+        </div>
+    </div>
+
+    <!-- Edit Modal - ONLY accessible after admin login -->
+    <div class="modal" id="editModal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header"><h3><i class="fas fa-edit"></i> Edit Video</h3><button class="close-modal" onclick="closeEditModal()"><i class="fas fa-times"></i></button></div>
+            <div style="padding: 25px;">
+                <input type="text" id="editVideoId" style="display: none;">
+                <input type="text" id="editTitle" placeholder="Video Title" style="width:100%; margin-bottom:12px; padding:12px; background:#2a2a2a; border:1px solid #3d3d3d; border-radius:8px; color:white;">
+                <input type="text" id="editYear" placeholder="Year" style="width:100%; margin-bottom:12px; padding:12px; background:#2a2a2a; border:1px solid #3d3d3d; border-radius:8px; color:white;">
+                <select id="editCategory" style="width:100%; margin-bottom:12px; padding:12px; background:#2a2a2a; border:1px solid #3d3d3d; border-radius:8px; color:white;">
+                    <option value="premium">Premium Free</option><option value="indian">Indian Scandals</option><option value="pakistani">Pakistani Scandals</option><option value="all">All Videos</option>
+                </select>
+                <input type="text" id="editThumb" placeholder="Thumbnail URL" style="width:100%; margin-bottom:12px; padding:12px; background:#2a2a2a; border:1px solid #3d3d3d; border-radius:8px; color:white;">
+                <input type="text" id="editVideoUrl" placeholder="Video URL" style="width:100%; margin-bottom:12px; padding:12px; background:#2a2a2a; border:1px solid #3d3d3d; border-radius:8px; color:white;">
+                <input type="number" id="editViews" placeholder="Views Count" style="width:100%; margin-bottom:12px; padding:12px; background:#2a2a2a; border:1px solid #3d3d3d; border-radius:8px; color:white;">
+                <button id="saveEditBtn" style="background:#E50914; color:white; padding:12px; border:none; border-radius:8px; cursor:pointer; width:100%; font-weight:600;">💾 Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Panel - Hidden from public -->
+    <div class="admin-panel"><div class="admin-toggle" id="adminToggle"><i class="fas fa-cog fa-lg"></i></div></div>
+    
+    <div class="admin-modal" id="adminModal">
+        <div class="admin-form">
+            <h3><i class="fas fa-lock"></i> Admin Panel</h3>
+            <input type="password" id="adminPassword" placeholder="Enter Admin Password">
+            <button id="verifyAdminBtn">Verify Access</button>
+            <div id="adminContent" style="display: none;">
+                <h4><i class="fas fa-plus-circle"></i> ➕ Add New Video</h4>
+                <input type="text" id="newTitle" placeholder="Video Title *"><input type="text" id="newYear" placeholder="Year *">
+                <select id="newCategory"><option value="premium">🔥 Premium Free</option><option value="indian">🇮🇳 Indian Scandals</option><option value="pakistani">🇵🇰 Pakistani Scandals</option><option value="all">📺 All Videos</option></select>
+                <input type="text" id="newThumb" placeholder="Thumbnail URL *"><input type="text" id="newVideoUrl" placeholder="Video URL *">
+                <input type="number" id="newViews" placeholder="Initial Views (e.g., 1000)" value="0">
+                <button id="addVideoBtn">+ Add Video</button>
+                <h4><i class="fas fa-images"></i> 🖼️ Manage Slider Images</h4>
+                <input type="text" id="sliderImgUrl" placeholder="Slider Image URL"><input type="text" id="sliderTitle" placeholder="Slider Title">
+                <textarea id="sliderDesc" rows="2" placeholder="Description"></textarea>
+                <button id="addSliderBtn">+ Add Slide</button>
+                <div id="sliderListAdmin" class="slider-list-admin"></div>
+                <h4><i class="fas fa-list"></i> 📋 Manage Videos (Edit/Delete)</h4>
+                <div id="adminVideoList" class="movie-list-admin"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==================== FIREBASE CONFIGURATION (NEW) ====================
+        const firebaseConfig = {
+            apiKey: "AIzaSyDLloBWMeIB62CYFjxx_2DPicV9im6wFiI",
+            authDomain: "viralstreet-c0128.firebaseapp.com",
+            projectId: "viralstreet-c0128",
+            storageBucket: "viralstreet-c0128.firebasestorage.app",
+            messagingSenderId: "436825511768",
+            appId: "1:436825511768:web:1456b6b669c2b00222f72d",
+            measurementId: "G-N02FDH8E8W"
+        };
+        
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        
+        // ==================== ORIGINAL DEFAULT DATA ====================
+        const defaultVideos = [
+            { title: "🔥 Premium Exclusive: Behind The Scenes", year: "2024", category: "premium", thumbnail: "https://images.pexels.com/photos/2264753/pexels-photo-2264753.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4", views: 12500 },
+            { title: "🇮🇳 Indian Scandal: Exposed", year: "2024", category: "indian", thumbnail: "https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFunflies.mp4", views: 8700 },
+            { title: "🇵🇰 Pakistani Scandal: Reality Check", year: "2024", category: "pakistani", thumbnail: "https://images.pexels.com/photos/3926126/pexels-photo-3926126.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4", views: 5200 },
+            { title: "🎬 Trending: All Access", year: "2023", category: "all", thumbnail: "https://images.pexels.com/photos/3062543/pexels-photo-3062543.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4", views: 34000 },
+            { title: "🇮🇳 Indian Scandal: Hidden Truth", year: "2024", category: "indian", thumbnail: "https://images.pexels.com/photos/3184298/pexels-photo-3184298.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4", views: 6300 },
+            { title: "🔥 Premium Free: Best Moments", year: "2024", category: "premium", thumbnail: "https://images.pexels.com/photos/3184419/pexels-photo-3184419.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFunflies.mp4", views: 15600 }
+        ];
+        
+        const defaultSliders = [
+            { imgUrl: "https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=1200", title: "Indian Scandals Exposed", desc: "Watch the biggest scandals of Indian cinema.", badge: "TRENDING", order: 1 },
+            { imgUrl: "https://images.pexels.com/photos/3926126/pexels-photo-3926126.jpeg?auto=compress&cs=tinysrgb&w=1200", title: "Pakistani Scandals", desc: "Uncovered truths from Lollywood.", badge: "HOT", order: 2 },
+            { imgUrl: "https://images.pexels.com/photos/2264753/pexels-photo-2264753.jpeg?auto=compress&cs=tinysrgb&w=1200", title: "Premium Free Content", desc: "All premium videos available for free.", badge: "FREE", order: 3 }
+        ];
+        
+        // Auto Seed Function - Adds data only if collections are empty
+        async function seedDefaultData() {
+            try {
+                const videosSnapshot = await db.collection("viral_videos").get();
+                if (videosSnapshot.empty) {
+                    console.log("📀 Seeding default videos to Firestore...");
+                    for (const video of defaultVideos) {
+                        await db.collection("viral_videos").add({
+                            ...video,
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+                    }
+                    console.log("✅ Default videos added to Firestore!");
+                }
+                
+                const slidersSnapshot = await db.collection("viral_sliders").get();
+                if (slidersSnapshot.empty) {
+                    console.log("📀 Seeding default sliders to Firestore...");
+                    for (const slider of defaultSliders) {
+                        await db.collection("viral_sliders").add({
+                            ...slider,
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+                    }
+                    console.log("✅ Default sliders added to Firestore!");
+                }
+            } catch (error) {
+                console.error("Seed error:", error);
+            }
+        }
+        
+        // Global Variables
+        let currentVideos = [];
+        let currentSlides = [];
+        let currentCategory = "all";
+        let searchQuery = "";
+        let currentSlide = 0;
+        let autoSlideInterval;
+        let isAdminLoggedIn = false;
+        
+        // Helper Functions
+        function formatViews(views) {
+            if (!views && views !== 0) return "0 views";
+            if (views >= 1000000) return (views / 1000000).toFixed(1) + "M";
+            if (views >= 1000) return (views / 1000).toFixed(1) + "K";
+            return views + " views";
+        }
+        
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        function showToast(msg, isError = false) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.style.background = isError ? 'rgba(229,9,20,0.95)' : 'rgba(0,0,0,0.95)';
+            toast.innerHTML = `<i class="fas ${isError ? 'fa-exclamation-triangle' : 'fa-check-circle'}"></i> ${msg}`;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2800);
+        }
+        
+        // Real-time Firestore Listeners (Snapshot)
+        function attachFirestoreListeners() {
+            // Videos realtime listener
+            db.collection("viral_videos").orderBy("createdAt", "desc").onSnapshot((snapshot) => {
+                currentVideos = [];
+                snapshot.forEach(doc => {
+                    currentVideos.push({ id: doc.id, ...doc.data() });
+                });
+                renderVideos();
+                if (isAdminLoggedIn) renderAdminVideoList();
+            }, (error) => console.error("Video snapshot error:", error));
+            
+            // Sliders realtime listener
+            db.collection("viral_sliders").orderBy("order", "asc").onSnapshot((snapshot) => {
+                currentSlides = [];
+                snapshot.forEach(doc => {
+                    currentSlides.push({ id: doc.id, ...doc.data() });
+                });
+                renderSlider();
+                if (isAdminLoggedIn) renderAdminSliderList();
+                if (currentSlides.length > 0 && currentSlide >= currentSlides.length) currentSlide = 0;
+                updateSliderPosition();
+                if (currentSlides.length > 0 && !autoSlideInterval) startAutoSlide();
+            });
+        }
+        
+        // Render Functions
+        function renderVideos() {
+            let filtered = [...currentVideos];
+            if (currentCategory !== 'all') filtered = filtered.filter(v => v.category === currentCategory);
+            if (searchQuery) filtered = filtered.filter(v => v.title && v.title.toLowerCase().includes(searchQuery.toLowerCase()));
+            
+            const grid = document.getElementById('videosGrid');
+            if (!grid) return;
+            
+            if (filtered.length === 0) {
+                grid.innerHTML = '<div class="empty-state"><i class="fas fa-film fa-3x"></i><p>No videos found</p></div>';
+                return;
+            }
+            
+            grid.innerHTML = filtered.map(video => {
+                let badgeClass = '', badgeText = '';
+                if (video.category === 'premium') { badgeClass = 'badge-premium'; badgeText = 'PREMIUM FREE'; }
+                else if (video.category === 'indian') { badgeClass = 'badge-indian'; badgeText = 'INDIAN'; }
+                else if (video.category === 'pakistani') { badgeClass = 'badge-pakistani'; badgeText = 'PAKISTANI'; }
+                else { badgeClass = 'badge-all'; badgeText = 'ALL'; }
+                
+                const viewsCount = video.views || 0;
+                const formattedViews = formatViews(viewsCount);
+                
+                return `<div class="movie-card">
+                    <div class="movie-thumbnail" onclick="playVideo('${video.id}')">
+                        <div class="category-badge ${badgeClass}">${badgeText}</div>
+                        <img src="${video.thumbnail}" alt="${video.title}" onerror="this.src='https://via.placeholder.com/300x450?text=No+Image'">
+                        <div class="movie-overlay"><div class="play-icon"><i class="fas fa-play"></i></div></div>
+                    </div>
+                    <div class="movie-info">
+                        <div class="movie-title" onclick="playVideo('${video.id}')">${escapeHtml(video.title)}</div>
+                        <div class="movie-meta"><span class="movie-year">${video.year || '2024'}</span></div>
+                        <div class="movie-views"><i class="fas fa-eye"></i> ${formattedViews}</div>
+                        <div class="public-buttons">
+                            <button class="play-now-btn" onclick="playVideo('${video.id}')"><i class="fas fa-play"></i> Play Now</button>
+                            <button class="download-btn" onclick="downloadVideo('${video.id}', event)"><i class="fas fa-download"></i> Download</button>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+        
+        function renderSlider() {
+            const wrapper = document.getElementById('sliderWrapper');
+            if (!wrapper) return;
+            
+            if (currentSlides.length === 0) {
+                wrapper.innerHTML = '<div class="slide"><img src="https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=1200"><div class="slide-overlay"><div class="slide-badge">WELCOME</div><div class="slide-title">VIRAL STREET</div><div class="slide-desc">Watch exclusive scandal videos</div></div></div>';
+            } else {
+                wrapper.innerHTML = currentSlides.map(slide => `<div class="slide"><img src="${slide.imgUrl}" onerror="this.src='https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=1200'"><div class="slide-overlay"><span class="slide-badge"><i class="fas fa-fire"></i> ${slide.badge || 'FEATURED'}</span><div class="slide-title">${escapeHtml(slide.title)}</div><div class="slide-desc">${escapeHtml(slide.desc)}</div></div></div>`).join('');
+            }
+            updateSliderDots();
+        }
+        
+        function updateSliderDots() {
+            const dotsContainer = document.getElementById('sliderDots');
+            if (!dotsContainer) return;
+            dotsContainer.innerHTML = '';
+            for (let i = 0; i < currentSlides.length; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'dot' + (i === currentSlide ? ' active' : '');
+                dot.addEventListener('click', () => goToSlide(i));
+                dotsContainer.appendChild(dot);
+            }
+        }
+        
+        function updateSliderPosition() {
+            const wrapper = document.getElementById('sliderWrapper');
+            if (wrapper && currentSlides.length > 0) {
+                wrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
+            }
+            document.querySelectorAll('.dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentSlide);
+            });
+        }
+        
+        function nextSlide() { if (currentSlides.length) { currentSlide = (currentSlide + 1) % currentSlides.length; updateSliderPosition(); resetAutoSlide(); } }
+        function prevSlide() { if (currentSlides.length) { currentSlide = (currentSlide - 1 + currentSlides.length) % currentSlides.length; updateSliderPosition(); resetAutoSlide(); } }
+        function goToSlide(index) { currentSlide = index; updateSliderPosition(); resetAutoSlide(); }
+        function startAutoSlide() { autoSlideInterval = setInterval(nextSlide, 5000); }
+        function resetAutoSlide() { clearInterval(autoSlideInterval); startAutoSlide(); }
+        
+        // Video Actions
+        async function incrementViews(videoId) {
+            try {
+                await db.collection("viral_videos").doc(videoId).update({
+                    views: firebase.firestore.FieldValue.increment(1)
+                });
+            } catch (error) {
+                console.error("View increment error:", error);
+            }
+        }
+        
+        async function playVideo(id) {
+            const video = currentVideos.find(v => v.id === id);
+            if (video) {
+                await incrementViews(id);
+                document.getElementById('modalTitle').innerHTML = video.title;
+                document.getElementById('videoSource').src = video.videoUrl;
+                document.getElementById('videoPlayer').load();
+                document.getElementById('videoModal').classList.add('active');
+                document.getElementById('videoPlayer').play().catch(e => console.log('Autoplay blocked'));
+            }
+        }
+        
+        function downloadVideo(videoId, event) {
+            if (event) event.stopPropagation();
+            const video = currentVideos.find(v => v.id === videoId);
+            if (video && video.videoUrl) {
+                const a = document.createElement('a');
+                a.href = video.videoUrl;
+                a.download = `${video.title}.mp4`;
+                a.click();
+                showToast(`📥 Downloading "${video.title}"...`);
+            } else {
+                showToast('❌ Download link not available', true);
+            }
+        }
+        
+        function closeModal() {
+            document.getElementById('videoPlayer').pause();
+            document.getElementById('videoModal').classList.remove('active');
+        }
+        
+        // Admin Functions (Firestore)
+        async function addVideo() {
+            if (!isAdminLoggedIn) { showToast('🔒 Admin access required!', true); return; }
+            const title = document.getElementById('newTitle').value.trim();
+            const year = document.getElementById('newYear').value.trim();
+            const category = document.getElementById('newCategory').value;
+            const thumb = document.getElementById('newThumb').value.trim();
+            const videoUrl = document.getElementById('newVideoUrl').value.trim();
+            const initialViews = parseInt(document.getElementById('newViews').value) || 0;
+            
+            if (!title || !year || !thumb || !videoUrl) {
+                showToast('Please fill all fields!', true);
+                return;
+            }
+            
+            await db.collection("viral_videos").add({
+                title, year, category, thumbnail: thumb, videoUrl, views: initialViews,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            showToast(`✅ "${title}" added!`);
+            document.getElementById('newTitle').value = '';
+            document.getElementById('newYear').value = '';
+            document.getElementById('newThumb').value = '';
+            document.getElementById('newVideoUrl').value = '';
+            document.getElementById('newViews').value = '0';
+        }
+        
+        async function addSlider() {
+            if (!isAdminLoggedIn) { showToast('🔒 Admin access required!', true); return; }
+            const imgUrl = document.getElementById('sliderImgUrl').value.trim();
+            const title = document.getElementById('sliderTitle').value.trim();
+            const desc = document.getElementById('sliderDesc').value.trim();
+            
+            if (!imgUrl || !title || !desc) {
+                showToast('Please fill all slider fields!', true);
+                return;
+            }
+            
+            const count = (await db.collection("viral_sliders").get()).size;
+            await db.collection("viral_sliders").add({
+                imgUrl, title, desc, badge: "FEATURED", order: count,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            showToast(`✅ Slider added!`);
+            document.getElementById('sliderImgUrl').value = '';
+            document.getElementById('sliderTitle').value = '';
+            document.getElementById('sliderDesc').value = '';
+        }
+        
+        async function deleteSlider(sliderId) {
+            if (!isAdminLoggedIn) { showToast('🔒 Admin access required!', true); return; }
+            if (confirm('Delete this slider?')) {
+                await db.collection("viral_sliders").doc(sliderId).delete();
+                showToast('Slider deleted');
+            }
+        }
+        
+        function openEditModal(videoId) {
+            if (!isAdminLoggedIn) { showToast('🔒 Admin access required!', true); return; }
+            const video = currentVideos.find(v => v.id === videoId);
+            if (video) {
+                document.getElementById('editVideoId').value = videoId;
+                document.getElementById('editTitle').value = video.title;
+                document.getElementById('editYear').value = video.year;
+                document.getElementById('editCategory').value = video.category;
+                document.getElementById('editThumb').value = video.thumbnail;
+                document.getElementById('editVideoUrl').value = video.videoUrl;
+                document.getElementById('editViews').value = video.views || 0;
+                document.getElementById('editModal').classList.add('active');
+            }
+        }
+        
+        async function saveEditedVideo() {
+            const id = document.getElementById('editVideoId').value;
+            const updates = {
+                title: document.getElementById('editTitle').value,
+                year: document.getElementById('editYear').value,
+                category: document.getElementById('editCategory').value,
+                thumbnail: document.getElementById('editThumb').value,
+                videoUrl: document.getElementById('editVideoUrl').value,
+                views: parseInt(document.getElementById('editViews').value) || 0
+            };
+            await db.collection("viral_videos").doc(id).update(updates);
+            showToast('✅ Video updated!');
+            closeEditModal();
+        }
+        
+        function closeEditModal() { document.getElementById('editModal').classList.remove('active'); }
+        
+        async function deleteVideo(videoId) {
+            if (!isAdminLoggedIn) { showToast('🔒 Admin access required!', true); return; }
+            if (confirm('Delete this video?')) {
+                await db.collection("viral_videos").doc(videoId).delete();
+                showToast('🗑️ Video deleted!');
+            }
+        }
+        
+        function renderAdminVideoList() {
+            const container = document.getElementById('adminVideoList');
+            if (!container || !isAdminLoggedIn) return;
+            container.innerHTML = currentVideos.map(video => `
+                <div class="admin-movie-item">
+                    <span><strong>${escapeHtml(video.title)}</strong> (${video.year}) - ${video.category} | 👁️ ${formatViews(video.views || 0)}</span>
+                    <div>
+                        <button class="edit-movie-btn" onclick="openEditModal('${video.id}')"><i class="fas fa-edit"></i> Edit</button>
+                        <button class="delete-movie" onclick="deleteVideo('${video.id}')">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function renderAdminSliderList() {
+            const container = document.getElementById('sliderListAdmin');
+            if (!container || !isAdminLoggedIn) return;
+            container.innerHTML = currentSlides.map(slide => `
+                <div class="admin-slider-item">
+                    <span><strong>${escapeHtml(slide.title)}</strong></span>
+                    <button class="delete-slider" onclick="deleteSlider('${slide.id}')">Delete</button>
+                </div>
+            `).join('');
+        }
+        
+        function verifyAdmin() {
+            const password = document.getElementById('adminPassword').value;
+            if (password === 'admin123') {
+                isAdminLoggedIn = true;
+                document.getElementById('adminContent').style.display = 'block';
+                document.getElementById('verifyAdminBtn').style.display = 'none';
+                renderAdminVideoList();
+                renderAdminSliderList();
+                showToast('✅ Admin access granted!');
+            } else {
+                showToast('❌ Wrong password! (Use: admin123)', true);
+            }
+        }
+        
+        function handleSearch() {
+            searchQuery = document.getElementById('searchInput').value;
+            renderVideos();
+        }
+        
+        function renderCategories() {
+            const categories = [
+                { id: 'premium', name: '🔥 Premium Free' },
+                { id: 'indian', name: '🇮🇳 Indian Scandals' },
+                { id: 'pakistani', name: '🇵🇰 Pakistani Scandals' },
+                { id: 'all', name: '📺 All Videos' }
+            ];
+            document.getElementById('categoriesContainer').innerHTML = categories.map(cat => 
+                `<button class="cat-btn ${currentCategory === cat.id ? 'active' : ''}" data-category="${cat.id}">${cat.name}</button>`
+            ).join('');
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    currentCategory = btn.dataset.category;
+                    renderCategories();
+                    renderVideos();
+                    updateCategoryTitle();
+                });
+            });
+        }
+        
+        function updateCategoryTitle() {
+            const titles = {
+                premium: '🔥 Premium Free Videos',
+                indian: '🇮🇳 Indian Scandals',
+                pakistani: '🇵🇰 Pakistani Scandals',
+                all: '📺 All Videos'
+            };
+            document.getElementById('categoryTitle').innerHTML = titles[currentCategory] || 'All Videos';
+        }
+        
+        // Event Listeners
+        document.getElementById('searchBtn').addEventListener('click', handleSearch);
+        document.getElementById('searchInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSearch(); });
+        document.getElementById('adminToggle').addEventListener('click', () => document.getElementById('adminModal').classList.add('active'));
+        document.getElementById('verifyAdminBtn').addEventListener('click', verifyAdmin);
+        document.getElementById('addVideoBtn').addEventListener('click', addVideo);
+        document.getElementById('addSliderBtn').addEventListener('click', addSlider);
+        document.getElementById('saveEditBtn').addEventListener('click', saveEditedVideo);
+        document.getElementById('prevSlide').addEventListener('click', prevSlide);
+        document.getElementById('nextSlide').addEventListener('click', nextSlide);
+        document.getElementById('videoModal').addEventListener('click', (e) => { if (e.target === document.getElementById('videoModal')) closeModal(); });
+        document.getElementById('editModal').addEventListener('click', (e) => { if (e.target === document.getElementById('editModal')) closeEditModal(); });
+        document.getElementById('adminModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('adminModal')) {
+                document.getElementById('adminModal').classList.remove('active');
+                document.getElementById('adminContent').style.display = 'none';
+                document.getElementById('verifyAdminBtn').style.display = 'block';
+                document.getElementById('adminPassword').value = '';
+                isAdminLoggedIn = false;
+            }
+        });
+        
+        // Touch Slider
+        const sliderContainer = document.querySelector('.slider-container');
+        let startX, isDragging = false;
+        if (sliderContainer) {
+            sliderContainer.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; isDragging = true; });
+            sliderContainer.addEventListener('touchend', (e) => {
+                if (!isDragging) return;
+                const diffX = e.changedTouches[0].clientX - startX;
+                if (Math.abs(diffX) > 50) diffX > 0 ? prevSlide() : nextSlide();
+                isDragging = false;
+            });
+        }
+        
+        // Make functions global
+        window.playVideo = playVideo;
+        window.closeModal = closeModal;
+        window.openEditModal = openEditModal;
+        window.closeEditModal = closeEditModal;
+        window.deleteVideo = deleteVideo;
+        window.downloadVideo = downloadVideo;
+        
+        // Initialize App
+        async function init() {
+            await seedDefaultData();  // Auto-add default data if Firestore is empty
+            attachFirestoreListeners();
+            renderCategories();
+            updateCategoryTitle();
+        }
+        
+        init();
+        console.log('✅ VIRAL STREET with Firestore Backend Ready!');
+    </script>
+</body>
+</html>
