@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -52,6 +53,15 @@
         .cat-btn { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); padding: 8px 24px; border-radius: 30px; color: #fff; cursor: pointer; transition: all 0.3s; font-size: 14px; font-weight: 500; white-space: nowrap; }
         .cat-btn:hover, .cat-btn.active { background: #E50914; border-color: #E50914; transform: scale(1.05); }
         
+        /* Special Sections Styles */
+        .special-sections { max-width: 1400px; margin: 0 auto; padding: 0 40px; }
+        .special-card { background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%); border-radius: 16px; padding: 20px; margin-bottom: 30px; border: 1px solid rgba(229,9,20,0.3); }
+        .special-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #e50914; }
+        .special-header i { font-size: 28px; color: #e50914; }
+        .special-header h2 { font-size: 24px; font-weight: 700; }
+        .special-header .badge-new { background: #e50914; color: white; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; margin-left: 10px; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+        
         .section-title { max-width: 1400px; margin: 40px auto 20px; padding: 0 40px; font-size: 24px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
         .section-title i { color: #E50914; font-size: 28px; }
         .section-title .badge { background: #E50914; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; margin-left: 10px; }
@@ -60,6 +70,7 @@
         .movies-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 25px; }
         
         .movie-card { background: #151515; border-radius: 12px; overflow: hidden; transition: all 0.3s ease; cursor: pointer; position: relative; border: 1px solid rgba(255,255,255,0.05); }
+        .movie-card.featured-card { border: 2px solid #e50914; box-shadow: 0 0 20px rgba(229,9,20,0.3); transform: scale(1.02); }
         .movie-card:hover { transform: translateY(-8px) scale(1.02); z-index: 10; box-shadow: 0 20px 35px rgba(0,0,0,0.6); border-color: #e50914; }
         .movie-thumbnail { position: relative; aspect-ratio: 2/3; overflow: hidden; }
         .movie-thumbnail img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
@@ -80,6 +91,9 @@
         .badge-indian { background: #ff9933; color: #000; }
         .badge-pakistani { background: #01411c; color: white; }
         .badge-all { background: #3498db; color: white; }
+        .featured-badge { position: absolute; top: 10px; left: 10px; background: #e50914; color: white; padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: bold; z-index: 5; animation: pulse 1.5s infinite; }
+        .upcoming-badge { position: absolute; top: 10px; left: 10px; background: #f39c12; color: white; padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: bold; z-index: 5; }
+        .trending-badge { position: absolute; top: 10px; left: 10px; background: #2ecc71; color: white; padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: bold; z-index: 5; }
         
         .public-buttons { display: flex; gap: 10px; margin-top: 10px; }
         .play-now-btn, .download-btn { flex: 1; padding: 8px 0; border-radius: 30px; font-size: 12px; font-weight: 600; cursor: pointer; text-align: center; transition: all 0.2s; border: none; }
@@ -100,7 +114,10 @@
         .admin-form button { background: #E50914; border: none; color: white; padding: 12px; border-radius: 10px; cursor: pointer; width: 100%; font-weight: 600; margin-bottom: 10px; transition: 0.2s; }
         .admin-form button:hover { opacity: 0.9; transform: scale(1.01); }
         .movie-list-admin, .slider-list-admin { margin-top: 15px; max-height: 200px; overflow-y: auto; }
-        .admin-movie-item, .admin-slider-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #3d3d3d; gap: 10px; }
+        .admin-movie-item, .admin-slider-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #3d3d3d; gap: 10px; flex-wrap: wrap; }
+        .admin-movie-badges { display: flex; gap: 10px; align-items: center; }
+        .badge-checkbox { display: flex; align-items: center; gap: 5px; background: #2a2a2a; padding: 4px 8px; border-radius: 6px; font-size: 11px; }
+        .badge-checkbox input { width: auto; margin: 0; cursor: pointer; }
         .edit-movie-btn { background: #3498db; border: none; color: white; padding: 5px 12px; border-radius: 6px; cursor: pointer; margin-right: 5px; }
         .delete-movie, .delete-slider { background: rgba(229,9,20,0.3); border: 1px solid #e50914; color: #e50914; padding: 5px 12px; border-radius: 6px; cursor: pointer; }
         .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.95); color: white; padding: 12px 28px; border-radius: 40px; z-index: 4000; animation: fadeInOut 2.5s ease; border-left: 4px solid #E50914; font-size: 14px; }
@@ -123,10 +140,11 @@
             .slide-title { font-size: 24px; max-width: 100%; }
             .slide-desc { font-size: 12px; max-width: 100%; }
             .slide-overlay { padding: 40px 20px 20px; }
-            .categories, .section-title, .movies-container { padding: 0 20px; }
+            .categories, .section-title, .movies-container, .special-sections { padding: 0 20px; }
             .movies-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; }
             .admin-panel { bottom: 20px; right: 20px; }
             .admin-toggle { width: 45px; height: 45px; }
+            .admin-movie-item { flex-direction: column; align-items: flex-start; }
         }
         @media (min-width: 1200px) { .movies-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 28px; } }
     </style>
@@ -155,6 +173,25 @@
 
     <div class="categories" id="categoriesContainer"></div>
 
+    <!-- Special Sections: Upcoming Virals & Trendings -->
+    <div class="special-sections">
+        <div class="special-card">
+            <div class="special-header">
+                <i class="fas fa-calendar-alt"></i>
+                <h2>Upcoming Virals <span class="badge-new">COMING SOON</span></h2>
+            </div>
+            <div class="movies-grid" id="upcomingGrid"></div>
+        </div>
+        
+        <div class="special-card">
+            <div class="special-header">
+                <i class="fas fa-chart-line"></i>
+                <h2>Trending Now <span class="badge-new">HOT 🔥</span></h2>
+            </div>
+            <div class="movies-grid" id="trendingGrid"></div>
+        </div>
+    </div>
+
     <div class="section-title"><i class="fas fa-video"></i><span id="categoryTitle">All Videos</span><span class="badge">Watch Now</span></div>
     <div class="movies-container"><div class="movies-grid" id="videosGrid"></div></div>
 
@@ -178,6 +215,7 @@
                 </select>
                 <input type="text" id="editThumb" placeholder="Thumbnail URL" style="width:100%; margin-bottom:12px; padding:12px; background:#2a2a2a; border:1px solid #3d3d3d; border-radius:8px; color:white;">
                 <input type="text" id="editVideoUrl" placeholder="Video URL" style="width:100%; margin-bottom:12px; padding:12px; background:#2a2a2a; border:1px solid #3d3d3d; border-radius:8px; color:white;">
+                <input type="text" id="editDownloadUrl" placeholder="Download URL (optional)" style="width:100%; margin-bottom:12px; padding:12px; background:#2a2a2a; border:1px solid #3d3d3d; border-radius:8px; color:white;">
                 <input type="number" id="editViews" placeholder="Views Count" style="width:100%; margin-bottom:12px; padding:12px; background:#2a2a2a; border:1px solid #3d3d3d; border-radius:8px; color:white;">
                 <button id="saveEditBtn" style="background:#E50914; color:white; padding:12px; border:none; border-radius:8px; cursor:pointer; width:100%; font-weight:600;">💾 Save Changes</button>
             </div>
@@ -196,22 +234,26 @@
                 <h4><i class="fas fa-plus-circle"></i> ➕ Add New Video</h4>
                 <input type="text" id="newTitle" placeholder="Video Title *"><input type="text" id="newYear" placeholder="Year *">
                 <select id="newCategory"><option value="premium">🔥 Premium Free</option><option value="indian">🇮🇳 Indian Scandals</option><option value="pakistani">🇵🇰 Pakistani Scandals</option><option value="all">📺 All Videos</option></select>
-                <input type="text" id="newThumb" placeholder="Thumbnail URL *"><input type="text" id="newVideoUrl" placeholder="Video URL *">
+                <input type="text" id="newThumb" placeholder="Thumbnail URL *">
+                <input type="text" id="newVideoUrl" placeholder="Video URL *">
+                <input type="text" id="newDownloadUrl" placeholder="Download URL (optional)">
                 <input type="number" id="newViews" placeholder="Initial Views (e.g., 1000)" value="0">
                 <button id="addVideoBtn">+ Add Video</button>
+                
+                <h4><i class="fas fa-tags"></i> 🏷️ Manage Video Status</h4>
+                <div id="adminVideoList" class="movie-list-admin"></div>
+                
                 <h4><i class="fas fa-images"></i> 🖼️ Manage Slider Images</h4>
                 <input type="text" id="sliderImgUrl" placeholder="Slider Image URL"><input type="text" id="sliderTitle" placeholder="Slider Title">
                 <textarea id="sliderDesc" rows="2" placeholder="Description"></textarea>
                 <button id="addSliderBtn">+ Add Slide</button>
                 <div id="sliderListAdmin" class="slider-list-admin"></div>
-                <h4><i class="fas fa-list"></i> 📋 Manage Videos (Edit/Delete)</h4>
-                <div id="adminVideoList" class="movie-list-admin"></div>
             </div>
         </div>
     </div>
 
     <script>
-        // ==================== FIREBASE CONFIGURATION (NEW) ====================
+        // ==================== FIREBASE CONFIGURATION ====================
         const firebaseConfig = {
             apiKey: "AIzaSyDLloBWMeIB62CYFjxx_2DPicV9im6wFiI",
             authDomain: "viralstreet-c0128.firebaseapp.com",
@@ -222,18 +264,17 @@
             measurementId: "G-N02FDH8E8W"
         };
         
-        // Initialize Firebase
         const app = firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
         
-        // ==================== ORIGINAL DEFAULT DATA ====================
+        // Default Data with status flags
         const defaultVideos = [
-            { title: "🔥 Premium Exclusive: Behind The Scenes", year: "2024", category: "premium", thumbnail: "https://images.pexels.com/photos/2264753/pexels-photo-2264753.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4", views: 12500 },
-            { title: "🇮🇳 Indian Scandal: Exposed", year: "2024", category: "indian", thumbnail: "https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFunflies.mp4", views: 8700 },
-            { title: "🇵🇰 Pakistani Scandal: Reality Check", year: "2024", category: "pakistani", thumbnail: "https://images.pexels.com/photos/3926126/pexels-photo-3926126.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4", views: 5200 },
-            { title: "🎬 Trending: All Access", year: "2023", category: "all", thumbnail: "https://images.pexels.com/photos/3062543/pexels-photo-3062543.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4", views: 34000 },
-            { title: "🇮🇳 Indian Scandal: Hidden Truth", year: "2024", category: "indian", thumbnail: "https://images.pexels.com/photos/3184298/pexels-photo-3184298.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4", views: 6300 },
-            { title: "🔥 Premium Free: Best Moments", year: "2024", category: "premium", thumbnail: "https://images.pexels.com/photos/3184419/pexels-photo-3184419.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFunflies.mp4", views: 15600 }
+            { title: "🔥 Premium Exclusive: Behind The Scenes", year: "2024", category: "premium", thumbnail: "https://images.pexels.com/photos/2264753/pexels-photo-2264753.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4", downloadUrl: "", views: 12500, isTrending: true, isUpcoming: false, isFeatured: false },
+            { title: "🇮🇳 Indian Scandal: Exposed", year: "2024", category: "indian", thumbnail: "https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFunflies.mp4", downloadUrl: "", views: 8700, isTrending: true, isUpcoming: false, isFeatured: false },
+            { title: "🇵🇰 Pakistani Scandal: Reality Check", year: "2024", category: "pakistani", thumbnail: "https://images.pexels.com/photos/3926126/pexels-photo-3926126.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4", downloadUrl: "", views: 5200, isTrending: false, isUpcoming: true, isFeatured: false },
+            { title: "🎬 Trending: All Access", year: "2023", category: "all", thumbnail: "https://images.pexels.com/photos/3062543/pexels-photo-3062543.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4", downloadUrl: "", views: 34000, isTrending: true, isUpcoming: false, isFeatured: true },
+            { title: "🇮🇳 Indian Scandal: Hidden Truth", year: "2024", category: "indian", thumbnail: "https://images.pexels.com/photos/3184298/pexels-photo-3184298.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4", downloadUrl: "", views: 6300, isTrending: false, isUpcoming: true, isFeatured: false },
+            { title: "🔥 Premium Free: Best Moments", year: "2024", category: "premium", thumbnail: "https://images.pexels.com/photos/3184419/pexels-photo-3184419.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFunflies.mp4", downloadUrl: "", views: 15600, isTrending: false, isUpcoming: false, isFeatured: false }
         ];
         
         const defaultSliders = [
@@ -242,445 +283,176 @@
             { imgUrl: "https://images.pexels.com/photos/2264753/pexels-photo-2264753.jpeg?auto=compress&cs=tinysrgb&w=1200", title: "Premium Free Content", desc: "All premium videos available for free.", badge: "FREE", order: 3 }
         ];
         
-        // Auto Seed Function - Adds data only if collections are empty
         async function seedDefaultData() {
             try {
                 const videosSnapshot = await db.collection("viral_videos").get();
                 if (videosSnapshot.empty) {
-                    console.log("📀 Seeding default videos to Firestore...");
+                    console.log("📀 Seeding default videos...");
                     for (const video of defaultVideos) {
-                        await db.collection("viral_videos").add({
-                            ...video,
-                            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                        });
+                        await db.collection("viral_videos").add({ ...video, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
                     }
-                    console.log("✅ Default videos added to Firestore!");
+                    console.log("✅ Default videos added!");
                 }
-                
                 const slidersSnapshot = await db.collection("viral_sliders").get();
                 if (slidersSnapshot.empty) {
-                    console.log("📀 Seeding default sliders to Firestore...");
                     for (const slider of defaultSliders) {
-                        await db.collection("viral_sliders").add({
-                            ...slider,
-                            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                        });
+                        await db.collection("viral_sliders").add({ ...slider, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
                     }
-                    console.log("✅ Default sliders added to Firestore!");
+                    console.log("✅ Default sliders added!");
                 }
-            } catch (error) {
-                console.error("Seed error:", error);
+            } catch (error) { console.error("Seed error:", error); }
+        }
+        
+        let currentVideos = [], currentSlides = [], currentCategory = "all", searchQuery = "", currentSlide = 0, autoSlideInterval, isAdminLoggedIn = false;
+        
+        function formatViews(views) { if (!views) return "0 views"; if (views >= 1e6) return (views/1e6).toFixed(1)+"M"; if (views >= 1e3) return (views/1e3).toFixed(1)+"K"; return views+" views"; }
+        function escapeHtml(t) { if (!t) return ''; const d=document.createElement('div'); d.textContent=t; return d.innerHTML; }
+        function showToast(msg, isError=false) { const t=document.createElement('div'); t.className='toast'; t.style.background=isError?'rgba(229,9,20,0.95)':'rgba(0,0,0,0.95)'; t.innerHTML=`<i class="fas ${isError?'fa-exclamation-triangle':'fa-check-circle'}"></i> ${msg}`; document.body.appendChild(t); setTimeout(()=>t.remove(),2800); }
+        
+        function attachFirestoreListeners() {
+            db.collection("viral_videos").orderBy("createdAt", "desc").onSnapshot(snapshot=>{ currentVideos=[]; snapshot.forEach(doc=>{ currentVideos.push({id:doc.id,...doc.data()}); }); renderAllSections(); if(isAdminLoggedIn) renderAdminVideoList(); });
+            db.collection("viral_sliders").orderBy("order","asc").onSnapshot(snapshot=>{ currentSlides=[]; snapshot.forEach(doc=>{ currentSlides.push({id:doc.id,...doc.data()}); }); renderSlider(); if(isAdminLoggedIn) renderAdminSliderList(); if(currentSlides.length>0&&currentSlide>=currentSlides.length) currentSlide=0; updateSliderPosition(); if(currentSlides.length>0&&!autoSlideInterval) startAutoSlide(); });
+        }
+        
+        function renderAllSections() {
+            renderVideos();
+            renderUpcomingTrending();
+        }
+        
+        function renderUpcomingTrending() {
+            const upcomingVideos = currentVideos.filter(v => v.isUpcoming === true);
+            const trendingVideos = currentVideos.filter(v => v.isTrending === true);
+            const featuredVideo = currentVideos.find(v => v.isFeatured === true);
+            
+            const upcomingGrid = document.getElementById('upcomingGrid');
+            const trendingGrid = document.getElementById('trendingGrid');
+            
+            if(upcomingGrid) {
+                if(upcomingVideos.length===0) upcomingGrid.innerHTML='<div class="empty-state" style="grid-column:1/-1"><i class="fas fa-clock fa-3x"></i><p>No upcoming videos</p></div>';
+                else upcomingGrid.innerHTML = upcomingVideos.map(v=>renderMovieCard(v,true)).join('');
+            }
+            if(trendingGrid) {
+                if(trendingVideos.length===0) trendingGrid.innerHTML='<div class="empty-state" style="grid-column:1/-1"><i class="fas fa-fire fa-3x"></i><p>No trending videos</p></div>';
+                else trendingGrid.innerHTML = trendingVideos.map(v=>renderMovieCard(v,true)).join('');
+            }
+            if(featuredVideo) {
+                const featuredCard = document.querySelector(`.movie-card[data-id="${featuredVideo.id}"]`);
+                if(featuredCard) featuredCard.classList.add('featured-card');
             }
         }
         
-        // Global Variables
-        let currentVideos = [];
-        let currentSlides = [];
-        let currentCategory = "all";
-        let searchQuery = "";
-        let currentSlide = 0;
-        let autoSlideInterval;
-        let isAdminLoggedIn = false;
-        
-        // Helper Functions
-        function formatViews(views) {
-            if (!views && views !== 0) return "0 views";
-            if (views >= 1000000) return (views / 1000000).toFixed(1) + "M";
-            if (views >= 1000) return (views / 1000).toFixed(1) + "K";
-            return views + " views";
-        }
-        
-        function escapeHtml(text) {
-            if (!text) return '';
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-        
-        function showToast(msg, isError = false) {
-            const toast = document.createElement('div');
-            toast.className = 'toast';
-            toast.style.background = isError ? 'rgba(229,9,20,0.95)' : 'rgba(0,0,0,0.95)';
-            toast.innerHTML = `<i class="fas ${isError ? 'fa-exclamation-triangle' : 'fa-check-circle'}"></i> ${msg}`;
-            document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 2800);
-        }
-        
-        // Real-time Firestore Listeners (Snapshot)
-        function attachFirestoreListeners() {
-            // Videos realtime listener
-            db.collection("viral_videos").orderBy("createdAt", "desc").onSnapshot((snapshot) => {
-                currentVideos = [];
-                snapshot.forEach(doc => {
-                    currentVideos.push({ id: doc.id, ...doc.data() });
-                });
-                renderVideos();
-                if (isAdminLoggedIn) renderAdminVideoList();
-            }, (error) => console.error("Video snapshot error:", error));
+        function renderMovieCard(video, isSpecialSection=false) {
+            let badgeClass='', badgeText='';
+            if(video.category==='premium'){ badgeClass='badge-premium'; badgeText='PREMIUM FREE'; }
+            else if(video.category==='indian'){ badgeClass='badge-indian'; badgeText='INDIAN'; }
+            else if(video.category==='pakistani'){ badgeClass='badge-pakistani'; badgeText='PAKISTANI'; }
+            else{ badgeClass='badge-all'; badgeText='ALL'; }
             
-            // Sliders realtime listener
-            db.collection("viral_sliders").orderBy("order", "asc").onSnapshot((snapshot) => {
-                currentSlides = [];
-                snapshot.forEach(doc => {
-                    currentSlides.push({ id: doc.id, ...doc.data() });
-                });
-                renderSlider();
-                if (isAdminLoggedIn) renderAdminSliderList();
-                if (currentSlides.length > 0 && currentSlide >= currentSlides.length) currentSlide = 0;
-                updateSliderPosition();
-                if (currentSlides.length > 0 && !autoSlideInterval) startAutoSlide();
-            });
+            const hasDownloadUrl = video.downloadUrl && video.downloadUrl.trim() !== '';
+            let specialBadge = '';
+            if(video.isFeatured) specialBadge = '<div class="featured-badge"><i class="fas fa-star"></i> FEATURED</div>';
+            else if(video.isUpcoming) specialBadge = '<div class="upcoming-badge"><i class="fas fa-clock"></i> UPCOMING</div>';
+            else if(video.isTrending) specialBadge = '<div class="trending-badge"><i class="fas fa-fire"></i> TRENDING</div>';
+            
+            return `<div class="movie-card ${video.isFeatured ? 'featured-card' : ''}" data-id="${video.id}">
+                        <div class="movie-thumbnail" onclick="playVideo('${video.id}')">
+                            <div class="category-badge ${badgeClass}">${badgeText}</div>
+                            ${specialBadge}
+                            <img src="${video.thumbnail}" alt="${video.title}" onerror="this.src='https://via.placeholder.com/300x450?text=No+Image'">
+                            <div class="movie-overlay"><div class="play-icon"><i class="fas fa-play"></i></div></div>
+                        </div>
+                        <div class="movie-info">
+                            <div class="movie-title" onclick="playVideo('${video.id}')">${escapeHtml(video.title)}</div>
+                            <div class="movie-meta"><span class="movie-year">${video.year||'2024'}</span></div>
+                            <div class="movie-views"><i class="fas fa-eye"></i> ${formatViews(video.views||0)}</div>
+                            <div class="public-buttons">
+                                <button class="play-now-btn" onclick="playVideo('${video.id}')"><i class="fas fa-play"></i> Play Now</button>
+                                <button class="download-btn" onclick="downloadVideo('${video.id}', ${hasDownloadUrl}, event)"><i class="fas fa-download"></i> Download</button>
+                            </div>
+                        </div>
+                    </div>`;
         }
         
-        // Render Functions
         function renderVideos() {
             let filtered = [...currentVideos];
-            if (currentCategory !== 'all') filtered = filtered.filter(v => v.category === currentCategory);
-            if (searchQuery) filtered = filtered.filter(v => v.title && v.title.toLowerCase().includes(searchQuery.toLowerCase()));
-            
-            const grid = document.getElementById('videosGrid');
-            if (!grid) return;
-            
-            if (filtered.length === 0) {
-                grid.innerHTML = '<div class="empty-state"><i class="fas fa-film fa-3x"></i><p>No videos found</p></div>';
-                return;
-            }
-            
-            grid.innerHTML = filtered.map(video => {
-                let badgeClass = '', badgeText = '';
-                if (video.category === 'premium') { badgeClass = 'badge-premium'; badgeText = 'PREMIUM FREE'; }
-                else if (video.category === 'indian') { badgeClass = 'badge-indian'; badgeText = 'INDIAN'; }
-                else if (video.category === 'pakistani') { badgeClass = 'badge-pakistani'; badgeText = 'PAKISTANI'; }
-                else { badgeClass = 'badge-all'; badgeText = 'ALL'; }
-                
-                const viewsCount = video.views || 0;
-                const formattedViews = formatViews(viewsCount);
-                
-                return `<div class="movie-card">
-                    <div class="movie-thumbnail" onclick="playVideo('${video.id}')">
-                        <div class="category-badge ${badgeClass}">${badgeText}</div>
-                        <img src="${video.thumbnail}" alt="${video.title}" onerror="this.src='https://via.placeholder.com/300x450?text=No+Image'">
-                        <div class="movie-overlay"><div class="play-icon"><i class="fas fa-play"></i></div></div>
-                    </div>
-                    <div class="movie-info">
-                        <div class="movie-title" onclick="playVideo('${video.id}')">${escapeHtml(video.title)}</div>
-                        <div class="movie-meta"><span class="movie-year">${video.year || '2024'}</span></div>
-                        <div class="movie-views"><i class="fas fa-eye"></i> ${formattedViews}</div>
-                        <div class="public-buttons">
-                            <button class="play-now-btn" onclick="playVideo('${video.id}')"><i class="fas fa-play"></i> Play Now</button>
-                            <button class="download-btn" onclick="downloadVideo('${video.id}', event)"><i class="fas fa-download"></i> Download</button>
-                        </div>
-                    </div>
-                </div>`;
-            }).join('');
+            if(currentCategory!=='all') filtered=filtered.filter(v=>v.category===currentCategory);
+            if(searchQuery) filtered=filtered.filter(v=>v.title && v.title.toLowerCase().includes(searchQuery.toLowerCase()));
+            const grid=document.getElementById('videosGrid');
+            if(!grid) return;
+            if(filtered.length===0){ grid.innerHTML='<div class="empty-state"><i class="fas fa-film fa-3x"></i><p>No videos found</p></div>'; return; }
+            grid.innerHTML=filtered.map(v=>renderMovieCard(v,false)).join('');
         }
         
         function renderSlider() {
-            const wrapper = document.getElementById('sliderWrapper');
-            if (!wrapper) return;
-            
-            if (currentSlides.length === 0) {
-                wrapper.innerHTML = '<div class="slide"><img src="https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=1200"><div class="slide-overlay"><div class="slide-badge">WELCOME</div><div class="slide-title">VIRAL STREET</div><div class="slide-desc">Watch exclusive scandal videos</div></div></div>';
-            } else {
-                wrapper.innerHTML = currentSlides.map(slide => `<div class="slide"><img src="${slide.imgUrl}" onerror="this.src='https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=1200'"><div class="slide-overlay"><span class="slide-badge"><i class="fas fa-fire"></i> ${slide.badge || 'FEATURED'}</span><div class="slide-title">${escapeHtml(slide.title)}</div><div class="slide-desc">${escapeHtml(slide.desc)}</div></div></div>`).join('');
-            }
+            const wrapper=document.getElementById('sliderWrapper');
+            if(!wrapper) return;
+            if(currentSlides.length===0) wrapper.innerHTML='<div class="slide"><img src="https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=1200"><div class="slide-overlay"><div class="slide-badge">WELCOME</div><div class="slide-title">VIRAL STREET</div><div class="slide-desc">Watch exclusive scandal videos</div></div></div>';
+            else wrapper.innerHTML=currentSlides.map(s=>`<div class="slide"><img src="${s.imgUrl}" onerror="this.src='https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=1200'"><div class="slide-overlay"><span class="slide-badge"><i class="fas fa-fire"></i> ${s.badge||'FEATURED'}</span><div class="slide-title">${escapeHtml(s.title)}</div><div class="slide-desc">${escapeHtml(s.desc)}</div></div></div>`).join('');
             updateSliderDots();
         }
         
-        function updateSliderDots() {
-            const dotsContainer = document.getElementById('sliderDots');
-            if (!dotsContainer) return;
-            dotsContainer.innerHTML = '';
-            for (let i = 0; i < currentSlides.length; i++) {
-                const dot = document.createElement('div');
-                dot.className = 'dot' + (i === currentSlide ? ' active' : '');
-                dot.addEventListener('click', () => goToSlide(i));
-                dotsContainer.appendChild(dot);
-            }
+        function updateSliderDots(){ const dc=document.getElementById('sliderDots'); if(!dc) return; dc.innerHTML=''; for(let i=0;i<currentSlides.length;i++){ const d=document.createElement('div'); d.className='dot'+(i===currentSlide?' active':''); d.addEventListener('click',()=>goToSlide(i)); dc.appendChild(d); } }
+        function updateSliderPosition(){ const w=document.getElementById('sliderWrapper'); if(w&&currentSlides.length>0) w.style.transform=`translateX(-${currentSlide*100}%)`; document.querySelectorAll('.dot').forEach((d,i)=>{ d.classList.toggle('active',i===currentSlide); }); }
+        function nextSlide(){ if(currentSlides.length){ currentSlide=(currentSlide+1)%currentSlides.length; updateSliderPosition(); resetAutoSlide(); } }
+        function prevSlide(){ if(currentSlides.length){ currentSlide=(currentSlide-1+currentSlides.length)%currentSlides.length; updateSliderPosition(); resetAutoSlide(); } }
+        function goToSlide(i){ currentSlide=i; updateSliderPosition(); resetAutoSlide(); }
+        function startAutoSlide(){ autoSlideInterval=setInterval(nextSlide,5000); }
+        function resetAutoSlide(){ clearInterval(autoSlideInterval); startAutoSlide(); }
+        
+        async function incrementViews(vid){ try{ await db.collection("viral_videos").doc(vid).update({views:firebase.firestore.FieldValue.increment(1)}); }catch(e){ console.error(e); } }
+        async function playVideo(id){ const v=currentVideos.find(v=>v.id===id); if(v){ await incrementViews(id); document.getElementById('modalTitle').innerHTML=v.title; document.getElementById('videoSource').src=v.videoUrl; document.getElementById('videoPlayer').load(); document.getElementById('videoModal').classList.add('active'); document.getElementById('videoPlayer').play().catch(e=>console.log('Autoplay blocked')); } }
+        function downloadVideo(vid,hasUrl,e){ if(e) e.stopPropagation(); const v=currentVideos.find(v=>v.id===vid); if(v){ if(hasUrl&&v.downloadUrl){ window.open(v.downloadUrl,'_blank'); showToast(`🔗 Opening download link for "${v.title}"...`); } else if(v.videoUrl){ const a=document.createElement('a'); a.href=v.videoUrl; a.download=`${v.title}.mp4`; a.click(); showToast(`📥 Downloading "${v.title}"...`); } else showToast('❌ No download link available',true); } }
+        function closeModal(){ document.getElementById('videoPlayer').pause(); document.getElementById('videoModal').classList.remove('active'); }
+        
+        async function addVideo(){ if(!isAdminLoggedIn){ showToast('🔒 Admin access required!',true); return; }
+            const title=document.getElementById('newTitle').value.trim(), year=document.getElementById('newYear').value.trim(), category=document.getElementById('newCategory').value, thumb=document.getElementById('newThumb').value.trim(), videoUrl=document.getElementById('newVideoUrl').value.trim(), downloadUrl=document.getElementById('newDownloadUrl').value.trim(), views=parseInt(document.getElementById('newViews').value)||0;
+            if(!title||!year||!thumb||!videoUrl){ showToast('Please fill all required fields!',true); return; }
+            await db.collection("viral_videos").add({title,year,category,thumbnail:thumb,videoUrl,downloadUrl:downloadUrl||'',views,isTrending:false,isUpcoming:false,isFeatured:false,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+            showToast(`✅ "${title}" added!`); document.getElementById('newTitle').value=''; document.getElementById('newYear').value=''; document.getElementById('newThumb').value=''; document.getElementById('newVideoUrl').value=''; document.getElementById('newDownloadUrl').value=''; document.getElementById('newViews').value='0';
         }
         
-        function updateSliderPosition() {
-            const wrapper = document.getElementById('sliderWrapper');
-            if (wrapper && currentSlides.length > 0) {
-                wrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
-            }
-            document.querySelectorAll('.dot').forEach((dot, i) => {
-                dot.classList.toggle('active', i === currentSlide);
-            });
-        }
+        async function updateVideoFlags(videoId, field, value){ if(!isAdminLoggedIn) return; await db.collection("viral_videos").doc(videoId).update({[field]:value}); showToast(`✅ Video ${field} updated!`); }
         
-        function nextSlide() { if (currentSlides.length) { currentSlide = (currentSlide + 1) % currentSlides.length; updateSliderPosition(); resetAutoSlide(); } }
-        function prevSlide() { if (currentSlides.length) { currentSlide = (currentSlide - 1 + currentSlides.length) % currentSlides.length; updateSliderPosition(); resetAutoSlide(); } }
-        function goToSlide(index) { currentSlide = index; updateSliderPosition(); resetAutoSlide(); }
-        function startAutoSlide() { autoSlideInterval = setInterval(nextSlide, 5000); }
-        function resetAutoSlide() { clearInterval(autoSlideInterval); startAutoSlide(); }
+        async function deleteVideo(vid){ if(!isAdminLoggedIn){ showToast('🔒 Admin access required!',true); return; } if(confirm('Delete this video?')){ await db.collection("viral_videos").doc(vid).delete(); showToast('🗑️ Video deleted!'); } }
         
-        // Video Actions
-        async function incrementViews(videoId) {
-            try {
-                await db.collection("viral_videos").doc(videoId).update({
-                    views: firebase.firestore.FieldValue.increment(1)
-                });
-            } catch (error) {
-                console.error("View increment error:", error);
-            }
-        }
+        function openEditModal(vid){ if(!isAdminLoggedIn){ showToast('🔒 Admin access required!',true); return; } const v=currentVideos.find(v=>v.id===vid); if(v){ document.getElementById('editVideoId').value=vid; document.getElementById('editTitle').value=v.title; document.getElementById('editYear').value=v.year; document.getElementById('editCategory').value=v.category; document.getElementById('editThumb').value=v.thumbnail; document.getElementById('editVideoUrl').value=v.videoUrl; document.getElementById('editDownloadUrl').value=v.downloadUrl||''; document.getElementById('editViews').value=v.views||0; document.getElementById('editModal').classList.add('active'); } }
+        async function saveEditedVideo(){ const id=document.getElementById('editVideoId').value; const updates={title:document.getElementById('editTitle').value, year:document.getElementById('editYear').value, category:document.getElementById('editCategory').value, thumbnail:document.getElementById('editThumb').value, videoUrl:document.getElementById('editVideoUrl').value, downloadUrl:document.getElementById('editDownloadUrl').value||'', views:parseInt(document.getElementById('editViews').value)||0}; await db.collection("viral_videos").doc(id).update(updates); showToast('✅ Video updated!'); closeEditModal(); }
+        function closeEditModal(){ document.getElementById('editModal').classList.remove('active'); }
         
-        async function playVideo(id) {
-            const video = currentVideos.find(v => v.id === id);
-            if (video) {
-                await incrementViews(id);
-                document.getElementById('modalTitle').innerHTML = video.title;
-                document.getElementById('videoSource').src = video.videoUrl;
-                document.getElementById('videoPlayer').load();
-                document.getElementById('videoModal').classList.add('active');
-                document.getElementById('videoPlayer').play().catch(e => console.log('Autoplay blocked'));
-            }
-        }
+        async function addSlider(){ if(!isAdminLoggedIn){ showToast('🔒 Admin access required!',true); return; } const imgUrl=document.getElementById('sliderImgUrl').value.trim(), title=document.getElementById('sliderTitle').value.trim(), desc=document.getElementById('sliderDesc').value.trim(); if(!imgUrl||!title||!desc){ showToast('Please fill all slider fields!',true); return; } const cnt=(await db.collection("viral_sliders").get()).size; await db.collection("viral_sliders").add({imgUrl,title,desc,badge:"FEATURED",order:cnt,createdAt:firebase.firestore.FieldValue.serverTimestamp()}); showToast(`✅ Slider added!`); document.getElementById('sliderImgUrl').value=''; document.getElementById('sliderTitle').value=''; document.getElementById('sliderDesc').value=''; }
+        async function deleteSlider(sid){ if(!isAdminLoggedIn){ showToast('🔒 Admin access required!',true); return; } if(confirm('Delete this slider?')){ await db.collection("viral_sliders").doc(sid).delete(); showToast('Slider deleted'); } }
         
-        function downloadVideo(videoId, event) {
-            if (event) event.stopPropagation();
-            const video = currentVideos.find(v => v.id === videoId);
-            if (video && video.videoUrl) {
-                const a = document.createElement('a');
-                a.href = video.videoUrl;
-                a.download = `${video.title}.mp4`;
-                a.click();
-                showToast(`📥 Downloading "${video.title}"...`);
-            } else {
-                showToast('❌ Download link not available', true);
-            }
-        }
+        function renderAdminVideoList(){ const c=document.getElementById('adminVideoList'); if(!c||!isAdminLoggedIn) return; c.innerHTML=currentVideos.map(v=>`<div class="admin-movie-item"><span><strong>${escapeHtml(v.title)}</strong> (${v.year}) - ${v.category} | 👁️ ${formatViews(v.views||0)}</span><div class="admin-movie-badges"><label class="badge-checkbox"><input type="checkbox" ${v.isTrending?'checked':''} onchange="updateVideoFlags('${v.id}','isTrending',this.checked)"> 🔥 Trending</label><label class="badge-checkbox"><input type="checkbox" ${v.isUpcoming?'checked':''} onchange="updateVideoFlags('${v.id}','isUpcoming',this.checked)"> 📅 Upcoming</label><label class="badge-checkbox"><input type="checkbox" ${v.isFeatured?'checked':''} onchange="updateVideoFlags('${v.id}','isFeatured',this.checked)"> ⭐ Featured (1st)</label><button class="edit-movie-btn" onclick="openEditModal('${v.id}')"><i class="fas fa-edit"></i> Edit</button><button class="delete-movie" onclick="deleteVideo('${v.id}')">Delete</button></div></div>`).join(''); }
+        function renderAdminSliderList(){ const c=document.getElementById('sliderListAdmin'); if(!c||!isAdminLoggedIn) return; c.innerHTML=currentSlides.map(s=>`<div class="admin-slider-item"><span><strong>${escapeHtml(s.title)}</strong></span><button class="delete-slider" onclick="deleteSlider('${s.id}')">Delete</button></div>`).join(''); }
         
-        function closeModal() {
-            document.getElementById('videoPlayer').pause();
-            document.getElementById('videoModal').classList.remove('active');
-        }
+        function verifyAdmin(){ const pwd=document.getElementById('adminPassword').value; if(pwd==='admin123'){ isAdminLoggedIn=true; document.getElementById('adminContent').style.display='block'; document.getElementById('verifyAdminBtn').style.display='none'; renderAdminVideoList(); renderAdminSliderList(); showToast('✅ Admin access granted!'); } else showToast('❌ Wrong password! (Use: admin123)',true); }
         
-        // Admin Functions (Firestore)
-        async function addVideo() {
-            if (!isAdminLoggedIn) { showToast('🔒 Admin access required!', true); return; }
-            const title = document.getElementById('newTitle').value.trim();
-            const year = document.getElementById('newYear').value.trim();
-            const category = document.getElementById('newCategory').value;
-            const thumb = document.getElementById('newThumb').value.trim();
-            const videoUrl = document.getElementById('newVideoUrl').value.trim();
-            const initialViews = parseInt(document.getElementById('newViews').value) || 0;
-            
-            if (!title || !year || !thumb || !videoUrl) {
-                showToast('Please fill all fields!', true);
-                return;
-            }
-            
-            await db.collection("viral_videos").add({
-                title, year, category, thumbnail: thumb, videoUrl, views: initialViews,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            });
-            showToast(`✅ "${title}" added!`);
-            document.getElementById('newTitle').value = '';
-            document.getElementById('newYear').value = '';
-            document.getElementById('newThumb').value = '';
-            document.getElementById('newVideoUrl').value = '';
-            document.getElementById('newViews').value = '0';
-        }
+        function handleSearch(){ searchQuery=document.getElementById('searchInput').value; renderVideos(); }
+        function renderCategories(){ const cats=[{id:'premium',name:'🔥 Premium Free'},{id:'indian',name:'🇮🇳 Indian Scandals'},{id:'pakistani',name:'🇵🇰 Pakistani Scandals'},{id:'all',name:'📺 All Videos'}]; document.getElementById('categoriesContainer').innerHTML=cats.map(c=>`<button class="cat-btn ${currentCategory===c.id?'active':''}" data-category="${c.id}">${c.name}</button>`).join(''); document.querySelectorAll('.cat-btn').forEach(btn=>{ btn.addEventListener('click',()=>{ currentCategory=btn.dataset.category; renderCategories(); renderVideos(); updateCategoryTitle(); }); }); }
+        function updateCategoryTitle(){ const titles={premium:'🔥 Premium Free Videos',indian:'🇮🇳 Indian Scandals',pakistani:'🇵🇰 Pakistani Scandals',all:'📺 All Videos'}; document.getElementById('categoryTitle').innerHTML=titles[currentCategory]||'All Videos'; }
         
-        async function addSlider() {
-            if (!isAdminLoggedIn) { showToast('🔒 Admin access required!', true); return; }
-            const imgUrl = document.getElementById('sliderImgUrl').value.trim();
-            const title = document.getElementById('sliderTitle').value.trim();
-            const desc = document.getElementById('sliderDesc').value.trim();
-            
-            if (!imgUrl || !title || !desc) {
-                showToast('Please fill all slider fields!', true);
-                return;
-            }
-            
-            const count = (await db.collection("viral_sliders").get()).size;
-            await db.collection("viral_sliders").add({
-                imgUrl, title, desc, badge: "FEATURED", order: count,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            });
-            showToast(`✅ Slider added!`);
-            document.getElementById('sliderImgUrl').value = '';
-            document.getElementById('sliderTitle').value = '';
-            document.getElementById('sliderDesc').value = '';
-        }
+        document.getElementById('searchBtn').addEventListener('click',handleSearch);
+        document.getElementById('searchInput').addEventListener('keypress',(e)=>{ if(e.key==='Enter') handleSearch(); });
+        document.getElementById('adminToggle').addEventListener('click',()=>document.getElementById('adminModal').classList.add('active'));
+        document.getElementById('verifyAdminBtn').addEventListener('click',verifyAdmin);
+        document.getElementById('addVideoBtn').addEventListener('click',addVideo);
+        document.getElementById('addSliderBtn').addEventListener('click',addSlider);
+        document.getElementById('saveEditBtn').addEventListener('click',saveEditedVideo);
+        document.getElementById('prevSlide').addEventListener('click',prevSlide);
+        document.getElementById('nextSlide').addEventListener('click',nextSlide);
+        document.getElementById('videoModal').addEventListener('click',(e)=>{ if(e.target===document.getElementById('videoModal')) closeModal(); });
+        document.getElementById('editModal').addEventListener('click',(e)=>{ if(e.target===document.getElementById('editModal')) closeEditModal(); });
+        document.getElementById('adminModal').addEventListener('click',(e)=>{ if(e.target===document.getElementById('adminModal')){ document.getElementById('adminModal').classList.remove('active'); document.getElementById('adminContent').style.display='none'; document.getElementById('verifyAdminBtn').style.display='block'; document.getElementById('adminPassword').value=''; isAdminLoggedIn=false; } });
         
-        async function deleteSlider(sliderId) {
-            if (!isAdminLoggedIn) { showToast('🔒 Admin access required!', true); return; }
-            if (confirm('Delete this slider?')) {
-                await db.collection("viral_sliders").doc(sliderId).delete();
-                showToast('Slider deleted');
-            }
-        }
+        const sC=document.querySelector('.slider-container'); let sX,drag=false;
+        if(sC){ sC.addEventListener('touchstart',(e)=>{ sX=e.touches[0].clientX; drag=true; }); sC.addEventListener('touchend',(e)=>{ if(!drag) return; const dx=e.changedTouches[0].clientX-sX; if(Math.abs(dx)>50) dx>0?prevSlide():nextSlide(); drag=false; }); }
         
-        function openEditModal(videoId) {
-            if (!isAdminLoggedIn) { showToast('🔒 Admin access required!', true); return; }
-            const video = currentVideos.find(v => v.id === videoId);
-            if (video) {
-                document.getElementById('editVideoId').value = videoId;
-                document.getElementById('editTitle').value = video.title;
-                document.getElementById('editYear').value = video.year;
-                document.getElementById('editCategory').value = video.category;
-                document.getElementById('editThumb').value = video.thumbnail;
-                document.getElementById('editVideoUrl').value = video.videoUrl;
-                document.getElementById('editViews').value = video.views || 0;
-                document.getElementById('editModal').classList.add('active');
-            }
-        }
+        window.playVideo=playVideo; window.closeModal=closeModal; window.openEditModal=openEditModal; window.closeEditModal=closeEditModal; window.deleteVideo=deleteVideo; window.downloadVideo=downloadVideo; window.updateVideoFlags=updateVideoFlags;
         
-        async function saveEditedVideo() {
-            const id = document.getElementById('editVideoId').value;
-            const updates = {
-                title: document.getElementById('editTitle').value,
-                year: document.getElementById('editYear').value,
-                category: document.getElementById('editCategory').value,
-                thumbnail: document.getElementById('editThumb').value,
-                videoUrl: document.getElementById('editVideoUrl').value,
-                views: parseInt(document.getElementById('editViews').value) || 0
-            };
-            await db.collection("viral_videos").doc(id).update(updates);
-            showToast('✅ Video updated!');
-            closeEditModal();
-        }
-        
-        function closeEditModal() { document.getElementById('editModal').classList.remove('active'); }
-        
-        async function deleteVideo(videoId) {
-            if (!isAdminLoggedIn) { showToast('🔒 Admin access required!', true); return; }
-            if (confirm('Delete this video?')) {
-                await db.collection("viral_videos").doc(videoId).delete();
-                showToast('🗑️ Video deleted!');
-            }
-        }
-        
-        function renderAdminVideoList() {
-            const container = document.getElementById('adminVideoList');
-            if (!container || !isAdminLoggedIn) return;
-            container.innerHTML = currentVideos.map(video => `
-                <div class="admin-movie-item">
-                    <span><strong>${escapeHtml(video.title)}</strong> (${video.year}) - ${video.category} | 👁️ ${formatViews(video.views || 0)}</span>
-                    <div>
-                        <button class="edit-movie-btn" onclick="openEditModal('${video.id}')"><i class="fas fa-edit"></i> Edit</button>
-                        <button class="delete-movie" onclick="deleteVideo('${video.id}')">Delete</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-        
-        function renderAdminSliderList() {
-            const container = document.getElementById('sliderListAdmin');
-            if (!container || !isAdminLoggedIn) return;
-            container.innerHTML = currentSlides.map(slide => `
-                <div class="admin-slider-item">
-                    <span><strong>${escapeHtml(slide.title)}</strong></span>
-                    <button class="delete-slider" onclick="deleteSlider('${slide.id}')">Delete</button>
-                </div>
-            `).join('');
-        }
-        
-        function verifyAdmin() {
-            const password = document.getElementById('adminPassword').value;
-            if (password === 'admin123') {
-                isAdminLoggedIn = true;
-                document.getElementById('adminContent').style.display = 'block';
-                document.getElementById('verifyAdminBtn').style.display = 'none';
-                renderAdminVideoList();
-                renderAdminSliderList();
-                showToast('✅ Admin access granted!');
-            } else {
-                showToast('❌ Wrong password! (Use: admin123)', true);
-            }
-        }
-        
-        function handleSearch() {
-            searchQuery = document.getElementById('searchInput').value;
-            renderVideos();
-        }
-        
-        function renderCategories() {
-            const categories = [
-                { id: 'premium', name: '🔥 Premium Free' },
-                { id: 'indian', name: '🇮🇳 Indian Scandals' },
-                { id: 'pakistani', name: '🇵🇰 Pakistani Scandals' },
-                { id: 'all', name: '📺 All Videos' }
-            ];
-            document.getElementById('categoriesContainer').innerHTML = categories.map(cat => 
-                `<button class="cat-btn ${currentCategory === cat.id ? 'active' : ''}" data-category="${cat.id}">${cat.name}</button>`
-            ).join('');
-            document.querySelectorAll('.cat-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    currentCategory = btn.dataset.category;
-                    renderCategories();
-                    renderVideos();
-                    updateCategoryTitle();
-                });
-            });
-        }
-        
-        function updateCategoryTitle() {
-            const titles = {
-                premium: '🔥 Premium Free Videos',
-                indian: '🇮🇳 Indian Scandals',
-                pakistani: '🇵🇰 Pakistani Scandals',
-                all: '📺 All Videos'
-            };
-            document.getElementById('categoryTitle').innerHTML = titles[currentCategory] || 'All Videos';
-        }
-        
-        // Event Listeners
-        document.getElementById('searchBtn').addEventListener('click', handleSearch);
-        document.getElementById('searchInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSearch(); });
-        document.getElementById('adminToggle').addEventListener('click', () => document.getElementById('adminModal').classList.add('active'));
-        document.getElementById('verifyAdminBtn').addEventListener('click', verifyAdmin);
-        document.getElementById('addVideoBtn').addEventListener('click', addVideo);
-        document.getElementById('addSliderBtn').addEventListener('click', addSlider);
-        document.getElementById('saveEditBtn').addEventListener('click', saveEditedVideo);
-        document.getElementById('prevSlide').addEventListener('click', prevSlide);
-        document.getElementById('nextSlide').addEventListener('click', nextSlide);
-        document.getElementById('videoModal').addEventListener('click', (e) => { if (e.target === document.getElementById('videoModal')) closeModal(); });
-        document.getElementById('editModal').addEventListener('click', (e) => { if (e.target === document.getElementById('editModal')) closeEditModal(); });
-        document.getElementById('adminModal').addEventListener('click', (e) => {
-            if (e.target === document.getElementById('adminModal')) {
-                document.getElementById('adminModal').classList.remove('active');
-                document.getElementById('adminContent').style.display = 'none';
-                document.getElementById('verifyAdminBtn').style.display = 'block';
-                document.getElementById('adminPassword').value = '';
-                isAdminLoggedIn = false;
-            }
-        });
-        
-        // Touch Slider
-        const sliderContainer = document.querySelector('.slider-container');
-        let startX, isDragging = false;
-        if (sliderContainer) {
-            sliderContainer.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; isDragging = true; });
-            sliderContainer.addEventListener('touchend', (e) => {
-                if (!isDragging) return;
-                const diffX = e.changedTouches[0].clientX - startX;
-                if (Math.abs(diffX) > 50) diffX > 0 ? prevSlide() : nextSlide();
-                isDragging = false;
-            });
-        }
-        
-        // Make functions global
-        window.playVideo = playVideo;
-        window.closeModal = closeModal;
-        window.openEditModal = openEditModal;
-        window.closeEditModal = closeEditModal;
-        window.deleteVideo = deleteVideo;
-        window.downloadVideo = downloadVideo;
-        
-        // Initialize App
-        async function init() {
-            await seedDefaultData();  // Auto-add default data if Firestore is empty
-            attachFirestoreListeners();
-            renderCategories();
-            updateCategoryTitle();
-        }
-        
+        async function init(){ await seedDefaultData(); attachFirestoreListeners(); renderCategories(); updateCategoryTitle(); }
         init();
-        console.log('✅ VIRAL STREET with Firestore Backend Ready!');
+        console.log('✅ VIRAL STREET with Upcoming, Trending & Featured sections Ready!');
     </script>
 </body>
 </html>
+```
