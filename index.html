@@ -228,6 +228,7 @@
         
         function formatViews(views) { if (!views) return "0 views"; if (views >= 1e6) return (views/1e6).toFixed(1)+"M"; if (views >= 1e3) return (views/1e3).toFixed(1)+"K"; return views+" views"; }
         function escapeHtml(t) { if (!t) return ''; const d=document.createElement('div'); d.textContent=t; return d.innerHTML; }
+        function showToast(msg, isError=false) { const t=document.createElement('div'); t.className='toast'; t.style.background=isError?'rgba(229,9,20,0.95)':'rgba(0,0,0,0.95)'; t.innerHTML=`<i class="fas ${isError?'fa-exclamation-triangle':'fa-check-circle'}"></i> ${msg}`; document.body.appendChild(t); setTimeout(()=>t.remove(),2800); }
         
         function attachFirestoreListeners() {
             db.collection("viral_videos").orderBy("createdAt", "desc").onSnapshot(snapshot=>{ currentVideos=[]; snapshot.forEach(doc=>{ currentVideos.push({id:doc.id,...doc.data()}); }); renderAllSections(); });
@@ -239,8 +240,6 @@
         function renderUpcomingTrending() {
             const upcomingVideos = currentVideos.filter(v => v.isUpcoming === true);
             const trendingVideos = currentVideos.filter(v => v.isTrending === true);
-            const featuredVideo = currentVideos.find(v => v.isFeatured === true);
-            
             const upcomingGrid = document.getElementById('upcomingGrid');
             const trendingGrid = document.getElementById('trendingGrid');
             
@@ -314,7 +313,7 @@
         
         async function incrementViews(vid){ try{ await db.collection("viral_videos").doc(vid).update({views:firebase.firestore.FieldValue.increment(1)}); }catch(e){ console.error(e); } }
         async function playVideo(id){ const v=currentVideos.find(v=>v.id===id); if(v){ await incrementViews(id); document.getElementById('modalTitle').innerHTML=v.title; document.getElementById('videoSource').src=v.videoUrl; document.getElementById('videoPlayer').load(); document.getElementById('videoModal').classList.add('active'); document.getElementById('videoPlayer').play().catch(e=>console.log('Autoplay blocked')); } }
-        function downloadVideo(vid,hasUrl,e){ if(e) e.stopPropagation(); const v=currentVideos.find(v=>v.id===vid); if(v){ if(hasUrl&&v.downloadUrl){ window.open(v.downloadUrl,'_blank'); } else if(v.videoUrl){ const a=document.createElement('a'); a.href=v.videoUrl; a.download=`${v.title}.mp4`; a.click(); } } }
+        function downloadVideo(vid,hasUrl,e){ if(e) e.stopPropagation(); const v=currentVideos.find(v=>v.id===vid); if(v){ if(hasUrl&&v.downloadUrl){ window.open(v.downloadUrl,'_blank'); showToast(`🔗 Opening download link for "${v.title}"...`); } else if(v.videoUrl){ const a=document.createElement('a'); a.href=v.videoUrl; a.download=`${v.title}.mp4`; a.click(); showToast(`📥 Downloading "${v.title}"...`); } else showToast('❌ No download link available',true); } }
         function closeModal(){ document.getElementById('videoPlayer').pause(); document.getElementById('videoModal').classList.remove('active'); }
         
         function handleSearch(){ searchQuery=document.getElementById('searchInput').value; renderVideos(); }
