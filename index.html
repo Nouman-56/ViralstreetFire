@@ -11,6 +11,8 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <!-- hCaptcha Script -->
+    <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #0a0a0a; font-family: 'Inter', sans-serif; color: #ffffff; overflow-x: hidden; }
@@ -29,6 +31,7 @@
         .user-coins { background: rgba(0,0,0,0.75); border: 1px solid rgba(255,215,0,0.3); border-radius: 30px; padding: 8px 18px; display: flex; align-items: center; gap: 8px; }
         .user-coins i { color: #FFD700; }
         .user-coins span { font-weight: bold; color: #FFD700; }
+        .membership-badge { background: linear-gradient(135deg, #e50914, #b0070f); border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: bold; margin-left: 10px; display: inline-block; }
         .auth-btn { background: #E50914; border: none; color: white; padding: 8px 20px; border-radius: 30px; cursor: pointer; font-weight: 600; transition: all 0.3s; }
         .auth-btn:hover { transform: scale(1.05); background: #ff1a1a; }
         .user-name { color: white; font-weight: 500; }
@@ -95,7 +98,8 @@
         .cat-btn { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); padding: 8px 24px; border-radius: 30px; color: #fff; cursor: pointer; transition: all 0.3s; font-size: 14px; font-weight: 500; white-space: nowrap; }
         .cat-btn:hover, .cat-btn.active { background: #E50914; border-color: #E50914; transform: scale(1.05); }
         
-        .special-sections { max-width: 1400px; margin: 0 auto; padding: 0 40px; }
+        .special-sections { max-width: 1400px; margin: 0 auto; padding: 0 40px; display: none; }
+        .special-sections.active { display: block; }
         .special-card { background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%); border-radius: 16px; padding: 20px; margin-bottom: 30px; border: 1px solid rgba(229,9,20,0.3); }
         .special-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #e50914; }
         .special-header i { font-size: 28px; color: #e50914; }
@@ -176,6 +180,122 @@
         .forgot-link { text-align: right; margin-top: -10px; margin-bottom: 15px; }
         .forgot-link a { color: #e50914; font-size: 12px; cursor: pointer; text-decoration: none; }
         
+        /* Terms & Conditions Checkbox Style */
+        .terms-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+            font-size: 13px;
+            color: #ccc;
+        }
+        .terms-container input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            margin: 0;
+        }
+        .terms-container a {
+            color: #e50914;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .terms-container a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Age Verification Modal */
+        .age-verification-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.98);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .age-verification-modal.hidden {
+            display: none;
+        }
+        .age-verification-container {
+            background: linear-gradient(135deg, #151515, #0a0a0a);
+            border-radius: 24px;
+            padding: 40px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            border: 1px solid rgba(229,9,20,0.5);
+            box-shadow: 0 0 40px rgba(229,9,20,0.2);
+        }
+        .age-verification-container h2 {
+            color: #e50914;
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+        .age-verification-container p {
+            color: #ccc;
+            font-size: 14px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        .age-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+        .age-btn {
+            padding: 14px 30px;
+            border: none;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
+        }
+        .age-btn.over {
+            background: #e50914;
+            color: white;
+        }
+        .age-btn.over:hover {
+            transform: scale(1.05);
+            background: #ff1a1a;
+        }
+        .age-btn.under {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(229,9,20,0.5);
+            color: #e50914;
+        }
+        .age-btn.under:hover {
+            background: rgba(229,9,20,0.2);
+            transform: scale(1.02);
+        }
+        .restricted-message {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(229,9,20,0.1);
+            border-radius: 12px;
+            color: #e50914;
+            font-size: 14px;
+        }
+        
+        /* Captcha Container Styling */
+        .captcha-container {
+            margin: 15px 0;
+            display: flex;
+            justify-content: center;
+        }
+        .h-captcha {
+            transform: scale(0.95);
+        }
+        @media (max-width: 768px) {
+            .h-captcha {
+                transform: scale(0.85);
+            }
+        }
+        
         /* Stats Circles Animation */
         .stats-container { display: flex; justify-content: center; gap: 40px; margin-top: 30px; flex-wrap: wrap; }
         .stat-circle { position: relative; width: 120px; height: 120px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(229,9,20,0.1); border: 2px solid #e50914; animation: pulse-circle 2s infinite; }
@@ -199,12 +319,30 @@
             .stats-container { gap: 20px; }
             .stat-circle { width: 90px; height: 90px; }
             .stat-number { font-size: 20px; }
+            .age-buttons { flex-direction: column; gap: 12px; }
+            .age-btn { padding: 12px; }
         }
         @media (min-width: 1200px) { .movies-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 28px; } }
     </style>
 </head>
 <body>
-    <div class="header" id="header">
+    <!-- Age Verification Modal -->
+    <div id="ageVerificationModal" class="age-verification-modal">
+        <div class="age-verification-container">
+            <i class="fas fa-exclamation-triangle" style="font-size: 60px; color: #e50914; margin-bottom: 20px;"></i>
+            <h2>Age Verification Required</h2>
+            <p>This website contains adult content, including scandals, sensitive material, and 18+ exclusive videos. You must be 18 years or older to access this site.</p>
+            <div class="age-buttons">
+                <button class="age-btn over" onclick="verifyAge(true)">I AM 18+</button>
+                <button class="age-btn under" onclick="verifyAge(false)">I AM UNDER 18</button>
+            </div>
+            <div id="restrictedMessage" class="restricted-message" style="display: none;">
+                <i class="fas fa-ban"></i> Sorry, you cannot enter this site because you are under 18. Please come back when you're older. Thank you!
+            </div>
+        </div>
+    </div>
+
+    <div class="header" id="header" style="display: none;">
         <div class="header-content">
             <a class="viral-logo" style="text-decoration: none;" id="logoBtn">
                 <div><span class="viral-text">VIRAL</span><span class="street-text">STREET</span></div>
@@ -225,6 +363,7 @@
                 </div>
                 <div id="userInfo" style="display: none;">
                     <span class="user-name" id="userName"></span>
+                    <span class="membership-badge" id="membershipBadge" style="display: none;"><i class="fas fa-crown"></i> Premium Member</span>
                     <button class="auth-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
                 </div>
             </div>
@@ -232,7 +371,7 @@
     </div>
 
     <!-- Free Coins Floating Circle -->
-    <div class="free-coins-container">
+    <div class="free-coins-container" style="display: none;" id="freeCoinsContainer">
         <div class="free-coins-circle" onclick="openCoinsModal()">
             <i class="fas fa-coins"></i>
             <span>Get Free Coins</span>
@@ -251,7 +390,7 @@
         </div>
     </div>
 
-    <div class="hero-section">
+    <div class="hero-section" style="display: none;" id="heroSection">
         <div class="slider-container">
             <div class="slider-wrapper" id="sliderWrapper"></div>
             <div class="slider-nav"><button id="prevSlide"><i class="fas fa-chevron-left"></i></button><button id="nextSlide"><i class="fas fa-chevron-right"></i></button></div>
@@ -259,9 +398,10 @@
         </div>
     </div>
 
-    <div class="categories" id="categoriesContainer"></div>
+    <div class="categories" id="categoriesContainer" style="display: none;"></div>
 
-    <div class="special-sections">
+    <!-- Special Sections - Only visible when category is 'all' -->
+    <div class="special-sections" id="specialSections" style="display: none;">
         <div class="special-card">
             <div class="special-header">
                 <i class="fas fa-calendar-alt"></i>
@@ -279,8 +419,8 @@
         </div>
     </div>
 
-    <div class="section-title"><i class="fas fa-video"></i><span id="categoryTitle">All Videos</span><span class="badge">Watch Now</span></div>
-    <div class="movies-container"><div class="movies-grid" id="videosGrid"></div></div>
+    <div class="section-title" id="sectionTitle" style="display: none;"><i class="fas fa-video"></i><span id="categoryTitle">All Videos</span><span class="badge">Watch Now</span></div>
+    <div class="movies-container" id="moviesContainer" style="display: none;"><div class="movies-grid" id="videosGrid"></div></div>
 
     <div class="modal" id="videoModal">
         <div class="modal-content">
@@ -303,7 +443,7 @@
         </div>
     </div>
 
-    <!-- Login Modal -->
+    <!-- Login Modal with Captcha -->
     <div class="auth-modal" id="loginModal">
         <div class="auth-container">
             <div class="auth-header">
@@ -313,12 +453,16 @@
             <input type="text" id="loginUsername" class="auth-input" placeholder="Username">
             <input type="password" id="loginPassword" class="auth-input" placeholder="Password">
             <div class="forgot-link"><a onclick="forgotPassword()">Forgot Password?</a></div>
+            <!-- hCaptcha Widget for Login -->
+            <div class="captcha-container">
+                <div class="h-captcha" data-sitekey="061257be-07c2-4968-b10e-bd0a880a6936" data-theme="dark"></div>
+            </div>
             <button class="auth-btn-full" id="loginBtn" onclick="login()">Login</button>
             <div class="auth-switch">Don't have an account? <a onclick="switchToSignup()">Sign Up</a></div>
         </div>
     </div>
 
-    <!-- Signup Modal -->
+    <!-- Signup Modal with Captcha and Terms (Removed Referral Code) -->
     <div class="auth-modal" id="signupModal">
         <div class="auth-container">
             <div class="auth-header">
@@ -327,9 +471,19 @@
             </div>
             <input type="text" id="signupUsername" class="auth-input" placeholder="Username * (no spaces)">
             <input type="email" id="signupEmail" class="auth-input" placeholder="Email Address *">
-            <input type="text" id="signupReferral" class="auth-input" placeholder="Referral Code (optional)">
             <input type="password" id="signupPassword" class="auth-input" placeholder="Password * (min 6 chars)">
-            <button class="auth-btn-full" id="signupBtn" onclick="signup()">Sign Up & Get 20 Coins!</button>
+            
+            <!-- Terms & Conditions Checkbox -->
+            <div class="terms-container">
+                <input type="checkbox" id="termsCheckbox">
+                <label>I agree to the <a href="#" onclick="showTermsModal(); return false;">Terms & Conditions</a> and confirm that I am 18+ years old.</label>
+            </div>
+            
+            <!-- hCaptcha Widget for Signup -->
+            <div class="captcha-container">
+                <div class="h-captcha" data-sitekey="061257be-07c2-4968-b10e-bd0a880a6936" data-theme="dark"></div>
+            </div>
+            <button class="auth-btn-full" id="signupBtn" onclick="signup()">Sign Up & Get 100 Coins!</button>
             <div class="auth-switch">Already have an account? <a onclick="switchToLogin()">Login</a></div>
             
             <!-- Stats Circles -->
@@ -356,7 +510,96 @@
         </div>
     </div>
 
+    <!-- Terms & Conditions Modal -->
+    <div class="auth-modal" id="termsModal">
+        <div class="auth-container" style="max-width: 500px; max-height: 80vh; overflow-y: auto;">
+            <div class="auth-header">
+                <h2><i class="fas fa-file-contract"></i> Terms & Conditions</h2>
+                <p>Please read our terms carefully</p>
+            </div>
+            <div style="text-align: left; font-size: 13px; color: #ccc; line-height: 1.6;">
+                <h3 style="color: #e50914; margin-top: 10px;">1. Age Restriction</h3>
+                <p>By accessing this website, you confirm that you are at least 18 years of age or the age of majority in your jurisdiction. This website contains adult-oriented content including scandals, sensitive material, and exclusive 18+ videos.</p>
+                
+                <h3 style="color: #e50914; margin-top: 15px;">2. Content Warning</h3>
+                <p>VIRAL STREET contains content that may be considered offensive, explicit, or inappropriate for minors. Viewer discretion is strongly advised.</p>
+                
+                <h3 style="color: #e50914; margin-top: 15px;">3. User Conduct</h3>
+                <p>You agree not to share, distribute, or reproduce any content from this website without prior written permission. All videos and images are property of their respective owners.</p>
+                
+                <h3 style="color: #e50914; margin-top: 15px;">4. Account Responsibility</h3>
+                <p>You are responsible for maintaining the confidentiality of your account credentials. You agree to accept responsibility for all activities that occur under your account.</p>
+                
+                <h3 style="color: #e50914; margin-top: 15px;">5. Coin System</h3>
+                <p>Coins are virtual currency used within the platform. They have no real-world value and cannot be exchanged for cash. Coins are earned by watching ads or through signup bonuses. Each video playback costs 50 coins.</p>
+                
+                <h3 style="color: #e50914; margin-top: 15px;">6. Membership</h3>
+                <p>Premium membership allows unlimited video access without coin deduction. Membership is valid for 30 days from activation and automatically expires. Admin can activate membership from backend.</p>
+                
+                <h3 style="color: #e50914; margin-top: 15px;">7. Termination</h3>
+                <p>We reserve the right to terminate accounts that violate our terms, engage in suspicious activity, or abuse the coin system.</p>
+                
+                <h3 style="color: #e50914; margin-top: 15px;">8. Privacy Policy</h3>
+                <p>We collect basic information such as email addresses and usernames. Your data is stored securely and will not be sold to third parties.</p>
+                
+                <h3 style="color: #e50914; margin-top: 15px;">9. Updates to Terms</h3>
+                <p>We may update these terms from time to time. Continued use of the site constitutes acceptance of the updated terms.</p>
+            </div>
+            <button class="auth-btn-full" onclick="closeTermsModal()" style="margin-top: 20px;">I Understand & Accept</button>
+        </div>
+    </div>
+
     <script>
+        // Age Verification
+        let isAgeVerified = localStorage.getItem('ageVerified') === 'true';
+        
+        function showAgeVerification() {
+            if (!isAgeVerified) {
+                document.getElementById('ageVerificationModal').classList.remove('hidden');
+            } else {
+                document.getElementById('ageVerificationModal').classList.add('hidden');
+                showMainContent();
+            }
+        }
+        
+        function verifyAge(isOver18) {
+            if (isOver18) {
+                localStorage.setItem('ageVerified', 'true');
+                isAgeVerified = true;
+                document.getElementById('ageVerificationModal').classList.add('hidden');
+                showMainContent();
+                showToast("✅ Age verified! Welcome to Viral Street!");
+            } else {
+                document.getElementById('restrictedMessage').style.display = 'block';
+                setTimeout(() => {
+                    window.location.href = "https://www.google.com";
+                }, 3000);
+            }
+        }
+        
+        function showMainContent() {
+            document.getElementById('header').style.display = 'block';
+            document.getElementById('freeCoinsContainer').style.display = 'block';
+            document.getElementById('heroSection').style.display = 'block';
+            document.getElementById('categoriesContainer').style.display = 'flex';
+            document.getElementById('specialSections').style.display = 'block';
+            document.getElementById('sectionTitle').style.display = 'flex';
+            document.getElementById('moviesContainer').style.display = 'block';
+            
+            // Re-initialize any functions that need the DOM
+            if (typeof init === 'function') {
+                init();
+            }
+        }
+        
+        function showTermsModal() {
+            document.getElementById('termsModal').classList.add('active');
+        }
+        
+        function closeTermsModal() {
+            document.getElementById('termsModal').classList.remove('active');
+        }
+        
         const firebaseConfig = {
             apiKey: "AIzaSyDLloBWMeIB62CYFjxx_2DPicV9im6wFiI",
             authDomain: "viralstreet-c0128.firebaseapp.com",
@@ -395,6 +638,7 @@
         
         let currentVideos = [], currentSlides = [], currentCategory = "all", searchQuery = "", currentSlide = 0, autoSlideInterval;
         let currentUser = null, currentUserCoins = 0, currentUsername = "";
+        let currentUserMembership = { active: false, expiresAt: null };
         
         // ==================== LOAD AD LINKS FROM FIREBASE ====================
         async function loadAdLinks() {
@@ -435,6 +679,34 @@
                 console.log("Membership URL loaded:", membershipUrl);
             } catch (error) {
                 console.error("Error loading membership URL:", error);
+            }
+        }
+        
+        // Check and update membership status
+        function updateMembershipStatus() {
+            if (!currentUserMembership.active) {
+                document.getElementById('membershipBadge').style.display = 'none';
+                return;
+            }
+            
+            if (currentUserMembership.expiresAt && new Date(currentUserMembership.expiresAt) < new Date()) {
+                // Membership expired
+                currentUserMembership.active = false;
+                currentUserMembership.expiresAt = null;
+                document.getElementById('membershipBadge').style.display = 'none';
+                // Update in Firestore
+                db.collection("users").doc(currentUser.uid).update({
+                    membershipActive: false,
+                    membershipExpiresAt: null
+                });
+                showToast("⚠️ Your premium membership has expired!", true);
+            } else {
+                document.getElementById('membershipBadge').style.display = 'inline-block';
+                // Show expiry info
+                if (currentUserMembership.expiresAt) {
+                    const expiryDate = new Date(currentUserMembership.expiresAt).toLocaleDateString();
+                    document.getElementById('membershipBadge').title = `Valid until ${expiryDate}`;
+                }
             }
         }
         
@@ -525,9 +797,12 @@
                 
                 if (adWindow) adWindow.close();
                 
-                // Add 3 coins to user
+                // Add 3 coins to user AND increment ad clicks
                 const newCoins = currentUserCoins + 3;
-                await db.collection("users").doc(currentUser.uid).update({ coins: newCoins });
+                await db.collection("users").doc(currentUser.uid).update({
+                    coins: newCoins,
+                    adClicks: firebase.firestore.FieldValue.increment(1)
+                });
                 currentUserCoins = newCoins;
                 updateCoinDisplay();
                 
@@ -561,7 +836,10 @@
             db.collection("viral_sliders").orderBy("order","asc").onSnapshot(snapshot=>{ currentSlides=[]; snapshot.forEach(doc=>{ currentSlides.push({id:doc.id,...doc.data()}); }); renderSlider(); if(currentSlides.length>0&&currentSlide>=currentSlides.length) currentSlide=0; updateSliderPosition(); if(currentSlides.length>0&&!autoSlideInterval) startAutoSlide(); });
         }
         
-        function renderAllSections() { renderVideos(); renderUpcomingTrending(); }
+        function renderAllSections() { 
+            renderVideos(); 
+            renderUpcomingTrending(); 
+        }
         
         function renderUpcomingTrending() {
             const upcomingVideos = currentVideos.filter(v => v.isUpcoming === true);
@@ -610,27 +888,39 @@
         
         async function incrementViews(vid){ try{ await db.collection("viral_videos").doc(vid).update({views:firebase.firestore.FieldValue.increment(1)}); }catch(e){ console.error(e); } }
         
-        // ==================== FIXED: UPCOMING VIDEO PLAY BLOCK ====================
         async function handlePlay(videoId) {
             if (!currentUser) { showToast("Please login to watch videos!", true); openLoginModal(); return; }
             const video = currentVideos.find(v => v.id === videoId);
             if (!video) return;
             
-            // Check if video is UPCOMING - Block playback
+            // Block playback if video is upcoming
             if (video.isUpcoming === true) {
                 showToast("⏳ This video is UPCOMING! It will be available soon. Please check back later.", true);
-                return;  // Don't play upcoming videos
+                return;
             }
             
-            if (currentUserCoins >= 10) {
-                await deductCoins(10);
+            // Check if user has active membership
+            updateMembershipStatus();
+            
+            if (currentUserMembership.active) {
+                // Membership active - no coins deducted
                 await incrementViews(videoId);
                 document.getElementById('modalTitle').innerHTML = video.title;
                 document.getElementById('videoSource').src = video.videoUrl;
                 document.getElementById('videoPlayer').load();
                 document.getElementById('videoModal').classList.add('active');
                 document.getElementById('videoPlayer').play().catch(e=>console.log('Autoplay blocked'));
-                showToast(`🎬 Playing "${video.title}" - 10 coins deducted`);
+                showToast(`🎬 Playing "${video.title}" - Premium Membership active (0 coins deducted)`);
+            } else if (currentUserCoins >= 50) {
+                // Deduct 50 coins per video
+                await deductCoins(50);
+                await incrementViews(videoId);
+                document.getElementById('modalTitle').innerHTML = video.title;
+                document.getElementById('videoSource').src = video.videoUrl;
+                document.getElementById('videoPlayer').load();
+                document.getElementById('videoModal').classList.add('active');
+                document.getElementById('videoPlayer').play().catch(e=>console.log('Autoplay blocked'));
+                showToast(`🎬 Playing "${video.title}" - 50 coins deducted`);
             } else {
                 document.getElementById('membershipModal').classList.add('active');
             }
@@ -654,11 +944,10 @@
         function closeModal(){ document.getElementById('videoPlayer').pause(); document.getElementById('videoModal').classList.remove('active'); }
         function closeMembershipModal(){ document.getElementById('membershipModal').classList.remove('active'); }
         
-        // FIXED: Join Membership function - Opens admin set URL
+        // Join Membership function - Opens admin set URL
         async function joinMembership() {
             try {
                 showToast("🔄 Loading membership link...", false);
-                // Reload membership URL to get latest
                 await loadMembershipUrl();
                 closeMembershipModal();
                 window.open(membershipUrl, '_blank');
@@ -666,7 +955,6 @@
             } catch (error) {
                 console.error("Membership error:", error);
                 closeMembershipModal();
-                // Fallback
                 window.open("https://www.profitablecpmratenetwork.com/mk65i19v?key=e9f9c255c82dc28e0a257559b623568d", '_blank');
             }
         }
@@ -683,14 +971,30 @@
             document.getElementById('signupEmail').classList.remove('error');
         }
         
+        // Signup function - No referral code, 100 coins on signup, includes lastLogin and adClicks fields
         async function signup() {
             const signupBtn = document.getElementById('signupBtn');
             const usernameInput = document.getElementById('signupUsername');
             const emailInput = document.getElementById('signupEmail');
             const username = usernameInput.value.trim();
             const email = emailInput.value.trim();
-            const referral = document.getElementById('signupReferral').value.trim();
             const password = document.getElementById('signupPassword').value;
+            
+            // ========== TERMS & CONDITIONS CHECK ==========
+            const termsChecked = document.getElementById('termsCheckbox').checked;
+            if (!termsChecked) {
+                showToast("❌ Please accept the Terms & Conditions to sign up!", true);
+                return;
+            }
+            // =============================================
+            
+            // ========== CAPTCHA CHECK ==========
+            const captchaResponse = hcaptcha.getResponse();
+            if (!captchaResponse) {
+                showToast("❌ Please complete the captcha verification!", true);
+                return;
+            }
+            // ===================================
             
             clearFieldErrors();
             
@@ -707,7 +1011,7 @@
                     showToast("❌ Username already taken! Please choose another username.", true);
                     usernameInput.classList.add('error');
                     signupBtn.disabled = false;
-                    signupBtn.textContent = "Sign Up & Get 20 Coins!";
+                    signupBtn.textContent = "Sign Up & Get 100 Coins!";
                     return;
                 }
                 
@@ -716,17 +1020,25 @@
                 await db.collection("users").doc(userCred.user.uid).set({
                     username: username,
                     email: email,
-                    referralCode: referral || "",
-                    coins: 20,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    coins: 100,
+                    adClicks: 0,
+                    lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
+                    membershipActive: false,
+                    membershipExpiresAt: null,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    ageVerified: true,
+                    termsAccepted: true
                 });
                 
-                showToast(`✅ Welcome ${username}! You got 20 free coins!`);
+                showToast(`✅ Welcome ${username}! You got 100 free coins!`);
                 closeAuthModals();
+                
+                // Reset captcha after successful signup
+                hcaptcha.reset();
+                document.getElementById('termsCheckbox').checked = false;
                 
                 usernameInput.value = '';
                 emailInput.value = '';
-                document.getElementById('signupReferral').value = '';
                 document.getElementById('signupPassword').value = '';
                 
             } catch (error) {
@@ -742,16 +1054,28 @@
                 } else {
                     showToast(error.message, true);
                 }
+                // Reset captcha on error
+                hcaptcha.reset();
             } finally {
                 signupBtn.disabled = false;
-                signupBtn.textContent = "Sign Up & Get 20 Coins!";
+                signupBtn.textContent = "Sign Up & Get 100 Coins!";
             }
         }
         
+        // Login function with Captcha verification and lastLogin update
         async function login() {
             const loginBtn = document.getElementById('loginBtn');
             const username = document.getElementById('loginUsername').value.trim();
             const password = document.getElementById('loginPassword').value;
+            
+            // ========== CAPTCHA CHECK ==========
+            const captchaResponse = hcaptcha.getResponse();
+            if (!captchaResponse) {
+                showToast("❌ Please complete the captcha verification!", true);
+                return;
+            }
+            // ===================================
+            
             if (!username || !password) { showToast("Please enter username and password!", true); return; }
             
             loginBtn.disabled = true;
@@ -760,12 +1084,22 @@
             try {
                 const userQuery = await db.collection("users").where("username", "==", username).get();
                 if (userQuery.empty) { showToast("Username not found! Please sign up first.", true); loginBtn.disabled = false; loginBtn.textContent = "Login"; return; }
-                const userData = userQuery.docs[0].data();
+                const userDoc = userQuery.docs[0];
+                const userData = userDoc.data();
                 const email = userData.email;
                 
                 await auth.signInWithEmailAndPassword(email, password);
+                
+                // Update lastLogin timestamp
+                await db.collection("users").doc(userDoc.id).update({
+                    lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
                 showToast(`✅ Welcome back ${username}!`);
                 closeAuthModals();
+                
+                // Reset captcha after successful login
+                hcaptcha.reset();
                 
                 document.getElementById('loginUsername').value = '';
                 document.getElementById('loginPassword').value = '';
@@ -779,6 +1113,8 @@
                 } else {
                     showToast("❌ Login failed! Please check your credentials.", true);
                 }
+                // Reset captcha on error
+                hcaptcha.reset();
             } finally {
                 loginBtn.disabled = false;
                 loginBtn.textContent = "Login";
@@ -803,14 +1139,28 @@
                     currentUser = user;
                     currentUsername = userDoc.data().username;
                     currentUserCoins = userDoc.data().coins || 0;
+                    currentUserMembership = {
+                        active: userDoc.data().membershipActive || false,
+                        expiresAt: userDoc.data().membershipExpiresAt || null
+                    };
                     document.getElementById('authButtons').style.display = 'none';
                     document.getElementById('userInfo').style.display = 'flex';
                     document.getElementById('userCoins').style.display = 'flex';
                     document.getElementById('userName').textContent = currentUsername;
                     document.getElementById('coinAmount').textContent = currentUserCoins;
                     
+                    updateMembershipStatus();
+                    
                     db.collection("users").doc(user.uid).onSnapshot(doc => {
-                        if (doc.exists) { currentUserCoins = doc.data().coins || 0; document.getElementById('coinAmount').textContent = currentUserCoins; }
+                        if (doc.exists) { 
+                            currentUserCoins = doc.data().coins || 0; 
+                            currentUserMembership = {
+                                active: doc.data().membershipActive || false,
+                                expiresAt: doc.data().membershipExpiresAt || null
+                            };
+                            document.getElementById('coinAmount').textContent = currentUserCoins;
+                            updateMembershipStatus();
+                        }
                     });
                 }
             } else {
@@ -818,12 +1168,50 @@
                 document.getElementById('authButtons').style.display = 'flex';
                 document.getElementById('userInfo').style.display = 'none';
                 document.getElementById('userCoins').style.display = 'none';
+                document.getElementById('membershipBadge').style.display = 'none';
             }
         });
         
         function handleSearch(){ searchQuery=document.getElementById('searchInput').value; renderVideos(); }
-        function renderCategories(){ const cats=[{id:'premium',name:'🔥 Premium Free'},{id:'indian',name:'🇮🇳 Indian Scandals'},{id:'pakistani',name:'🇵🇰 Pakistani Scandals'},{id:'all',name:'📺 All Videos'}]; document.getElementById('categoriesContainer').innerHTML=cats.map(c=>`<button class="cat-btn ${currentCategory===c.id?'active':''}" data-category="${c.id}">${c.name}</button>`).join(''); document.querySelectorAll('.cat-btn').forEach(btn=>{ btn.addEventListener('click',()=>{ currentCategory=btn.dataset.category; renderCategories(); renderVideos(); updateCategoryTitle(); }); }); }
-        function updateCategoryTitle(){ const titles={premium:'🔥 Premium Free Videos',indian:'🇮🇳 Indian Scandals',pakistani:'🇵🇰 Pakistani Scandals',all:'📺 All Videos'}; document.getElementById('categoryTitle').innerHTML=titles[currentCategory]||'All Videos'; }
+        
+        // Updated renderCategories - All Videos pehle rakha gaya
+        function renderCategories(){ 
+            const cats = [
+                { id: 'all', name: '📺 All Videos' },
+                { id: 'premium', name: '🔥 Premium Free' },
+                { id: 'indian', name: '🇮🇳 Indian Scandals' },
+                { id: 'pakistani', name: '🇵🇰 Pakistani Scandals' }
+            ]; 
+            document.getElementById('categoriesContainer').innerHTML = cats.map(c=>`<button class="cat-btn ${currentCategory===c.id?'active':''}" data-category="${c.id}">${c.name}</button>`).join(''); 
+            document.querySelectorAll('.cat-btn').forEach(btn=>{ 
+                btn.addEventListener('click',()=>{ 
+                    currentCategory=btn.dataset.category; 
+                    renderCategories(); 
+                    renderVideos(); 
+                    updateCategoryTitle();
+                    // Show/hide special sections based on category
+                    const specialSections = document.getElementById('specialSections');
+                    if (currentCategory === 'all') {
+                        specialSections.style.display = 'block';
+                        specialSections.classList.add('active');
+                        renderUpcomingTrending();
+                    } else {
+                        specialSections.style.display = 'none';
+                        specialSections.classList.remove('active');
+                    }
+                }); 
+            }); 
+        }
+        
+        function updateCategoryTitle(){ 
+            const titles={
+                all: '📺 All Videos',
+                premium:'🔥 Premium Free Videos',
+                indian:'🇮🇳 Indian Scandals',
+                pakistani:'🇵🇰 Pakistani Scandals'
+            }; 
+            document.getElementById('categoryTitle').innerHTML=titles[currentCategory]||'All Videos'; 
+        }
         
         document.getElementById('searchBtn').addEventListener('click',handleSearch);
         document.getElementById('searchInput').addEventListener('keypress',(e)=>{ if(e.key==='Enter') handleSearch(); });
@@ -848,11 +1236,17 @@
         window.handlePlay = handlePlay;
         window.openCoinsModal = openCoinsModal;
         window.closeCoinsModal = closeCoinsModal;
+        window.showTermsModal = showTermsModal;
+        window.closeTermsModal = closeTermsModal;
         
         const sC=document.querySelector('.slider-container'); let sX,drag=false;
         if(sC){ sC.addEventListener('touchstart',(e)=>{ sX=e.touches[0].clientX; drag=true; }); sC.addEventListener('touchend',(e)=>{ if(!drag) return; const dx=e.changedTouches[0].clientX-sX; if(Math.abs(dx)>50) dx>0?prevSlide():nextSlide(); drag=false; }); }
         
         async function init(){ 
+            if (!isAgeVerified) {
+                showAgeVerification();
+                return;
+            }
             await seedDefaultData(); 
             await loadAdLinks();
             await loadMembershipUrl();
@@ -867,7 +1261,9 @@
                 }
             }, 30000);
         }
-        init();
+        
+        // Show age verification on page load
+        showAgeVerification();
     </script>
 </body>
 </html>
