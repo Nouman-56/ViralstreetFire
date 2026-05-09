@@ -371,11 +371,12 @@
         const db = firebase.firestore();
         const auth = firebase.auth();
         
-        // Ad link
-        const AD_LINK = "https://www.profitablecpmratenetwork.com/mk65i19v?key=e9f9c255c82dc28e0a257559b623568d";
-        
         // Store button states in localStorage
         let buttonStates = JSON.parse(localStorage.getItem('coinButtonsState')) || {};
+        
+        // Ad links from Firebase
+        let adLinks = {};
+        let adLinksMode = 'single';
         
         const defaultVideos = [
             { title: "🔥 Premium Exclusive: Behind The Scenes", year: "2024", category: "premium", thumbnail: "https://images.pexels.com/photos/2264753/pexels-photo-2264753.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4", downloadUrl: "", views: 12500, isTrending: true, isUpcoming: false, isFeatured: false, requiresCoins: true },
@@ -394,6 +395,48 @@
         
         let currentVideos = [], currentSlides = [], currentCategory = "all", searchQuery = "", currentSlide = 0, autoSlideInterval;
         let currentUser = null, currentUserCoins = 0, currentUsername = "";
+        
+        // ==================== LOAD AD LINKS FROM FIREBASE ====================
+        async function loadAdLinks() {
+            try {
+                const docRef = db.collection("settings").doc("adLinks");
+                const doc = await docRef.get();
+                if (doc.exists) {
+                    adLinks = doc.data().links || {};
+                    adLinksMode = doc.data().mode || 'single';
+                } else {
+                    // Default ad link
+                    const defaultLink = "https://www.profitablecpmratenetwork.com/mk65i19v?key=e9f9c255c82dc28e0a257559b623568d";
+                    for (let i = 1; i <= 10; i++) {
+                        adLinks[i] = defaultLink;
+                    }
+                    adLinksMode = 'single';
+                }
+                console.log("Ad links loaded:", adLinks);
+            } catch (error) {
+                console.error("Error loading ad links:", error);
+                // Fallback default link
+                for (let i = 1; i <= 10; i++) {
+                    adLinks[i] = "https://www.profitablecpmratenetwork.com/mk65i19v?key=e9f9c255c82dc28e0a257559b623568d";
+                }
+            }
+        }
+        
+        // ==================== LOAD MEMBERSHIP URL FROM FIREBASE ====================
+        let membershipUrl = "https://www.profitablecpmratenetwork.com/mk65i19v?key=e9f9c255c82dc28e0a257559b623568d";
+        
+        async function loadMembershipUrl() {
+            try {
+                const docRef = db.collection("settings").doc("membership");
+                const doc = await docRef.get();
+                if (doc.exists && doc.data().url) {
+                    membershipUrl = doc.data().url;
+                }
+                console.log("Membership URL loaded:", membershipUrl);
+            } catch (error) {
+                console.error("Error loading membership URL:", error);
+            }
+        }
         
         // Coins Functions
         function openCoinsModal() {
@@ -418,6 +461,9 @@
                 const isCompleted = buttonState.completed;
                 const isAvailable = !isCompleted || (buttonState.nextAvailable && Date.now() >= buttonState.nextAvailable);
                 
+                // Get the ad link for this button
+                const adLink = adLinks[i] || "https://www.profitablecpmratenetwork.com/mk65i19v?key=e9f9c255c82dc28e0a257559b623568d";
+                
                 const btnDiv = document.createElement('div');
                 btnDiv.className = `coin-ad-btn ${isCompleted && !isAvailable ? 'completed' : ''}`;
                 btnDiv.innerHTML = `
@@ -428,7 +474,7 @@
                 `;
                 
                 if (!isCompleted || isAvailable) {
-                    btnDiv.onclick = () => watchAd(i);
+                    btnDiv.onclick = () => watchAd(i, adLink);
                 }
                 container.appendChild(btnDiv);
             }
@@ -452,7 +498,7 @@
             setTimeout(() => updateTimers(), 1000);
         }
         
-        async function watchAd(buttonId) {
+        async function watchAd(buttonId, adLink) {
             const buttonState = buttonStates[buttonId] || { completed: false };
             
             if (buttonState.completed && buttonState.nextAvailable && Date.now() < buttonState.nextAvailable) {
@@ -463,7 +509,7 @@
             showToast(`Opening ad... Please wait 10 seconds`, false);
             
             // Open ad in new tab
-            const adWindow = window.open(AD_LINK, '_blank');
+            const adWindow = window.open(adLink, '_blank');
             
             // 10 seconds timer
             let seconds = 10;
@@ -494,7 +540,6 @@
                 
                 showToast(`✅ You earned 3 coins!`, false);
                 renderCoinsButtons();
-                renderCoinsButtons(); // Re-render to update button state
             }, 10000);
         }
         
@@ -600,7 +645,23 @@
         function downloadVideo(vid,hasUrl,e){ if(e) e.stopPropagation(); const v=currentVideos.find(v=>v.id===vid); if(v){ if(hasUrl&&v.downloadUrl){ window.open(v.downloadUrl,'_blank'); showToast(`🔗 Opening download link for "${v.title}"...`); } else if(v.videoUrl){ const a=document.createElement('a'); a.href=v.videoUrl; a.download=`${v.title}.mp4`; a.click(); showToast(`📥 Downloading "${v.title}"...`); } else showToast('❌ No download link available',true); } }
         function closeModal(){ document.getElementById('videoPlayer').pause(); document.getElementById('videoModal').classList.remove('active'); }
         function closeMembershipModal(){ document.getElementById('membershipModal').classList.remove('active'); }
-        function joinMembership(){ showToast("Membership feature coming soon! Stay tuned."); closeMembershipModal(); }
+        
+        // FIXED: Join Membership function - Opens admin set URL
+        async function joinMembership() {
+            try {
+                showToast("🔄 Loading membership link...", false);
+                // Reload membership URL to get latest
+                await loadMembershipUrl();
+                closeMembershipModal();
+                window.open(membershipUrl, '_blank');
+                showToast("🔗 Opening membership page...", false);
+            } catch (error) {
+                console.error("Membership error:", error);
+                closeMembershipModal();
+                // Fallback
+                window.open("https://www.profitablecpmratenetwork.com/mk65i19v?key=e9f9c255c82dc28e0a257559b623568d", '_blank');
+            }
+        }
         
         // Auth Functions
         function openLoginModal() { document.getElementById('loginModal').classList.add('active'); }
@@ -783,7 +844,21 @@
         const sC=document.querySelector('.slider-container'); let sX,drag=false;
         if(sC){ sC.addEventListener('touchstart',(e)=>{ sX=e.touches[0].clientX; drag=true; }); sC.addEventListener('touchend',(e)=>{ if(!drag) return; const dx=e.changedTouches[0].clientX-sX; if(Math.abs(dx)>50) dx>0?prevSlide():nextSlide(); drag=false; }); }
         
-        async function init(){ await seedDefaultData(); attachFirestoreListeners(); renderCategories(); updateCategoryTitle(); }
+        async function init(){ 
+            await seedDefaultData(); 
+            await loadAdLinks();
+            await loadMembershipUrl();
+            attachFirestoreListeners(); 
+            renderCategories(); 
+            updateCategoryTitle(); 
+            // Refresh ad buttons every 30 seconds to get latest links
+            setInterval(async () => {
+                await loadAdLinks();
+                if (document.getElementById('coinsModal').classList.contains('active')) {
+                    renderCoinsButtons();
+                }
+            }, 30000);
+        }
         init();
     </script>
 </body>
