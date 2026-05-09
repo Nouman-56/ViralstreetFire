@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -610,10 +611,18 @@
         
         async function incrementViews(vid){ try{ await db.collection("viral_videos").doc(vid).update({views:firebase.firestore.FieldValue.increment(1)}); }catch(e){ console.error(e); } }
         
+        // ==================== FIXED: UPCOMING VIDEO PLAY BLOCK ====================
         async function handlePlay(videoId) {
             if (!currentUser) { showToast("Please login to watch videos!", true); openLoginModal(); return; }
             const video = currentVideos.find(v => v.id === videoId);
             if (!video) return;
+            
+            // Check if video is UPCOMING - Block playback
+            if (video.isUpcoming === true) {
+                showToast("⏳ This video is UPCOMING! It will be available soon. Please check back later.", true);
+                return;  // Don't play upcoming videos
+            }
+            
             if (currentUserCoins >= 10) {
                 await deductCoins(10);
                 await incrementViews(videoId);
@@ -863,3 +872,4 @@
     </script>
 </body>
 </html>
+```
