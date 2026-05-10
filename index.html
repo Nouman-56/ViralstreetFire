@@ -2,604 +2,246 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>VIRAL STREET | Premium Free | Indian & Pakistani Scandals</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>VIRAL STREET | Admin Panel</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-    <!-- hCaptcha Script -->
-    <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #0a0a0a; font-family: 'Inter', sans-serif; color: #ffffff; overflow-x: hidden; }
-        ::-webkit-scrollbar { width: 6px; height: 4px; }
-        ::-webkit-scrollbar-track { background: #1a1a1a; }
-        ::-webkit-scrollbar-thumb { background: #e50914; border-radius: 4px; }
-        
-        .header { background: linear-gradient(180deg, rgba(0,0,0,0.98) 0%, rgba(0,0,0,0.8) 70%, transparent 100%); padding: 20px 40px; position: sticky; top: 0; z-index: 1000; transition: all 0.3s ease; }
-        .header-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
-        .viral-logo { text-decoration: none; display: flex; flex-direction: column; line-height: 0.9; cursor: pointer; }
-        .viral-text { font-family: 'Bebas Neue', 'Oswald', 'Impact', 'Arial Black', sans-serif; font-size: 52px; font-weight: 900; letter-spacing: 3px; color: #FFD700; text-shadow: 3px 3px 0px rgba(0,0,0,0.5), 0px 0px 15px rgba(255,215,0,0.4); display: inline-block; }
-        .street-text { font-family: 'Bebas Neue', 'Oswald', 'Impact', 'Arial Black', sans-serif; font-size: 52px; font-weight: 900; letter-spacing: 3px; color: #E50914; text-shadow: 2px 2px 0px rgba(0,0,0,0.5), 0px 0px 10px rgba(229,9,20,0.4); display: inline-block; margin-left: 8px; }
-        .logo-tagline { font-size: 11px; letter-spacing: 3px; color: #888; margin-top: 5px; font-weight: 500; }
-        
-        .user-area { display: flex; align-items: center; gap: 15px; }
-        .user-coins { background: rgba(0,0,0,0.75); border: 1px solid rgba(255,215,0,0.3); border-radius: 30px; padding: 8px 18px; display: flex; align-items: center; gap: 8px; }
-        .user-coins i { color: #FFD700; }
-        .user-coins span { font-weight: bold; color: #FFD700; }
-        .membership-badge { background: linear-gradient(135deg, #e50914, #b0070f); border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: bold; margin-left: 10px; display: inline-block; }
-        .auth-btn { background: #E50914; border: none; color: white; padding: 8px 20px; border-radius: 30px; cursor: pointer; font-weight: 600; transition: all 0.3s; }
-        .auth-btn:hover { transform: scale(1.05); background: #ff1a1a; }
-        .user-name { color: white; font-weight: 500; }
-        
-        /* Free Coins Circle Button */
-        .free-coins-container { position: fixed; left: 20px; top: 50%; transform: translateY(-50%); z-index: 100; }
-        .free-coins-circle { width: 80px; height: 80px; background: linear-gradient(135deg, #FFD700, #FFA500); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 20px rgba(255,215,0,0.5); transition: all 0.3s ease; animation: float-circle 2s infinite; position: relative; }
-        .free-coins-circle:hover { transform: scale(1.1); box-shadow: 0 0 30px rgba(255,215,0,0.8); }
-        .free-coins-circle i { font-size: 28px; color: #fff; text-shadow: 0 2px 5px rgba(0,0,0,0.3); }
-        .free-coins-circle span { font-size: 12px; font-weight: bold; color: #fff; margin-top: 5px; }
-        @keyframes float-circle { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-        
-        /* 10 Buttons Modal */
-        .coins-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 6000; display: none; align-items: center; justify-content: center; }
-        .coins-modal.active { display: flex; }
-        .coins-container { background: linear-gradient(135deg, #151515 0%, #0a0a0a 100%); border-radius: 24px; padding: 30px; width: 90%; max-width: 500px; border: 1px solid rgba(229,9,20,0.3); text-align: center; }
-        .coins-container h3 { color: #FFD700; margin-bottom: 20px; font-size: 24px; }
-        .coins-container p { color: #888; margin-bottom: 25px; font-size: 14px; }
-        .coins-buttons-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 20px; }
-        .coin-ad-btn { background: linear-gradient(135deg, #2a2a2a, #1a1a1a); border: 1px solid rgba(255,215,0,0.3); border-radius: 12px; padding: 15px; cursor: pointer; transition: all 0.3s; text-align: center; }
-        .coin-ad-btn:hover:not(.completed) { transform: scale(1.05); border-color: #FFD700; background: linear-gradient(135deg, #3a3a3a, #2a2a2a); }
-        .coin-ad-btn.completed { opacity: 0.5; filter: grayscale(1); cursor: not-allowed; }
-        .coin-ad-btn.completed:hover { transform: none; }
-        .coin-ad-btn i { font-size: 24px; color: #FFD700; margin-bottom: 8px; display: block; }
-        .coin-ad-btn span { font-size: 14px; color: white; }
-        .coin-ad-btn small { font-size: 11px; color: #888; display: block; margin-top: 5px; }
-        .timer-text { color: #e50914; font-size: 12px; margin-top: 10px; }
-        .close-coins-modal { background: #e50914; border: none; color: white; padding: 12px 24px; border-radius: 30px; cursor: pointer; font-weight: 600; margin-top: 10px; }
-        
-        @media (max-width: 768px) {
-            .free-coins-circle { width: 60px; height: 60px; }
-            .free-coins-circle i { font-size: 22px; }
-            .free-coins-circle span { font-size: 10px; }
-            .coins-buttons-grid { gap: 10px; }
-            .coin-ad-btn { padding: 10px; }
-        }
-        
-        @media (max-width: 768px) { .viral-text, .street-text { font-size: 32px; letter-spacing: 1px; } .logo-tagline { font-size: 8px; } .user-area { gap: 8px; } .user-coins { padding: 5px 12px; font-size: 12px; } .auth-btn { padding: 5px 15px; font-size: 12px; } }
-        
-        .search-box { display: flex; align-items: center; background: rgba(0,0,0,0.75); border: 1px solid rgba(255,255,255,0.2); border-radius: 30px; padding: 8px 18px; transition: all 0.3s; }
-        .search-box:focus-within { border-color: #E50914; box-shadow: 0 0 8px rgba(229,9,20,0.3); }
-        .search-box input { background: transparent; border: none; padding: 8px; color: white; width: 250px; outline: none; font-size: 14px; }
-        .search-box button { background: transparent; border: none; color: white; cursor: pointer; transition: all 0.3s; }
-        .search-box button:hover { color: #E50914; }
-        
-        .hero-section { max-width: 100%; margin: 0 auto; position: relative; margin-top: -80px; }
-        .slider-container { position: relative; overflow: hidden; border-radius: 0; }
-        .slider-wrapper { display: flex; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); cursor: grab; }
-        .slide { min-width: 100%; position: relative; aspect-ratio: 16/9; }
-        .slide img { width: 100%; height: 100%; object-fit: cover; }
-        .slide-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 50%, transparent 100%); padding: 80px 60px 40px; }
-        .slide-badge { display: inline-block; background: #E50914; padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; margin-bottom: 15px; text-transform: uppercase; }
-        .slide-title { font-size: 48px; font-weight: 800; margin-bottom: 15px; max-width: 60%; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
-        .slide-desc { font-size: 16px; color: #ddd; max-width: 50%; line-height: 1.5; }
-        .slider-nav button { position: absolute; top: 50%; transform: translateY(-50%); width: 45px; height: 45px; background: rgba(0,0,0,0.6); border: none; border-radius: 50%; color: white; cursor: pointer; transition: all 0.3s; z-index: 10; backdrop-filter: blur(4px); }
-        .slider-nav button:hover { background: #E50914; transform: translateY(-50%) scale(1.1); }
-        .slider-nav button:first-child { left: 20px; }
-        .slider-nav button:last-child { right: 20px; }
-        .slider-dots { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 12px; z-index: 10; }
-        .dot { width: 10px; height: 10px; background: rgba(255,255,255,0.5); border-radius: 50%; cursor: pointer; transition: all 0.3s; }
-        .dot.active { width: 30px; background: #E50914; border-radius: 10px; }
-        
-        .categories { max-width: 1400px; margin: 30px auto 20px; padding: 0 40px; display: flex; gap: 15px; flex-wrap: wrap; overflow-x: auto; }
-        .cat-btn { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); padding: 8px 24px; border-radius: 30px; color: #fff; cursor: pointer; transition: all 0.3s; font-size: 14px; font-weight: 500; white-space: nowrap; }
-        .cat-btn:hover, .cat-btn.active { background: #E50914; border-color: #E50914; transform: scale(1.05); }
-        
-        .special-sections { max-width: 1400px; margin: 0 auto; padding: 0 40px; display: none; }
-        .special-sections.active { display: block; }
-        .special-card { background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%); border-radius: 16px; padding: 20px; margin-bottom: 30px; border: 1px solid rgba(229,9,20,0.3); }
-        .special-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #e50914; }
-        .special-header i { font-size: 28px; color: #e50914; }
-        .special-header h2 { font-size: 24px; font-weight: 700; }
-        .special-header .badge-new { background: #e50914; color: white; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; margin-left: 10px; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
-        
-        .section-title { max-width: 1400px; margin: 40px auto 20px; padding: 0 40px; font-size: 24px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
-        .section-title i { color: #E50914; font-size: 28px; }
-        .section-title .badge { background: #E50914; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; margin-left: 10px; }
-        
-        .movies-container { max-width: 1400px; margin: 0 auto; padding: 0 40px 20px; }
-        .movies-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 25px; }
-        
-        .movie-card { background: #151515; border-radius: 12px; overflow: hidden; transition: all 0.3s ease; cursor: pointer; position: relative; border: 1px solid rgba(255,255,255,0.05); }
-        .movie-card.featured-card { border: 2px solid #e50914; box-shadow: 0 0 20px rgba(229,9,20,0.3); transform: scale(1.02); }
-        .movie-card:hover { transform: translateY(-8px) scale(1.02); z-index: 10; box-shadow: 0 20px 35px rgba(0,0,0,0.6); border-color: #e50914; }
-        .movie-thumbnail { position: relative; aspect-ratio: 2/3; overflow: hidden; }
-        .movie-thumbnail img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
-        .movie-card:hover .movie-thumbnail img { transform: scale(1.08); }
-        .movie-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; }
-        .movie-card:hover .movie-overlay { opacity: 1; }
-        .play-icon { width: 55px; height: 55px; background: #E50914; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: transform 0.3s; }
-        .play-icon i { font-size: 22px; margin-left: 3px; }
-        .play-icon:hover { transform: scale(1.15); }
-        .movie-info { padding: 14px; }
-        .movie-title { font-weight: 600; font-size: 14px; margin-bottom: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; }
-        .movie-meta { display: flex; justify-content: space-between; font-size: 12px; color: #b3b3b3; }
-        .movie-year { color: #b3b3b3; }
-        .movie-views { color: #e50914; font-size: 11px; margin-top: 4px; display: flex; align-items: center; gap: 4px; }
-        .movie-views i { font-size: 10px; }
-        .category-badge { position: absolute; top: 10px; right: 10px; padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: bold; z-index: 5; }
-        .badge-premium { background: linear-gradient(135deg, #f5af19, #f12711); color: white; }
-        .badge-indian { background: #ff9933; color: #000; }
-        .badge-pakistani { background: #01411c; color: white; }
-        .badge-all { background: #3498db; color: white; }
-        .featured-badge { position: absolute; top: 10px; left: 10px; background: #e50914; color: white; padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: bold; z-index: 5; animation: pulse 1.5s infinite; }
-        .upcoming-badge { position: absolute; top: 10px; left: 10px; background: #f39c12; color: white; padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: bold; z-index: 5; }
-        .trending-badge { position: absolute; top: 10px; left: 10px; background: #2ecc71; color: white; padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: bold; z-index: 5; }
-        
-        .public-buttons { display: flex; gap: 10px; margin-top: 10px; }
-        .play-now-btn, .download-btn { flex: 1; padding: 8px 0; border-radius: 30px; font-size: 12px; font-weight: 600; cursor: pointer; text-align: center; transition: all 0.2s; border: none; }
-        .play-now-btn { background: #E50914; color: white; }
-        .play-now-btn:hover { background: #ff1a1a; transform: scale(1.02); }
-        .download-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; }
-        .download-btn:hover { background: #E50914; border-color: #E50914; }
-        
-        .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.95); color: white; padding: 12px 28px; border-radius: 40px; z-index: 4000; animation: fadeInOut 2.5s ease; border-left: 4px solid #E50914; font-size: 14px; }
+        body { background: #0a0a0a; font-family: 'Inter', sans-serif; color: #ffffff; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 { color: #e50914; margin-bottom: 30px; text-align: center; }
+        h2, h3, h4 { color: #e50914; margin-bottom: 15px; margin-top: 20px; }
+        .admin-card { background: #151515; border-radius: 16px; padding: 25px; margin-bottom: 30px; border: 1px solid rgba(229,9,20,0.3); }
+        input, select, textarea { width: 100%; background: #2a2a2a; border: 1px solid #3d3d3d; border-radius: 10px; padding: 12px; color: white; margin-bottom: 12px; outline: none; }
+        input:focus, select:focus, textarea:focus { border-color: #e50914; }
+        button { background: #e50914; border: none; color: white; padding: 12px 24px; border-radius: 10px; cursor: pointer; font-weight: 600; transition: all 0.3s; }
+        button:hover { opacity: 0.9; transform: scale(1.02); }
+        .login-box { max-width: 400px; margin: 100px auto; text-align: center; }
+        .movie-list, .slider-list, .ad-links-list, .users-list { margin-top: 15px; max-height: 500px; overflow-y: auto; }
+        .movie-item, .slider-item, .ad-item, .user-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #3d3d3d; gap: 15px; flex-wrap: wrap; background: #1a1a1a; margin-bottom: 5px; border-radius: 10px; }
+        .movie-item:hover, .slider-item:hover, .ad-item:hover, .user-item:hover { background: #222; }
+        .movie-info { flex: 2; min-width: 200px; }
+        .movie-info strong { color: #e50914; font-size: 16px; }
+        .badges-group { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+        .badge-checkbox { display: flex; align-items: center; gap: 6px; background: #2a2a2a; padding: 6px 12px; border-radius: 20px; font-size: 12px; cursor: pointer; transition: all 0.2s; }
+        .badge-checkbox:hover { background: #3a3a3a; transform: scale(1.02); }
+        .badge-checkbox input { width: 16px; height: 16px; margin: 0; cursor: pointer; }
+        .badge-checkbox.trending { border-left: 3px solid #2ecc71; }
+        .badge-checkbox.upcoming { border-left: 3px solid #f39c12; }
+        .badge-checkbox.featured { border-left: 3px solid #e50914; }
+        .edit-btn { background: #3498db; border: none; color: white; padding: 6px 14px; border-radius: 6px; cursor: pointer; margin-right: 5px; font-size: 12px; }
+        .delete-btn { background: rgba(229,9,20,0.3); border: 1px solid #e50914; color: #e50914; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 12px; }
+        .activate-membership-btn { background: #2ecc71; border: none; color: white; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 12px; margin-right: 5px; }
+        .deactivate-membership-btn { background: rgba(229,9,20,0.3); border: 1px solid #e50914; color: #e50914; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 12px; }
+        .edit-btn:hover, .delete-btn:hover, .activate-membership-btn:hover, .deactivate-membership-btn:hover { transform: scale(1.02); }
+        .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.95); color: white; padding: 12px 28px; border-radius: 40px; z-index: 4000; animation: fadeInOut 2.5s ease; border-left: 4px solid #e50914; }
         @keyframes fadeInOut { 0% { opacity: 0; transform: translateX(-50%) translateY(20px); } 15% { opacity: 1; transform: translateX(-50%) translateY(0); } 85% { opacity: 1; } 100% { opacity: 0; transform: translateX(-50%) translateY(20px); } }
-        .empty-state { text-align: center; padding: 60px; color: #666; }
-        
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); z-index: 3000; display: none; align-items: center; justify-content: center; }
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1000; display: none; align-items: center; justify-content: center; }
         .modal.active { display: flex; }
-        .modal-content { width: 90%; max-width: 1000px; background: #151515; border-radius: 16px; overflow: hidden; }
-        .modal-header { padding: 18px 22px; display: flex; justify-content: space-between; align-items: center; background: #0a0a0a; border-bottom: 1px solid #2a2a2a; }
-        .modal-header h3 { color: #E50914; }
-        .close-modal { background: rgba(255,255,255,0.1); border: none; width: 36px; height: 36px; border-radius: 50%; color: white; cursor: pointer; transition: all 0.3s; }
-        .close-modal:hover { background: #E50914; }
-        .video-container { background: #000; }
-        .video-container video { width: 100%; display: block; }
+        .modal-content { background: #151515; border-radius: 16px; padding: 25px; width: 90%; max-width: 500px; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .close-modal { background: none; border: none; color: white; font-size: 24px; cursor: pointer; padding: 0; }
+        .close-modal:hover { color: #e50914; }
+        .row { display: flex; gap: 12px; }
+        .row > * { flex: 1; }
+        .badge-sample { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: bold; margin-left: 10px; }
+        .badge-trending { background: #2ecc71; color: white; }
+        .badge-upcoming { background: #f39c12; color: white; }
+        .badge-featured { background: #e50914; color: white; }
         
-        /* Auth Modals Styles */
-        .auth-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 5000; display: none; align-items: center; justify-content: center; }
-        .auth-modal.active { display: flex; }
-        .auth-container { background: linear-gradient(135deg, #151515 0%, #0a0a0a 100%); border-radius: 24px; padding: 40px; width: 90%; max-width: 450px; border: 1px solid rgba(229,9,20,0.3); }
-        .auth-header { text-align: center; margin-bottom: 30px; }
-        .auth-header h2 { color: #e50914; font-size: 28px; margin-bottom: 10px; }
-        .auth-header p { color: #888; font-size: 14px; }
-        .auth-input { width: 100%; background: #2a2a2a; border: 1px solid #3d3d3d; border-radius: 12px; padding: 14px 16px; color: white; margin-bottom: 16px; outline: none; font-size: 14px; transition: all 0.3s; }
-        .auth-input:focus { border-color: #e50914; }
-        .auth-input.error { border-color: #e50914; animation: shake 0.3s ease; }
-        @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
-        .auth-btn-full { width: 100%; background: #e50914; border: none; color: white; padding: 14px; border-radius: 12px; font-weight: 600; cursor: pointer; transition: all 0.3s; font-size: 16px; }
-        .auth-btn-full:hover { transform: scale(1.02); background: #ff1a1a; }
-        .auth-btn-full:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-        .auth-switch { text-align: center; margin-top: 20px; color: #888; font-size: 14px; }
-        .auth-switch a { color: #e50914; cursor: pointer; text-decoration: none; }
-        .forgot-link { text-align: right; margin-top: -10px; margin-bottom: 15px; }
-        .forgot-link a { color: #e50914; font-size: 12px; cursor: pointer; text-decoration: none; }
+        /* Stats Cards */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 25px; }
+        .stat-card { background: linear-gradient(135deg, #1a1a1a, #0d0d0d); border-radius: 16px; padding: 20px; text-align: center; border: 1px solid rgba(229,9,20,0.3); }
+        .stat-card i { font-size: 36px; color: #e50914; margin-bottom: 10px; }
+        .stat-card .stat-number { font-size: 32px; font-weight: 800; color: #FFD700; }
+        .stat-card .stat-label { font-size: 14px; color: #888; margin-top: 5px; }
         
-        /* Terms & Conditions Checkbox Style */
-        .terms-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 15px 0;
-            font-size: 13px;
-            color: #ccc;
-        }
-        .terms-container input {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-            margin: 0;
-        }
-        .terms-container a {
-            color: #e50914;
-            text-decoration: none;
-            font-weight: 600;
-        }
-        .terms-container a:hover {
-            text-decoration: underline;
-        }
+        /* Ad Links Specific Styles */
+        .ad-links-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 20px; }
+        .ad-link-input { background: #2a2a2a; border: 1px solid #3d3d3d; border-radius: 10px; padding: 10px 12px; color: white; font-size: 13px; }
+        .ad-link-input:focus { border-color: #e50914; outline: none; }
+        .ad-link-label { color: #e50914; font-size: 12px; margin-bottom: 5px; display: block; }
+        .single-link-mode { background: rgba(229,9,20,0.1); padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid rgba(229,9,20,0.3); }
+        .single-link-mode label { color: #FFD700; font-weight: 600; }
+        .mode-selector { display: flex; gap: 15px; margin-bottom: 20px; }
+        .mode-btn { flex: 1; background: #2a2a2a; border: 1px solid #3d3d3d; color: white; padding: 10px; border-radius: 10px; cursor: pointer; transition: all 0.3s; }
+        .mode-btn.active { background: #e50914; border-color: #e50914; }
+        .mode-btn:hover { background: #3a3a3a; }
         
-        /* Age Verification Modal */
-        .age-verification-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.98);
-            z-index: 10000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        @media (max-width: 768px) { 
+            .row { flex-direction: column; } 
+            .movie-item { flex-direction: column; align-items: flex-start; }
+            .ad-links-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr; }
         }
-        .age-verification-modal.hidden {
-            display: none;
-        }
-        .age-verification-container {
-            background: linear-gradient(135deg, #151515, #0a0a0a);
-            border-radius: 24px;
-            padding: 40px;
-            width: 90%;
-            max-width: 500px;
-            text-align: center;
-            border: 1px solid rgba(229,9,20,0.5);
-            box-shadow: 0 0 40px rgba(229,9,20,0.2);
-        }
-        .age-verification-container h2 {
-            color: #e50914;
-            font-size: 28px;
-            margin-bottom: 15px;
-        }
-        .age-verification-container p {
-            color: #ccc;
-            font-size: 14px;
-            margin-bottom: 30px;
-            line-height: 1.6;
-        }
-        .age-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-        }
-        .age-btn {
-            padding: 14px 30px;
-            border: none;
-            border-radius: 40px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 16px;
-        }
-        .age-btn.over {
-            background: #e50914;
-            color: white;
-        }
-        .age-btn.over:hover {
-            transform: scale(1.05);
-            background: #ff1a1a;
-        }
-        .age-btn.under {
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(229,9,20,0.5);
-            color: #e50914;
-        }
-        .age-btn.under:hover {
-            background: rgba(229,9,20,0.2);
-            transform: scale(1.02);
-        }
-        .restricted-message {
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(229,9,20,0.1);
-            border-radius: 12px;
-            color: #e50914;
-            font-size: 14px;
-        }
-        
-        /* Captcha Container Styling */
-        .captcha-container {
-            margin: 15px 0;
-            display: flex;
-            justify-content: center;
-        }
-        .h-captcha {
-            transform: scale(0.95);
-        }
-        @media (max-width: 768px) {
-            .h-captcha {
-                transform: scale(0.85);
-            }
-        }
-        
-        /* Stats Circles Animation */
-        .stats-container { display: flex; justify-content: center; gap: 40px; margin-top: 30px; flex-wrap: wrap; }
-        .stat-circle { position: relative; width: 120px; height: 120px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(229,9,20,0.1); border: 2px solid #e50914; animation: pulse-circle 2s infinite; }
-        @keyframes pulse-circle { 0% { box-shadow: 0 0 0 0 rgba(229,9,20,0.4); transform: scale(1); } 50% { box-shadow: 0 0 0 15px rgba(229,9,20,0); transform: scale(1.05); } 100% { box-shadow: 0 0 0 0 rgba(229,9,20,0); transform: scale(1); } }
-        .stat-circle-inner { text-align: center; }
-        .stat-number { font-size: 28px; font-weight: 800; color: #e50914; }
-        .stat-label { font-size: 11px; color: #888; margin-top: 5px; }
-        
-        .membership-modal .modal-content { max-width: 400px; text-align: center; }
-        .membership-price { font-size: 48px; font-weight: 800; color: #e50914; margin: 20px 0; }
-        .join-btn { background: #e50914; color: white; border: none; padding: 15px 30px; border-radius: 40px; font-weight: 600; cursor: pointer; margin-top: 20px; }
-        
-        @media (max-width: 768px) {
-            .header { padding: 15px 20px; }
-            .header-content { flex-direction: column; }
-            .slide-title { font-size: 24px; max-width: 100%; }
-            .slide-desc { font-size: 12px; max-width: 100%; }
-            .slide-overlay { padding: 40px 20px 20px; }
-            .categories, .section-title, .movies-container, .special-sections { padding: 0 20px; }
-            .movies-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; }
-            .stats-container { gap: 20px; }
-            .stat-circle { width: 90px; height: 90px; }
-            .stat-number { font-size: 20px; }
-            .age-buttons { flex-direction: column; gap: 12px; }
-            .age-btn { padding: 12px; }
-        }
-        @media (min-width: 1200px) { .movies-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 28px; } }
     </style>
 </head>
 <body>
-    <!-- Age Verification Modal -->
-    <div id="ageVerificationModal" class="age-verification-modal">
-        <div class="age-verification-container">
-            <i class="fas fa-exclamation-triangle" style="font-size: 60px; color: #e50914; margin-bottom: 20px;"></i>
-            <h2>Age Verification Required</h2>
-            <p>This website contains adult content, including scandals, sensitive material, and 18+ exclusive videos. You must be 18 years or older to access this site.</p>
-            <div class="age-buttons">
-                <button class="age-btn over" onclick="verifyAge(true)">I AM 18+</button>
-                <button class="age-btn under" onclick="verifyAge(false)">I AM UNDER 18</button>
+    <div class="container">
+        <div id="loginSection" class="login-box">
+            <div class="admin-card">
+                <h2><i class="fas fa-lock"></i> Admin Login</h2>
+                <input type="password" id="adminPassword" placeholder="Enter Admin Password">
+                <button id="loginBtn">Login</button>
             </div>
-            <div id="restrictedMessage" class="restricted-message" style="display: none;">
-                <i class="fas fa-ban"></i> Sorry, you cannot enter this site because you are under 18. Please come back when you're older. Thank you!
-            </div>
-        </div>
-    </div>
-
-    <div class="header" id="header" style="display: none;">
-        <div class="header-content">
-            <a class="viral-logo" style="text-decoration: none;" id="logoBtn">
-                <div><span class="viral-text">VIRAL</span><span class="street-text">STREET</span></div>
-                <div class="logo-tagline">🔥 SCANDALS EXPOSED 🔥</div>
-            </a>
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Search videos...">
-                <button id="searchBtn"><i class="fas fa-search"></i></button>
-            </div>
-            <div class="user-area" id="userArea">
-                <div class="user-coins" id="userCoins" style="display: none;">
-                    <i class="fas fa-coins"></i>
-                    <span id="coinAmount">0</span>
-                </div>
-                <div id="authButtons">
-                    <button class="auth-btn" onclick="openLoginModal()"><i class="fas fa-sign-in-alt"></i> Login</button>
-                    <button class="auth-btn" onclick="openSignupModal()"><i class="fas fa-user-plus"></i> Signup</button>
-                </div>
-                <div id="userInfo" style="display: none;">
-                    <span class="user-name" id="userName"></span>
-                    <span class="membership-badge" id="membershipBadge" style="display: none;"><i class="fas fa-crown"></i> Premium Member</span>
-                    <button class="auth-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Free Coins Floating Circle -->
-    <div class="free-coins-container" style="display: none;" id="freeCoinsContainer">
-        <div class="free-coins-circle" onclick="openCoinsModal()">
-            <i class="fas fa-coins"></i>
-            <span>Get Free Coins</span>
-        </div>
-    </div>
-
-    <!-- 10 Buttons Modal -->
-    <div class="coins-modal" id="coinsModal">
-        <div class="coins-container">
-            <h3><i class="fas fa-gift"></i> Get Free Coins</h3>
-            <p>Watch 10 seconds ad to earn 3 coins per button</p>
-            <div class="coins-buttons-grid" id="coinsButtonsGrid">
-                <!-- 10 buttons will be generated here -->
-            </div>
-            <button class="close-coins-modal" onclick="closeCoinsModal()">Close</button>
-        </div>
-    </div>
-
-    <div class="hero-section" style="display: none;" id="heroSection">
-        <div class="slider-container">
-            <div class="slider-wrapper" id="sliderWrapper"></div>
-            <div class="slider-nav"><button id="prevSlide"><i class="fas fa-chevron-left"></i></button><button id="nextSlide"><i class="fas fa-chevron-right"></i></button></div>
-            <div class="slider-dots" id="sliderDots"></div>
-        </div>
-    </div>
-
-    <div class="categories" id="categoriesContainer" style="display: none;"></div>
-
-    <!-- Special Sections - Only visible when category is 'all' -->
-    <div class="special-sections" id="specialSections" style="display: none;">
-        <div class="special-card">
-            <div class="special-header">
-                <i class="fas fa-calendar-alt"></i>
-                <h2>Upcoming Virals <span class="badge-new">COMING SOON</span></h2>
-            </div>
-            <div class="movies-grid" id="upcomingGrid"></div>
         </div>
         
-        <div class="special-card">
-            <div class="special-header">
-                <i class="fas fa-chart-line"></i>
-                <h2>Trending Now <span class="badge-new">HOT 🔥</span></h2>
+        <div id="adminSection" style="display: none;">
+            <h1><i class="fas fa-cog"></i> VIRAL STREET - Admin Panel</h1>
+            
+            <!-- Stats Dashboard -->
+            <div class="stats-grid" id="statsGrid">
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <div class="stat-number" id="totalUsers">0</div>
+                    <div class="stat-label">Total Users</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-user-check"></i>
+                    <div class="stat-number" id="activeUsers">0</div>
+                    <div class="stat-label">Active Users (Today)</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-chart-line"></i>
+                    <div class="stat-number" id="totalAdClicks">0</div>
+                    <div class="stat-label">Total Ad Clicks</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-crown"></i>
+                    <div class="stat-number" id="activeMemberships">0</div>
+                    <div class="stat-label">Active Memberships</div>
+                </div>
             </div>
-            <div class="movies-grid" id="trendingGrid"></div>
+            
+            <!-- Manage Users Section -->
+            <div class="admin-card">
+                <h3><i class="fas fa-users-gear"></i> 👥 Manage Users</h3>
+                <p style="color: #888; font-size: 12px; margin-bottom: 15px;">
+                    View all users, manage memberships, and track user activity.
+                </p>
+                <div class="row">
+                    <input type="text" id="searchUserInput" placeholder="Search by username or email...">
+                    <button id="searchUserBtn" style="background: #3498db;">🔍 Search</button>
+                    <button id="refreshUsersBtn" style="background: #2ecc71;">🔄 Refresh</button>
+                </div>
+                <div id="usersList" class="users-list"></div>
+            </div>
+            
+            <div class="admin-card">
+                <h3><i class="fas fa-plus-circle"></i> ➕ Add New Video</h3>
+                <div class="row">
+                    <input type="text" id="newTitle" placeholder="Video Title *">
+                    <input type="text" id="newYear" placeholder="Year *">
+                </div>
+                <select id="newCategory">
+                    <option value="premium">🔥 Premium Free</option>
+                    <option value="indian">🇮🇳 Indian Scandals</option>
+                    <option value="pakistani">🇵🇰 Pakistani Scandals</option>
+                    <option value="all">📺 All Videos</option>
+                </select>
+                <input type="text" id="newThumb" placeholder="Thumbnail URL *">
+                <input type="text" id="newVideoUrl" placeholder="Video URL *">
+                <input type="text" id="newDownloadUrl" placeholder="Download URL (optional)">
+                <input type="number" id="newViews" placeholder="Initial Views" value="0">
+                <button id="addVideoBtn">+ Add Video</button>
+            </div>
+            
+            <div class="admin-card">
+                <h3><i class="fas fa-tags"></i> 🏷️ Manage Videos - Status & Actions</h3>
+                <p style="color: #888; font-size: 12px; margin-bottom: 15px;">
+                    <span class="badge-sample badge-trending">🔥 Trending</span> - 1st section mein dikhega |
+                    <span class="badge-sample badge-upcoming">📅 Upcoming</span> - 2nd section mein dikhega |
+                    <span class="badge-sample badge-featured">⭐ Featured</span> - Sabse pehle, border ke saath
+                </p>
+                <div id="adminVideoList" class="movie-list"></div>
+            </div>
+            
+            <div class="admin-card">
+                <h3><i class="fas fa-images"></i> 🖼️ Manage Slider Images</h3>
+                <div class="row">
+                    <input type="text" id="sliderImgUrl" placeholder="Slider Image URL">
+                    <input type="text" id="sliderTitle" placeholder="Slider Title">
+                </div>
+                <textarea id="sliderDesc" rows="2" placeholder="Description"></textarea>
+                <button id="addSliderBtn">+ Add Slide</button>
+                <div id="sliderListAdmin" class="slider-list"></div>
+            </div>
+            
+            <!-- Ad Links Management Section -->
+            <div class="admin-card">
+                <h3><i class="fas fa-ad"></i> 📢 Manage Ad Links (10 Buttons)</h3>
+                <p style="color: #888; font-size: 12px; margin-bottom: 15px;">
+                    Users will see 10 buttons on frontend. Each button click opens an ad and gives 3 coins after 10 seconds.
+                </p>
+                
+                <div class="mode-selector">
+                    <button class="mode-btn" id="singleModeBtn" onclick="switchMode('single')">🔗 Single Link Mode</button>
+                    <button class="mode-btn" id="multiModeBtn" onclick="switchMode('multi')">📋 Multiple Links Mode</button>
+                </div>
+                
+                <div id="singleLinkMode" class="single-link-mode">
+                    <label><i class="fas fa-link"></i> Single Link (Auto-fill all 10 buttons)</label>
+                    <input type="text" id="singleAdLink" class="auth-input" placeholder="Enter one ad link to apply to all 10 buttons" style="margin-top: 10px;">
+                    <button id="applySingleLinkBtn" style="margin-top: 10px; background: #3498db;">Apply to All 10 Buttons</button>
+                </div>
+                
+                <div id="multiLinkMode" style="display: none;">
+                    <label><i class="fas fa-list"></i> Individual Links for Each Button</label>
+                    <div class="ad-links-grid" id="adLinksGrid">
+                        <!-- 10 input fields will be generated here -->
+                    </div>
+                    <button id="saveMultiLinksBtn">💾 Save All Links</button>
+                </div>
+                
+                <div id="adLinksList" class="ad-links-list" style="margin-top: 20px;">
+                    <h4 style="margin-bottom: 10px;">📋 Current Ad Links Status</h4>
+                    <div id="currentLinksList"></div>
+                </div>
+            </div>
+            
+            <!-- Membership Button URL Management Section -->
+            <div class="admin-card">
+                <h3><i class="fas fa-crown"></i> 👑 Membership Button URL</h3>
+                <p style="color: #888; font-size: 12px; margin-bottom: 15px;">
+                    Ye URL "Join Membership" button par click karne par khulega. Frontend par real-time update hoga.
+                </p>
+                <input type="text" id="membershipUrl" placeholder="Enter Membership URL (e.g., https://example.com/membership)" style="width: 100%;">
+                <button id="saveMembershipUrlBtn" style="margin-top: 5px; background: #e50914;">💾 Save Membership URL</button>
+                <div id="currentMembershipUrl" style="margin-top: 15px; padding: 12px; background: #2a2a2a; border-radius: 10px;">
+                    <small style="color: #888;">Current URL: </small>
+                    <span id="currentMembershipUrlDisplay" style="color: #FFD700; word-break: break-all;">Not set</span>
+                </div>
+            </div>
         </div>
     </div>
-
-    <div class="section-title" id="sectionTitle" style="display: none;"><i class="fas fa-video"></i><span id="categoryTitle">All Videos</span><span class="badge">Watch Now</span></div>
-    <div class="movies-container" id="moviesContainer" style="display: none;"><div class="movies-grid" id="videosGrid"></div></div>
-
-    <div class="modal" id="videoModal">
+    
+    <div id="editModal" class="modal">
         <div class="modal-content">
-            <div class="modal-header"><h3 id="modalTitle">Now Playing</h3><button class="close-modal" onclick="closeModal()"><i class="fas fa-times"></i></button></div>
-            <div class="video-container"><video id="videoPlayer" controls playsinline><source id="videoSource" src=""></video></div>
-        </div>
-    </div>
-
-    <!-- Membership Modal -->
-    <div class="modal" id="membershipModal">
-        <div class="modal-content membership-modal">
-            <div class="modal-header"><h3><i class="fas fa-crown"></i> Membership Required</h3><button class="close-modal" onclick="closeMembershipModal()"><i class="fas fa-times"></i></button></div>
-            <div style="padding: 30px; text-align: center;">
-                <i class="fas fa-coins" style="font-size: 60px; color: #FFD700; margin-bottom: 20px;"></i>
-                <p style="margin-bottom: 20px;">You don't have enough coins to watch this video!</p>
-                <div class="membership-price">₹350 <span style="font-size: 14px;">/ month</span></div>
-                <button class="join-btn" onclick="joinMembership()">Join Membership <i class="fas fa-arrow-right"></i></button>
-                <p style="margin-top: 20px; font-size: 12px; color: #888;">Get unlimited access to all premium content</p>
+            <div class="modal-header">
+                <h3><i class="fas fa-edit"></i> Edit Video</h3>
+                <button class="close-modal" onclick="closeEditModal()">&times;</button>
             </div>
-        </div>
-    </div>
-
-    <!-- Login Modal with Captcha -->
-    <div class="auth-modal" id="loginModal">
-        <div class="auth-container">
-            <div class="auth-header">
-                <h2><i class="fas fa-sign-in-alt"></i> Welcome Back!</h2>
-                <p>Login to continue watching</p>
-            </div>
-            <input type="text" id="loginUsername" class="auth-input" placeholder="Username">
-            <input type="password" id="loginPassword" class="auth-input" placeholder="Password">
-            <div class="forgot-link"><a onclick="forgotPassword()">Forgot Password?</a></div>
-            <!-- hCaptcha Widget for Login -->
-            <div class="captcha-container">
-                <div class="h-captcha" data-sitekey="061257be-07c2-4968-b10e-bd0a880a6936" data-theme="dark"></div>
-            </div>
-            <button class="auth-btn-full" id="loginBtn" onclick="login()">Login</button>
-            <div class="auth-switch">Don't have an account? <a onclick="switchToSignup()">Sign Up</a></div>
-        </div>
-    </div>
-
-    <!-- Signup Modal with Captcha and Terms (Removed Referral Code) -->
-    <div class="auth-modal" id="signupModal">
-        <div class="auth-container">
-            <div class="auth-header">
-                <h2><i class="fas fa-user-plus"></i> Create Account</h2>
-                <p>Join Viral Street today!</p>
-            </div>
-            <input type="text" id="signupUsername" class="auth-input" placeholder="Username * (no spaces)">
-            <input type="email" id="signupEmail" class="auth-input" placeholder="Email Address *">
-            <input type="password" id="signupPassword" class="auth-input" placeholder="Password * (min 6 chars)">
-            
-            <!-- Terms & Conditions Checkbox -->
-            <div class="terms-container">
-                <input type="checkbox" id="termsCheckbox">
-                <label>I agree to the <a href="#" onclick="showTermsModal(); return false;">Terms & Conditions</a> and confirm that I am 18+ years old.</label>
-            </div>
-            
-            <!-- hCaptcha Widget for Signup -->
-            <div class="captcha-container">
-                <div class="h-captcha" data-sitekey="061257be-07c2-4968-b10e-bd0a880a6936" data-theme="dark"></div>
-            </div>
-            <button class="auth-btn-full" id="signupBtn" onclick="signup()">Sign Up & Get 100 Coins!</button>
-            <div class="auth-switch">Already have an account? <a onclick="switchToLogin()">Login</a></div>
-            
-            <!-- Stats Circles -->
-            <div class="stats-container">
-                <div class="stat-circle">
-                    <div class="stat-circle-inner">
-                        <div class="stat-number">1.2M</div>
-                        <div class="stat-label">Daily Viewers</div>
-                    </div>
-                </div>
-                <div class="stat-circle">
-                    <div class="stat-circle-inner">
-                        <div class="stat-number">369k</div>
-                        <div class="stat-label">Membership Holders</div>
-                    </div>
-                </div>
-                <div class="stat-circle">
-                    <div class="stat-circle-inner">
-                        <div class="stat-number">1.3M</div>
-                        <div class="stat-label">Total Signups</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Terms & Conditions Modal -->
-    <div class="auth-modal" id="termsModal">
-        <div class="auth-container" style="max-width: 500px; max-height: 80vh; overflow-y: auto;">
-            <div class="auth-header">
-                <h2><i class="fas fa-file-contract"></i> Terms & Conditions</h2>
-                <p>Please read our terms carefully</p>
-            </div>
-            <div style="text-align: left; font-size: 13px; color: #ccc; line-height: 1.6;">
-                <h3 style="color: #e50914; margin-top: 10px;">1. Age Restriction</h3>
-                <p>By accessing this website, you confirm that you are at least 18 years of age or the age of majority in your jurisdiction. This website contains adult-oriented content including scandals, sensitive material, and exclusive 18+ videos.</p>
-                
-                <h3 style="color: #e50914; margin-top: 15px;">2. Content Warning</h3>
-                <p>VIRAL STREET contains content that may be considered offensive, explicit, or inappropriate for minors. Viewer discretion is strongly advised.</p>
-                
-                <h3 style="color: #e50914; margin-top: 15px;">3. User Conduct</h3>
-                <p>You agree not to share, distribute, or reproduce any content from this website without prior written permission. All videos and images are property of their respective owners.</p>
-                
-                <h3 style="color: #e50914; margin-top: 15px;">4. Account Responsibility</h3>
-                <p>You are responsible for maintaining the confidentiality of your account credentials. You agree to accept responsibility for all activities that occur under your account.</p>
-                
-                <h3 style="color: #e50914; margin-top: 15px;">5. Coin System</h3>
-                <p>Coins are virtual currency used within the platform. They have no real-world value and cannot be exchanged for cash. Coins are earned by watching ads or through signup bonuses. Each video playback costs 50 coins.</p>
-                
-                <h3 style="color: #e50914; margin-top: 15px;">6. Membership</h3>
-                <p>Premium membership allows unlimited video access without coin deduction. Membership is valid for 30 days from activation and automatically expires. Admin can activate membership from backend.</p>
-                
-                <h3 style="color: #e50914; margin-top: 15px;">7. Termination</h3>
-                <p>We reserve the right to terminate accounts that violate our terms, engage in suspicious activity, or abuse the coin system.</p>
-                
-                <h3 style="color: #e50914; margin-top: 15px;">8. Privacy Policy</h3>
-                <p>We collect basic information such as email addresses and usernames. Your data is stored securely and will not be sold to third parties.</p>
-                
-                <h3 style="color: #e50914; margin-top: 15px;">9. Updates to Terms</h3>
-                <p>We may update these terms from time to time. Continued use of the site constitutes acceptance of the updated terms.</p>
-            </div>
-            <button class="auth-btn-full" onclick="closeTermsModal()" style="margin-top: 20px;">I Understand & Accept</button>
+            <input type="text" id="editVideoId" style="display: none;">
+            <input type="text" id="editTitle" placeholder="Video Title">
+            <input type="text" id="editYear" placeholder="Year">
+            <select id="editCategory">
+                <option value="premium">Premium Free</option>
+                <option value="indian">Indian Scandals</option>
+                <option value="pakistani">Pakistani Scandals</option>
+                <option value="all">All Videos</option>
+            </select>
+            <input type="text" id="editThumb" placeholder="Thumbnail URL">
+            <input type="text" id="editVideoUrl" placeholder="Video URL">
+            <input type="text" id="editDownloadUrl" placeholder="Download URL">
+            <input type="number" id="editViews" placeholder="Views Count">
+            <button id="saveEditBtn">💾 Save Changes</button>
         </div>
     </div>
 
     <script>
-        // Age Verification
-        let isAgeVerified = localStorage.getItem('ageVerified') === 'true';
-        
-        function showAgeVerification() {
-            if (!isAgeVerified) {
-                document.getElementById('ageVerificationModal').classList.remove('hidden');
-            } else {
-                document.getElementById('ageVerificationModal').classList.add('hidden');
-                showMainContent();
-            }
-        }
-        
-        function verifyAge(isOver18) {
-            if (isOver18) {
-                localStorage.setItem('ageVerified', 'true');
-                isAgeVerified = true;
-                document.getElementById('ageVerificationModal').classList.add('hidden');
-                showMainContent();
-                showToast("✅ Age verified! Welcome to Viral Street!");
-            } else {
-                document.getElementById('restrictedMessage').style.display = 'block';
-                setTimeout(() => {
-                    window.location.href = "https://www.google.com";
-                }, 3000);
-            }
-        }
-        
-        function showMainContent() {
-            document.getElementById('header').style.display = 'block';
-            document.getElementById('freeCoinsContainer').style.display = 'block';
-            document.getElementById('heroSection').style.display = 'block';
-            document.getElementById('categoriesContainer').style.display = 'flex';
-            document.getElementById('specialSections').style.display = 'block';
-            document.getElementById('sectionTitle').style.display = 'flex';
-            document.getElementById('moviesContainer').style.display = 'block';
-            
-            // Re-initialize any functions that need the DOM
-            if (typeof init === 'function') {
-                init();
-            }
-        }
-        
-        function showTermsModal() {
-            document.getElementById('termsModal').classList.add('active');
-        }
-        
-        function closeTermsModal() {
-            document.getElementById('termsModal').classList.remove('active');
-        }
-        
         const firebaseConfig = {
             apiKey: "AIzaSyDLloBWMeIB62CYFjxx_2DPicV9im6wFiI",
             authDomain: "viralstreet-c0128.firebaseapp.com",
@@ -612,658 +254,550 @@
         
         const app = firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
-        const auth = firebase.auth();
         
-        // Store button states in localStorage
-        let buttonStates = JSON.parse(localStorage.getItem('coinButtonsState')) || {};
+        let currentVideos = [], currentSlides = [], isAdminLoggedIn = false;
+        let currentAdLinks = [];
+        let currentMode = 'single';
+        let currentMembershipUrl = "";
+        let allUsers = [];
         
-        // Ad links from Firebase
-        let adLinks = {};
-        let adLinksMode = 'single';
+        function showToast(msg, isError = false) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.style.background = isError ? 'rgba(229,9,20,0.95)' : 'rgba(0,0,0,0.95)';
+            toast.innerHTML = `<i class="fas ${isError ? 'fa-exclamation-triangle' : 'fa-check-circle'}"></i> ${msg}`;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2800);
+        }
         
-        const defaultVideos = [
-            { title: "🔥 Premium Exclusive: Behind The Scenes", year: "2024", category: "premium", thumbnail: "https://images.pexels.com/photos/2264753/pexels-photo-2264753.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4", downloadUrl: "", views: 12500, isTrending: true, isUpcoming: false, isFeatured: false, requiresCoins: true },
-            { title: "🇮🇳 Indian Scandal: Exposed", year: "2024", category: "indian", thumbnail: "https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFunflies.mp4", downloadUrl: "", views: 8700, isTrending: true, isUpcoming: false, isFeatured: false, requiresCoins: true },
-            { title: "🇵🇰 Pakistani Scandal: Reality Check", year: "2024", category: "pakistani", thumbnail: "https://images.pexels.com/photos/3926126/pexels-photo-3926126.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4", downloadUrl: "", views: 5200, isTrending: false, isUpcoming: true, isFeatured: false, requiresCoins: true },
-            { title: "🎬 Trending: All Access", year: "2023", category: "all", thumbnail: "https://images.pexels.com/photos/3062543/pexels-photo-3062543.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4", downloadUrl: "", views: 34000, isTrending: true, isUpcoming: false, isFeatured: true, requiresCoins: true },
-            { title: "🇮🇳 Indian Scandal: Hidden Truth", year: "2024", category: "indian", thumbnail: "https://images.pexels.com/photos/3184298/pexels-photo-3184298.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4", downloadUrl: "", views: 6300, isTrending: false, isUpcoming: true, isFeatured: false, requiresCoins: true },
-            { title: "🔥 Premium Free: Best Moments", year: "2024", category: "premium", thumbnail: "https://images.pexels.com/photos/3184419/pexels-photo-3184419.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFunflies.mp4", downloadUrl: "", views: 15600, isTrending: false, isUpcoming: false, isFeatured: false, requiresCoins: true }
-        ];
+        function escapeHtml(text) { if (!text) return ''; const d = document.createElement('div'); d.textContent = text; return d.innerHTML; }
+        function formatViews(views) { if (!views) return "0 views"; if (views >= 1e6) return (views/1e6).toFixed(1)+"M"; if (views >= 1e3) return (views/1e3).toFixed(1)+"K"; return views+" views"; }
         
-        const defaultSliders = [
-            { imgUrl: "https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=1200", title: "Indian Scandals Exposed", desc: "Watch the biggest scandals of Indian cinema.", badge: "TRENDING", order: 1 },
-            { imgUrl: "https://images.pexels.com/photos/3926126/pexels-photo-3926126.jpeg?auto=compress&cs=tinysrgb&w=1200", title: "Pakistani Scandals", desc: "Uncovered truths from Lollywood.", badge: "HOT", order: 2 },
-            { imgUrl: "https://images.pexels.com/photos/2264753/pexels-photo-2264753.jpeg?auto=compress&cs=tinysrgb&w=1200", title: "Premium Free Content", desc: "All premium videos available for free.", badge: "FREE", order: 3 }
-        ];
-        
-        let currentVideos = [], currentSlides = [], currentCategory = "all", searchQuery = "", currentSlide = 0, autoSlideInterval;
-        let currentUser = null, currentUserCoins = 0, currentUsername = "";
-        let currentUserMembership = { active: false, expiresAt: null };
-        
-        // ==================== LOAD AD LINKS FROM FIREBASE ====================
-        async function loadAdLinks() {
+        // Format date safely - FIXED: Handles Firestore Timestamp correctly
+        function formatDate(date) {
+            if (!date) return 'N/A';
             try {
-                const docRef = db.collection("settings").doc("adLinks");
-                const doc = await docRef.get();
-                if (doc.exists) {
-                    adLinks = doc.data().links || {};
-                    adLinksMode = doc.data().mode || 'single';
+                // Handle Firestore Timestamp
+                let dateObj;
+                if (date && typeof date.toDate === 'function') {
+                    dateObj = date.toDate();
+                } else if (date && date.seconds) {
+                    dateObj = new Date(date.seconds * 1000);
+                } else if (date && typeof date === 'string') {
+                    dateObj = new Date(date);
+                } else if (date instanceof Date) {
+                    dateObj = date;
                 } else {
-                    // Default ad link
-                    const defaultLink = "https://www.profitablecpmratenetwork.com/mk65i19v?key=e9f9c255c82dc28e0a257559b623568d";
-                    for (let i = 1; i <= 10; i++) {
-                        adLinks[i] = defaultLink;
-                    }
-                    adLinksMode = 'single';
+                    return 'N/A';
                 }
-                console.log("Ad links loaded:", adLinks);
-            } catch (error) {
-                console.error("Error loading ad links:", error);
-                // Fallback default link
-                for (let i = 1; i <= 10; i++) {
-                    adLinks[i] = "https://www.profitablecpmratenetwork.com/mk65i19v?key=e9f9c255c82dc28e0a257559b623568d";
-                }
+                // Check if valid date
+                if (isNaN(dateObj.getTime())) return 'N/A';
+                return dateObj.toLocaleDateString();
+            } catch (e) {
+                return 'N/A';
             }
         }
         
-        // ==================== LOAD MEMBERSHIP URL FROM FIREBASE ====================
-        let membershipUrl = "https://www.profitablecpmratenetwork.com/mk65i19v?key=e9f9c255c82dc28e0a257559b623568d";
+        // Load all users and update stats
+        async function loadUsers() {
+            try {
+                const snapshot = await db.collection("users").get();
+                allUsers = [];
+                snapshot.forEach(doc => {
+                    const userData = doc.data();
+                    allUsers.push({ 
+                        id: doc.id, 
+                        ...userData,
+                        // Ensure lastLogin is properly formatted
+                        lastLogin: userData.lastLogin || null,
+                        createdAt: userData.createdAt || null
+                    });
+                });
+                updateStats();
+                renderUsersList();
+            } catch (error) {
+                console.error("Error loading users:", error);
+                showToast("Error loading users", true);
+            }
+        }
         
+        // Update statistics
+        function updateStats() {
+            const totalUsers = allUsers.length;
+            const activeMemberships = allUsers.filter(u => u.membershipActive === true).length;
+            
+            // Calculate total ad clicks
+            let totalAdClicks = 0;
+            allUsers.forEach(user => {
+                totalAdClicks += (user.adClicks || 0);
+            });
+            
+            document.getElementById('totalUsers').textContent = totalUsers;
+            document.getElementById('activeMemberships').textContent = activeMemberships;
+            document.getElementById('totalAdClicks').textContent = totalAdClicks;
+            
+            // Active users today - FIXED: Proper date comparison
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            const activeToday = allUsers.filter(u => {
+                if (u.lastLogin) {
+                    let loginDate;
+                    if (u.lastLogin && typeof u.lastLogin.toDate === 'function') {
+                        loginDate = u.lastLogin.toDate();
+                    } else if (u.lastLogin && u.lastLogin.seconds) {
+                        loginDate = new Date(u.lastLogin.seconds * 1000);
+                    } else if (u.lastLogin && typeof u.lastLogin === 'string') {
+                        loginDate = new Date(u.lastLogin);
+                    } else {
+                        return false;
+                    }
+                    loginDate.setHours(0, 0, 0, 0);
+                    return loginDate.getTime() === today.getTime();
+                }
+                return false;
+            }).length;
+            document.getElementById('activeUsers').textContent = activeToday;
+        }
+        
+        // Render users list
+        function renderUsersList(searchTerm = '') {
+            const container = document.getElementById('usersList');
+            if (!container) return;
+            
+            let filteredUsers = [...allUsers];
+            if (searchTerm) {
+                const term = searchTerm.toLowerCase();
+                filteredUsers = filteredUsers.filter(u => 
+                    (u.username && u.username.toLowerCase().includes(term)) || 
+                    (u.email && u.email.toLowerCase().includes(term))
+                );
+            }
+            
+            if (filteredUsers.length === 0) {
+                container.innerHTML = '<div style="text-align:center; padding:20px; color:#666;">No users found</div>';
+                return;
+            }
+            
+            container.innerHTML = filteredUsers.map(user => {
+                const membershipActive = user.membershipActive || false;
+                let membershipExpiry = 'Not active';
+                if (user.membershipExpiresAt) {
+                    try {
+                        let expiryDate;
+                        if (typeof user.membershipExpiresAt === 'string') {
+                            expiryDate = new Date(user.membershipExpiresAt);
+                        } else if (user.membershipExpiresAt && typeof user.membershipExpiresAt.toDate === 'function') {
+                            expiryDate = user.membershipExpiresAt.toDate();
+                        } else {
+                            expiryDate = new Date(user.membershipExpiresAt);
+                        }
+                        if (!isNaN(expiryDate.getTime())) {
+                            membershipExpiry = expiryDate.toLocaleDateString();
+                        }
+                    } catch(e) {
+                        membershipExpiry = 'Invalid date';
+                    }
+                }
+                const adClicks = user.adClicks || 0;
+                const coins = user.coins || 0;
+                const createdAt = formatDate(user.createdAt);
+                const lastLogin = formatDate(user.lastLogin);
+                
+                return `
+                    <div class="user-item">
+                        <div style="flex: 2;">
+                            <strong style="color: #e50914;">${escapeHtml(user.username)}</strong><br>
+                            <small style="color: #888;">Email: ${escapeHtml(user.email || 'N/A')}</small><br>
+                            <small style="color: #888;">Coins: ${coins} | Ad Clicks: ${adClicks}</small><br>
+                            <small style="color: #888;">Joined: ${createdAt} | Last Login: ${lastLogin}</small><br>
+                            <small style="color: ${membershipActive ? '#2ecc71' : '#888'};">Membership: ${membershipActive ? 'Active (Expires: ' + membershipExpiry + ')' : 'Inactive'}</small>
+                        </div>
+                        <div class="badges-group">
+                            ${!membershipActive ? 
+                                `<button class="activate-membership-btn" onclick="activateMembership('${user.id}', '${escapeHtml(user.username)}')"><i class="fas fa-crown"></i> Give 1 Month Membership</button>` : 
+                                `<button class="deactivate-membership-btn" onclick="deactivateMembership('${user.id}', '${escapeHtml(user.username)}')"><i class="fas fa-ban"></i> Remove Membership</button>`
+                            }
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        // Activate membership for user (1 month) - FIXED: Proper expiry date with better error handling
+        async function activateMembership(userId, username) {
+            try {
+                const expiryDate = new Date();
+                expiryDate.setMonth(expiryDate.getMonth() + 1);
+                expiryDate.setHours(23, 59, 59, 999);
+                
+                console.log("Activating membership for:", userId, "Expires:", expiryDate.toISOString());
+                
+                await db.collection("users").doc(userId).update({
+                    membershipActive: true,
+                    membershipExpiresAt: expiryDate.toISOString()
+                });
+                
+                showToast(`✅ 1 Month membership activated for ${username}! Expires on ${expiryDate.toLocaleDateString()}`);
+                await loadUsers();
+            } catch (error) {
+                console.error("Activation error:", error);
+                showToast(`❌ Failed to activate membership: ${error.message}`, true);
+            }
+        }
+        
+        // Deactivate membership
+        async function deactivateMembership(userId, username) {
+            try {
+                await db.collection("users").doc(userId).update({
+                    membershipActive: false,
+                    membershipExpiresAt: null
+                });
+                showToast(`❌ Membership deactivated for ${username}`);
+                await loadUsers();
+            } catch (error) {
+                console.error("Deactivation error:", error);
+                showToast(`❌ Failed to deactivate membership: ${error.message}`, true);
+            }
+        }
+        
+        // Search users
+        function searchUsers() {
+            const searchTerm = document.getElementById('searchUserInput').value.trim();
+            renderUsersList(searchTerm);
+        }
+        
+        // Membership URL Functions
         async function loadMembershipUrl() {
             try {
                 const docRef = db.collection("settings").doc("membership");
                 const doc = await docRef.get();
-                if (doc.exists && doc.data().url) {
-                    membershipUrl = doc.data().url;
+                if (doc.exists) {
+                    currentMembershipUrl = doc.data().url || "";
+                } else {
+                    currentMembershipUrl = "https://www.profitablecpmratenetwork.com/mk65i19v?key=e9f9c255c82dc28e0a257559b623568d";
+                    await docRef.set({ url: currentMembershipUrl });
                 }
-                console.log("Membership URL loaded:", membershipUrl);
+                document.getElementById('membershipUrl').value = currentMembershipUrl;
+                document.getElementById('currentMembershipUrlDisplay').textContent = currentMembershipUrl;
             } catch (error) {
                 console.error("Error loading membership URL:", error);
             }
         }
         
-        // Check and update membership status
-        function updateMembershipStatus() {
-            if (!currentUserMembership.active) {
-                document.getElementById('membershipBadge').style.display = 'none';
+        async function saveMembershipUrl() {
+            const url = document.getElementById('membershipUrl').value.trim();
+            if (!url) {
+                showToast('Please enter a valid URL!', true);
                 return;
             }
+            try {
+                await db.collection("settings").doc("membership").set({ url: url });
+                currentMembershipUrl = url;
+                document.getElementById('currentMembershipUrlDisplay').textContent = url;
+                showToast('✅ Membership URL saved! Frontend will update automatically.');
+            } catch (error) {
+                showToast('Error saving URL: ' + error.message, true);
+            }
+        }
+        
+        // Ad Links Functions
+        function switchMode(mode) {
+            currentMode = mode;
+            document.getElementById('singleLinkMode').style.display = mode === 'single' ? 'block' : 'none';
+            document.getElementById('multiLinkMode').style.display = mode === 'multi' ? 'block' : 'none';
             
-            if (currentUserMembership.expiresAt && new Date(currentUserMembership.expiresAt) < new Date()) {
-                // Membership expired
-                currentUserMembership.active = false;
-                currentUserMembership.expiresAt = null;
-                document.getElementById('membershipBadge').style.display = 'none';
-                // Update in Firestore
-                db.collection("users").doc(currentUser.uid).update({
-                    membershipActive: false,
-                    membershipExpiresAt: null
-                });
-                showToast("⚠️ Your premium membership has expired!", true);
-            } else {
-                document.getElementById('membershipBadge').style.display = 'inline-block';
-                // Show expiry info
-                if (currentUserMembership.expiresAt) {
-                    const expiryDate = new Date(currentUserMembership.expiresAt).toLocaleDateString();
-                    document.getElementById('membershipBadge').title = `Valid until ${expiryDate}`;
-                }
+            document.getElementById('singleModeBtn').classList.toggle('active', mode === 'single');
+            document.getElementById('multiModeBtn').classList.toggle('active', mode === 'multi');
+            
+            if (mode === 'multi') {
+                renderMultiLinkInputs();
             }
         }
         
-        // Coins Functions
-        function openCoinsModal() {
-            if (!currentUser) {
-                showToast("Please login to earn free coins!", true);
-                openLoginModal();
-                return;
-            }
-            renderCoinsButtons();
-            document.getElementById('coinsModal').classList.add('active');
-        }
-        
-        function closeCoinsModal() {
-            document.getElementById('coinsModal').classList.remove('active');
-        }
-        
-        function renderCoinsButtons() {
-            const container = document.getElementById('coinsButtonsGrid');
+        function renderMultiLinkInputs() {
+            const container = document.getElementById('adLinksGrid');
             container.innerHTML = '';
             for (let i = 1; i <= 10; i++) {
-                const buttonState = buttonStates[i] || { completed: false, nextAvailable: null };
-                const isCompleted = buttonState.completed;
-                const isAvailable = !isCompleted || (buttonState.nextAvailable && Date.now() >= buttonState.nextAvailable);
-                
-                // Get the ad link for this button
-                const adLink = adLinks[i] || "https://www.profitablecpmratenetwork.com/mk65i19v?key=e9f9c255c82dc28e0a257559b623568d";
-                
-                const btnDiv = document.createElement('div');
-                btnDiv.className = `coin-ad-btn ${isCompleted && !isAvailable ? 'completed' : ''}`;
-                btnDiv.innerHTML = `
-                    <i class="fas fa-ad"></i>
-                    <span>Watch Ad ${i}</span>
-                    <small>+3 Coins</small>
-                    ${isCompleted && !isAvailable ? `<small class="timer-text" data-timer="${buttonState.nextAvailable}">Available soon</small>` : ''}
+                const value = currentAdLinks[i] || '';
+                container.innerHTML += `
+                    <div>
+                        <label class="ad-link-label">Button ${i}</label>
+                        <input type="text" id="adLink_${i}" class="ad-link-input" placeholder="Ad link for button ${i}" value="${escapeHtml(value)}">
+                    </div>
                 `;
-                
-                if (!isCompleted || isAvailable) {
-                    btnDiv.onclick = () => watchAd(i, adLink);
-                }
-                container.appendChild(btnDiv);
             }
-            updateTimers();
         }
         
-        function updateTimers() {
-            const timerElements = document.querySelectorAll('.timer-text');
-            timerElements.forEach(el => {
-                const nextTime = parseInt(el.dataset.timer);
-                if (nextTime && nextTime > Date.now()) {
-                    const remaining = Math.ceil((nextTime - Date.now()) / 1000);
-                    const minutes = Math.floor(remaining / 60);
-                    const seconds = remaining % 60;
-                    el.textContent = `Available in ${minutes}m ${seconds}s`;
-                    if (remaining <= 0) {
-                        renderCoinsButtons();
+        async function loadAdLinks() {
+            try {
+                const docRef = db.collection("settings").doc("adLinks");
+                const doc = await docRef.get();
+                if (doc.exists) {
+                    currentAdLinks = doc.data().links || {};
+                    currentMode = doc.data().mode || 'single';
+                } else {
+                    const defaultLink = "https://www.profitablecpmratenetwork.com/mk65i19v?key=e9f9c255c82dc28e0a257559b623568d";
+                    currentAdLinks = {};
+                    for (let i = 1; i <= 10; i++) {
+                        currentAdLinks[i] = defaultLink;
                     }
+                    currentMode = 'single';
+                    await docRef.set({ links: currentAdLinks, mode: currentMode });
                 }
-            });
-            setTimeout(() => updateTimers(), 1000);
-        }
-        
-        async function watchAd(buttonId, adLink) {
-            const buttonState = buttonStates[buttonId] || { completed: false };
-            
-            if (buttonState.completed && buttonState.nextAvailable && Date.now() < buttonState.nextAvailable) {
-                showToast(`Please wait before watching this ad again!`, true);
-                return;
-            }
-            
-            showToast(`Opening ad... Please wait 10 seconds`, false);
-            
-            // Open ad in new tab
-            const adWindow = window.open(adLink, '_blank');
-            
-            // 10 seconds timer
-            let seconds = 10;
-            const toastInterval = setInterval(() => {
-                if (seconds > 0) {
-                    showToast(`Watch ad for ${seconds} more seconds...`, false);
-                    seconds--;
-                }
-            }, 1000);
-            
-            setTimeout(async () => {
-                clearInterval(toastInterval);
                 
-                if (adWindow) adWindow.close();
-                
-                // Add 3 coins to user AND increment ad clicks
-                const newCoins = currentUserCoins + 3;
-                await db.collection("users").doc(currentUser.uid).update({
-                    coins: newCoins,
-                    adClicks: firebase.firestore.FieldValue.increment(1)
-                });
-                currentUserCoins = newCoins;
-                updateCoinDisplay();
-                
-                // Mark button as completed with 10 minutes cooldown
-                buttonStates[buttonId] = {
-                    completed: true,
-                    nextAvailable: Date.now() + (10 * 60 * 1000)
-                };
-                localStorage.setItem('coinButtonsState', JSON.stringify(buttonStates));
-                
-                showToast(`✅ You earned 3 coins!`, false);
-                renderCoinsButtons();
-            }, 10000);
-        }
-        
-        function formatViews(views) { if (!views) return "0 views"; if (views >= 1e6) return (views/1e6).toFixed(1)+"M"; if (views >= 1e3) return (views/1e3).toFixed(1)+"K"; return views+" views"; }
-        function escapeHtml(t) { if (!t) return ''; const d=document.createElement('div'); d.textContent=t; return d.innerHTML; }
-        function showToast(msg, isError=false) { const t=document.createElement('div'); t.className='toast'; t.style.background=isError?'rgba(229,9,20,0.95)':'rgba(0,0,0,0.95)'; t.innerHTML=`<i class="fas ${isError?'fa-exclamation-triangle':'fa-check-circle'}"></i> ${msg}`; document.body.appendChild(t); setTimeout(()=>t.remove(),2800); }
-        
-        async function seedDefaultData() {
-            try {
-                const videosSnapshot = await db.collection("viral_videos").get();
-                if (videosSnapshot.empty) { for (const video of defaultVideos) { await db.collection("viral_videos").add({ ...video, createdAt: firebase.firestore.FieldValue.serverTimestamp() }); } }
-                const slidersSnapshot = await db.collection("viral_sliders").get();
-                if (slidersSnapshot.empty) { for (const slider of defaultSliders) { await db.collection("viral_sliders").add({ ...slider, createdAt: firebase.firestore.FieldValue.serverTimestamp() }); } }
-            } catch (error) { console.error("Seed error:", error); }
-        }
-        
-        function attachFirestoreListeners() {
-            db.collection("viral_videos").orderBy("createdAt", "desc").onSnapshot(snapshot=>{ currentVideos=[]; snapshot.forEach(doc=>{ currentVideos.push({id:doc.id,...doc.data()}); }); renderAllSections(); });
-            db.collection("viral_sliders").orderBy("order","asc").onSnapshot(snapshot=>{ currentSlides=[]; snapshot.forEach(doc=>{ currentSlides.push({id:doc.id,...doc.data()}); }); renderSlider(); if(currentSlides.length>0&&currentSlide>=currentSlides.length) currentSlide=0; updateSliderPosition(); if(currentSlides.length>0&&!autoSlideInterval) startAutoSlide(); });
-        }
-        
-        function renderAllSections() { 
-            renderVideos(); 
-            renderUpcomingTrending(); 
-        }
-        
-        function renderUpcomingTrending() {
-            const upcomingVideos = currentVideos.filter(v => v.isUpcoming === true);
-            const trendingVideos = currentVideos.filter(v => v.isTrending === true);
-            document.getElementById('upcomingGrid').innerHTML = upcomingVideos.length ? upcomingVideos.map(v=>renderMovieCard(v)).join('') : '<div class="empty-state" style="grid-column:1/-1"><i class="fas fa-clock fa-3x"></i><p>No upcoming videos</p></div>';
-            document.getElementById('trendingGrid').innerHTML = trendingVideos.length ? trendingVideos.map(v=>renderMovieCard(v)).join('') : '<div class="empty-state" style="grid-column:1/-1"><i class="fas fa-fire fa-3x"></i><p>No trending videos</p></div>';
-        }
-        
-        function renderMovieCard(video) {
-            let badgeClass='', badgeText='';
-            if(video.category==='premium'){ badgeClass='badge-premium'; badgeText='PREMIUM FREE'; }
-            else if(video.category==='indian'){ badgeClass='badge-indian'; badgeText='INDIAN'; }
-            else if(video.category==='pakistani'){ badgeClass='badge-pakistani'; badgeText='PAKISTANI'; }
-            else{ badgeClass='badge-all'; badgeText='ALL'; }
-            const hasDownloadUrl = video.downloadUrl && video.downloadUrl.trim() !== '';
-            let specialBadge = '';
-            if(video.isFeatured) specialBadge = '<div class="featured-badge"><i class="fas fa-star"></i> FEATURED</div>';
-            else if(video.isUpcoming) specialBadge = '<div class="upcoming-badge"><i class="fas fa-clock"></i> UPCOMING</div>';
-            else if(video.isTrending) specialBadge = '<div class="trending-badge"><i class="fas fa-fire"></i> TRENDING</div>';
-            return `<div class="movie-card ${video.isFeatured ? 'featured-card' : ''}" data-id="${video.id}"><div class="movie-thumbnail" onclick="handlePlay('${video.id}')"><div class="category-badge ${badgeClass}">${badgeText}</div>${specialBadge}<img src="${video.thumbnail}" alt="${video.title}" onerror="this.src='https://via.placeholder.com/300x450?text=No+Image'"><div class="movie-overlay"><div class="play-icon"><i class="fas fa-play"></i></div></div></div><div class="movie-info"><div class="movie-title" onclick="handlePlay('${video.id}')">${escapeHtml(video.title)}</div><div class="movie-meta"><span class="movie-year">${video.year||'2024'}</span></div><div class="movie-views"><i class="fas fa-eye"></i> ${formatViews(video.views||0)}</div><div class="public-buttons"><button class="play-now-btn" onclick="handlePlay('${video.id}')"><i class="fas fa-play"></i> Play Now</button><button class="download-btn" onclick="downloadVideo('${video.id}', ${hasDownloadUrl}, event)"><i class="fas fa-download"></i> Download</button></div></div></div>`;
-        }
-        
-        function renderVideos() {
-            let filtered = [...currentVideos];
-            if(currentCategory!=='all') filtered=filtered.filter(v=>v.category===currentCategory);
-            if(searchQuery) filtered=filtered.filter(v=>v.title && v.title.toLowerCase().includes(searchQuery.toLowerCase()));
-            const grid=document.getElementById('videosGrid');
-            if(filtered.length===0){ grid.innerHTML='<div class="empty-state"><i class="fas fa-film fa-3x"></i><p>No videos found</p></div>'; return; }
-            grid.innerHTML=filtered.map(v=>renderMovieCard(v)).join('');
-        }
-        
-        function renderSlider() {
-            const wrapper=document.getElementById('sliderWrapper');
-            if(currentSlides.length===0) wrapper.innerHTML='<div class="slide"><img src="https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=1200"><div class="slide-overlay"><div class="slide-badge">WELCOME</div><div class="slide-title">VIRAL STREET</div><div class="slide-desc">Watch exclusive scandal videos</div></div></div>';
-            else wrapper.innerHTML=currentSlides.map(s=>`<div class="slide"><img src="${s.imgUrl}" onerror="this.src='https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=1200'"><div class="slide-overlay"><span class="slide-badge"><i class="fas fa-fire"></i> ${s.badge||'FEATURED'}</span><div class="slide-title">${escapeHtml(s.title)}</div><div class="slide-desc">${escapeHtml(s.desc)}</div></div></div>`).join('');
-            updateSliderDots();
-        }
-        
-        function updateSliderDots(){ const dc=document.getElementById('sliderDots'); dc.innerHTML=''; for(let i=0;i<currentSlides.length;i++){ const d=document.createElement('div'); d.className='dot'+(i===currentSlide?' active':''); d.addEventListener('click',()=>goToSlide(i)); dc.appendChild(d); } }
-        function updateSliderPosition(){ const w=document.getElementById('sliderWrapper'); if(w&&currentSlides.length>0) w.style.transform=`translateX(-${currentSlide*100}%)`; document.querySelectorAll('.dot').forEach((d,i)=>{ d.classList.toggle('active',i===currentSlide); }); }
-        function nextSlide(){ if(currentSlides.length){ currentSlide=(currentSlide+1)%currentSlides.length; updateSliderPosition(); resetAutoSlide(); } }
-        function prevSlide(){ if(currentSlides.length){ currentSlide=(currentSlide-1+currentSlides.length)%currentSlides.length; updateSliderPosition(); resetAutoSlide(); } }
-        function goToSlide(i){ currentSlide=i; updateSliderPosition(); resetAutoSlide(); }
-        function startAutoSlide(){ autoSlideInterval=setInterval(nextSlide,5000); }
-        function resetAutoSlide(){ clearInterval(autoSlideInterval); startAutoSlide(); }
-        
-        async function incrementViews(vid){ try{ await db.collection("viral_videos").doc(vid).update({views:firebase.firestore.FieldValue.increment(1)}); }catch(e){ console.error(e); } }
-        
-        async function handlePlay(videoId) {
-            if (!currentUser) { showToast("Please login to watch videos!", true); openLoginModal(); return; }
-            const video = currentVideos.find(v => v.id === videoId);
-            if (!video) return;
-            
-            // Block playback if video is upcoming
-            if (video.isUpcoming === true) {
-                showToast("⏳ This video is UPCOMING! It will be available soon. Please check back later.", true);
-                return;
-            }
-            
-            // Check if user has active membership
-            updateMembershipStatus();
-            
-            if (currentUserMembership.active) {
-                // Membership active - no coins deducted
-                await incrementViews(videoId);
-                document.getElementById('modalTitle').innerHTML = video.title;
-                document.getElementById('videoSource').src = video.videoUrl;
-                document.getElementById('videoPlayer').load();
-                document.getElementById('videoModal').classList.add('active');
-                document.getElementById('videoPlayer').play().catch(e=>console.log('Autoplay blocked'));
-                showToast(`🎬 Playing "${video.title}" - Premium Membership active (0 coins deducted)`);
-            } else if (currentUserCoins >= 50) {
-                // Deduct 50 coins per video
-                await deductCoins(50);
-                await incrementViews(videoId);
-                document.getElementById('modalTitle').innerHTML = video.title;
-                document.getElementById('videoSource').src = video.videoUrl;
-                document.getElementById('videoPlayer').load();
-                document.getElementById('videoModal').classList.add('active');
-                document.getElementById('videoPlayer').play().catch(e=>console.log('Autoplay blocked'));
-                showToast(`🎬 Playing "${video.title}" - 50 coins deducted`);
-            } else {
-                document.getElementById('membershipModal').classList.add('active');
-            }
-        }
-        
-        async function deductCoins(amount) {
-            if (!currentUser) return false;
-            const newCoins = currentUserCoins - amount;
-            await db.collection("users").doc(currentUser.uid).update({ coins: newCoins });
-            currentUserCoins = newCoins;
-            updateCoinDisplay();
-            return true;
-        }
-        
-        function updateCoinDisplay() {
-            const coinEl = document.getElementById('coinAmount');
-            if (coinEl) coinEl.textContent = currentUserCoins;
-        }
-        
-        function downloadVideo(vid,hasUrl,e){ if(e) e.stopPropagation(); const v=currentVideos.find(v=>v.id===vid); if(v){ if(hasUrl&&v.downloadUrl){ window.open(v.downloadUrl,'_blank'); showToast(`🔗 Opening download link for "${v.title}"...`); } else if(v.videoUrl){ const a=document.createElement('a'); a.href=v.videoUrl; a.download=`${v.title}.mp4`; a.click(); showToast(`📥 Downloading "${v.title}"...`); } else showToast('❌ No download link available',true); } }
-        function closeModal(){ document.getElementById('videoPlayer').pause(); document.getElementById('videoModal').classList.remove('active'); }
-        function closeMembershipModal(){ document.getElementById('membershipModal').classList.remove('active'); }
-        
-        // Join Membership function - Opens admin set URL
-        async function joinMembership() {
-            try {
-                showToast("🔄 Loading membership link...", false);
-                await loadMembershipUrl();
-                closeMembershipModal();
-                window.open(membershipUrl, '_blank');
-                showToast("🔗 Opening membership page...", false);
+                document.getElementById('singleAdLink').value = currentAdLinks[1] || '';
+                switchMode(currentMode);
+                updateCurrentLinksList();
             } catch (error) {
-                console.error("Membership error:", error);
-                closeMembershipModal();
-                window.open("https://www.profitablecpmratenetwork.com/mk65i19v?key=e9f9c255c82dc28e0a257559b623568d", '_blank');
+                console.error("Error loading ad links:", error);
             }
         }
         
-        // Auth Functions
-        function openLoginModal() { document.getElementById('loginModal').classList.add('active'); }
-        function openSignupModal() { document.getElementById('signupModal').classList.add('active'); }
-        function closeAuthModals() { document.getElementById('loginModal').classList.remove('active'); document.getElementById('signupModal').classList.remove('active'); }
-        function switchToSignup() { closeAuthModals(); openSignupModal(); }
-        function switchToLogin() { closeAuthModals(); openLoginModal(); }
-        
-        function clearFieldErrors() {
-            document.getElementById('signupUsername').classList.remove('error');
-            document.getElementById('signupEmail').classList.remove('error');
+        async function saveSingleLink() {
+            const singleLink = document.getElementById('singleAdLink').value.trim();
+            if (!singleLink) {
+                showToast('Please enter a valid link!', true);
+                return;
+            }
+            
+            const newLinks = {};
+            for (let i = 1; i <= 10; i++) {
+                newLinks[i] = singleLink;
+            }
+            
+            await db.collection("settings").doc("adLinks").set({ links: newLinks, mode: 'single' });
+            currentAdLinks = newLinks;
+            currentMode = 'single';
+            showToast(`✅ Single link applied to all 10 buttons!`);
+            updateCurrentLinksList();
         }
         
-        // Signup function - No referral code, 100 coins on signup, includes lastLogin and adClicks fields
-        async function signup() {
-            const signupBtn = document.getElementById('signupBtn');
-            const usernameInput = document.getElementById('signupUsername');
-            const emailInput = document.getElementById('signupEmail');
-            const username = usernameInput.value.trim();
-            const email = emailInput.value.trim();
-            const password = document.getElementById('signupPassword').value;
-            
-            // ========== TERMS & CONDITIONS CHECK ==========
-            const termsChecked = document.getElementById('termsCheckbox').checked;
-            if (!termsChecked) {
-                showToast("❌ Please accept the Terms & Conditions to sign up!", true);
-                return;
-            }
-            // =============================================
-            
-            // ========== CAPTCHA CHECK ==========
-            const captchaResponse = hcaptcha.getResponse();
-            if (!captchaResponse) {
-                showToast("❌ Please complete the captcha verification!", true);
-                return;
-            }
-            // ===================================
-            
-            clearFieldErrors();
-            
-            if (!username || !email || !password) { showToast("Please fill all required fields!", true); return; }
-            if (username.includes(' ')) { showToast("Username cannot contain spaces!", true); usernameInput.classList.add('error'); return; }
-            if (password.length < 6) { showToast("Password must be at least 6 characters!", true); return; }
-            
-            signupBtn.disabled = true;
-            signupBtn.textContent = "Creating Account...";
-            
-            try {
-                const usernameCheck = await db.collection("users").where("username", "==", username).get();
-                if (!usernameCheck.empty) { 
-                    showToast("❌ Username already taken! Please choose another username.", true);
-                    usernameInput.classList.add('error');
-                    signupBtn.disabled = false;
-                    signupBtn.textContent = "Sign Up & Get 100 Coins!";
+        async function saveMultiLinks() {
+            const newLinks = {};
+            for (let i = 1; i <= 10; i++) {
+                const link = document.getElementById(`adLink_${i}`).value.trim();
+                if (!link) {
+                    showToast(`Please fill link for button ${i}!`, true);
                     return;
                 }
-                
-                const userCred = await auth.createUserWithEmailAndPassword(email, password);
-                
-                await db.collection("users").doc(userCred.user.uid).set({
-                    username: username,
-                    email: email,
-                    coins: 100,
-                    adClicks: 0,
-                    lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
-                    membershipActive: false,
-                    membershipExpiresAt: null,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    ageVerified: true,
-                    termsAccepted: true
-                });
-                
-                showToast(`✅ Welcome ${username}! You got 100 free coins!`);
-                closeAuthModals();
-                
-                // Reset captcha after successful signup
-                hcaptcha.reset();
-                document.getElementById('termsCheckbox').checked = false;
-                
-                usernameInput.value = '';
-                emailInput.value = '';
-                document.getElementById('signupPassword').value = '';
-                
-            } catch (error) {
-                console.error("Signup error:", error);
-                if (error.code === 'auth/email-already-in-use') {
-                    showToast("❌ Email already registered! Please login or use another email.", true);
-                    emailInput.classList.add('error');
-                } else if (error.code === 'auth/weak-password') {
-                    showToast("❌ Password too weak! Use at least 6 characters.", true);
-                } else if (error.code === 'auth/invalid-email') {
-                    showToast("❌ Invalid email address!", true);
-                    emailInput.classList.add('error');
-                } else {
-                    showToast(error.message, true);
-                }
-                // Reset captcha on error
-                hcaptcha.reset();
-            } finally {
-                signupBtn.disabled = false;
-                signupBtn.textContent = "Sign Up & Get 100 Coins!";
+                newLinks[i] = link;
+            }
+            
+            await db.collection("settings").doc("adLinks").set({ links: newLinks, mode: 'multi' });
+            currentAdLinks = newLinks;
+            currentMode = 'multi';
+            showToast(`✅ All 10 links saved successfully!`);
+            updateCurrentLinksList();
+        }
+        
+        function updateCurrentLinksList() {
+            const container = document.getElementById('currentLinksList');
+            if (!container) return;
+            
+            let html = '<div style="max-height: 200px; overflow-y: auto;">';
+            for (let i = 1; i <= 10; i++) {
+                const link = currentAdLinks[i] || 'Not set';
+                const shortLink = link.length > 50 ? link.substring(0, 50) + '...' : link;
+                html += `
+                    <div style="padding: 8px; border-bottom: 1px solid #333; font-size: 12px;">
+                        <strong style="color: #e50914;">Button ${i}:</strong> 
+                        <span style="color: #888; word-break: break-all;">${escapeHtml(shortLink)}</span>
+                    </div>
+                `;
+            }
+            html += '</div>';
+            container.innerHTML = html;
+        }
+        
+        function attachListeners() {
+            db.collection("viral_videos").orderBy("createdAt", "desc").onSnapshot(snapshot => {
+                currentVideos = [];
+                snapshot.forEach(doc => { currentVideos.push({ id: doc.id, ...doc.data() }); });
+                if (isAdminLoggedIn) renderAdminVideoList();
+            });
+            db.collection("viral_sliders").orderBy("order", "asc").onSnapshot(snapshot => {
+                currentSlides = [];
+                snapshot.forEach(doc => { currentSlides.push({ id: doc.id, ...doc.data() }); });
+                if (isAdminLoggedIn) renderAdminSliderList();
+            });
+        }
+        
+        async function addVideo() {
+            const title = document.getElementById('newTitle').value.trim();
+            const year = document.getElementById('newYear').value.trim();
+            const category = document.getElementById('newCategory').value;
+            const thumb = document.getElementById('newThumb').value.trim();
+            const videoUrl = document.getElementById('newVideoUrl').value.trim();
+            const downloadUrl = document.getElementById('newDownloadUrl').value.trim();
+            const views = parseInt(document.getElementById('newViews').value) || 0;
+            
+            if (!title || !year || !thumb || !videoUrl) {
+                showToast('Please fill all required fields!', true);
+                return;
+            }
+            
+            await db.collection("viral_videos").add({
+                title, year, category, thumbnail: thumb, videoUrl, downloadUrl: downloadUrl || '', views,
+                isTrending: false, isUpcoming: false, isFeatured: false,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            showToast(`✅ "${title}" added!`);
+            document.getElementById('newTitle').value = '';
+            document.getElementById('newYear').value = '';
+            document.getElementById('newThumb').value = '';
+            document.getElementById('newVideoUrl').value = '';
+            document.getElementById('newDownloadUrl').value = '';
+            document.getElementById('newViews').value = '0';
+        }
+        
+        async function updateVideoFlags(videoId, field, value) {
+            await db.collection("viral_videos").doc(videoId).update({ [field]: value });
+            const fieldNames = { isTrending: '🔥 Trending', isUpcoming: '📅 Upcoming', isFeatured: '⭐ Featured' };
+            showToast(`✅ ${fieldNames[field]} updated!`);
+        }
+        
+        async function deleteVideo(videoId) {
+            if (confirm('Delete this video?')) {
+                await db.collection("viral_videos").doc(videoId).delete();
+                showToast('🗑️ Video deleted!');
             }
         }
         
-        // Login function with Captcha verification and lastLogin update
+        function openEditModal(videoId) {
+            const video = currentVideos.find(v => v.id === videoId);
+            if (video) {
+                document.getElementById('editVideoId').value = videoId;
+                document.getElementById('editTitle').value = video.title;
+                document.getElementById('editYear').value = video.year;
+                document.getElementById('editCategory').value = video.category;
+                document.getElementById('editThumb').value = video.thumbnail;
+                document.getElementById('editVideoUrl').value = video.videoUrl;
+                document.getElementById('editDownloadUrl').value = video.downloadUrl || '';
+                document.getElementById('editViews').value = video.views || 0;
+                document.getElementById('editModal').classList.add('active');
+            }
+        }
+        
+        async function saveEditedVideo() {
+            const id = document.getElementById('editVideoId').value;
+            const updates = {
+                title: document.getElementById('editTitle').value,
+                year: document.getElementById('editYear').value,
+                category: document.getElementById('editCategory').value,
+                thumbnail: document.getElementById('editThumb').value,
+                videoUrl: document.getElementById('editVideoUrl').value,
+                downloadUrl: document.getElementById('editDownloadUrl').value || '',
+                views: parseInt(document.getElementById('editViews').value) || 0
+            };
+            await db.collection("viral_videos").doc(id).update(updates);
+            showToast('✅ Video updated!');
+            closeEditModal();
+        }
+        
+        function closeEditModal() { document.getElementById('editModal').classList.remove('active'); }
+        
+        async function addSlider() {
+            const imgUrl = document.getElementById('sliderImgUrl').value.trim();
+            const title = document.getElementById('sliderTitle').value.trim();
+            const desc = document.getElementById('sliderDesc').value.trim();
+            if (!imgUrl || !title || !desc) { showToast('Please fill all slider fields!', true); return; }
+            const count = (await db.collection("viral_sliders").get()).size;
+            await db.collection("viral_sliders").add({ imgUrl, title, desc, badge: "FEATURED", order: count, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+            showToast(`✅ Slider added!`);
+            document.getElementById('sliderImgUrl').value = '';
+            document.getElementById('sliderTitle').value = '';
+            document.getElementById('sliderDesc').value = '';
+        }
+        
+        async function deleteSlider(sliderId) {
+            if (confirm('Delete this slider?')) {
+                await db.collection("viral_sliders").doc(sliderId).delete();
+                showToast('Slider deleted');
+            }
+        }
+        
+        function renderAdminVideoList() {
+            const container = document.getElementById('adminVideoList');
+            if (!container) return;
+            if (currentVideos.length === 0) {
+                container.innerHTML = '<div style="text-align:center; padding:20px; color:#666;">No videos found. Add your first video!</div>';
+                return;
+            }
+            container.innerHTML = currentVideos.map(v => `
+                <div class="movie-item">
+                    <div class="movie-info">
+                        <strong>${escapeHtml(v.title)}</strong> (${v.year}) - ${v.category} <br>
+                        <small style="color:#888;">👁️ ${formatViews(v.views||0)}</small>
+                    </div>
+                    <div class="badges-group">
+                        <label class="badge-checkbox trending"><input type="checkbox" ${v.isTrending ? 'checked' : ''} onchange="updateVideoFlags('${v.id}','isTrending',this.checked)"> 🔥 Trending</label>
+                        <label class="badge-checkbox upcoming"><input type="checkbox" ${v.isUpcoming ? 'checked' : ''} onchange="updateVideoFlags('${v.id}','isUpcoming',this.checked)"> 📅 Upcoming</label>
+                        <label class="badge-checkbox featured"><input type="checkbox" ${v.isFeatured ? 'checked' : ''} onchange="updateVideoFlags('${v.id}','isFeatured',this.checked)"> ⭐ Featured (1st)</label>
+                        <button class="edit-btn" onclick="openEditModal('${v.id}')"><i class="fas fa-edit"></i> Edit</button>
+                        <button class="delete-btn" onclick="deleteVideo('${v.id}')"><i class="fas fa-trash"></i> Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function renderAdminSliderList() {
+            const container = document.getElementById('sliderListAdmin');
+            if (!container) return;
+            if (currentSlides.length === 0) {
+                container.innerHTML = '<div style="text-align:center; padding:20px; color:#666;">No sliders added. Add your first slider!</div>';
+                return;
+            }
+            container.innerHTML = currentSlides.map(s => `
+                <div class="slider-item">
+                    <span><strong>${escapeHtml(s.title)}</strong><br><small style="color:#888;">${s.imgUrl ? s.imgUrl.substring(0, 40) + '...' : ''}</small></span>
+                    <button class="delete-btn" onclick="deleteSlider('${s.id}')">Delete</button>
+                </div>
+            `).join('');
+        }
+        
         async function login() {
-            const loginBtn = document.getElementById('loginBtn');
-            const username = document.getElementById('loginUsername').value.trim();
-            const password = document.getElementById('loginPassword').value;
-            
-            // ========== CAPTCHA CHECK ==========
-            const captchaResponse = hcaptcha.getResponse();
-            if (!captchaResponse) {
-                showToast("❌ Please complete the captcha verification!", true);
-                return;
-            }
-            // ===================================
-            
-            if (!username || !password) { showToast("Please enter username and password!", true); return; }
-            
-            loginBtn.disabled = true;
-            loginBtn.textContent = "Logging in...";
-            
-            try {
-                const userQuery = await db.collection("users").where("username", "==", username).get();
-                if (userQuery.empty) { showToast("Username not found! Please sign up first.", true); loginBtn.disabled = false; loginBtn.textContent = "Login"; return; }
-                const userDoc = userQuery.docs[0];
-                const userData = userDoc.data();
-                const email = userData.email;
-                
-                await auth.signInWithEmailAndPassword(email, password);
-                
-                // Update lastLogin timestamp
-                await db.collection("users").doc(userDoc.id).update({
-                    lastLogin: firebase.firestore.FieldValue.serverTimestamp()
-                });
-                
-                showToast(`✅ Welcome back ${username}!`);
-                closeAuthModals();
-                
-                // Reset captcha after successful login
-                hcaptcha.reset();
-                
-                document.getElementById('loginUsername').value = '';
-                document.getElementById('loginPassword').value = '';
-                
-            } catch (error) {
-                console.error("Login error:", error);
-                if (error.code === 'auth/wrong-password') {
-                    showToast("❌ Invalid password! Please try again.", true);
-                } else if (error.code === 'auth/user-not-found') {
-                    showToast("❌ User not found! Please sign up.", true);
-                } else {
-                    showToast("❌ Login failed! Please check your credentials.", true);
-                }
-                // Reset captcha on error
-                hcaptcha.reset();
-            } finally {
-                loginBtn.disabled = false;
-                loginBtn.textContent = "Login";
-            }
-        }
-        
-        function forgotPassword() {
-            const email = prompt("Enter your registered email address to reset password:");
-            if (email && email.includes('@')) { 
-                auth.sendPasswordResetEmail(email).then(() => showToast("✅ Password reset email sent! Check your inbox.")).catch(() => showToast("❌ Email not found!", true)); 
-            } else if(email) {
-                showToast("❌ Please enter a valid email address!", true);
-            }
-        }
-        
-        function logout() { auth.signOut(); showToast("Logged out successfully!"); }
-        
-        auth.onAuthStateChanged(async (user) => {
-            if (user) {
-                const userDoc = await db.collection("users").doc(user.uid).get();
-                if (userDoc.exists) {
-                    currentUser = user;
-                    currentUsername = userDoc.data().username;
-                    currentUserCoins = userDoc.data().coins || 0;
-                    currentUserMembership = {
-                        active: userDoc.data().membershipActive || false,
-                        expiresAt: userDoc.data().membershipExpiresAt || null
-                    };
-                    document.getElementById('authButtons').style.display = 'none';
-                    document.getElementById('userInfo').style.display = 'flex';
-                    document.getElementById('userCoins').style.display = 'flex';
-                    document.getElementById('userName').textContent = currentUsername;
-                    document.getElementById('coinAmount').textContent = currentUserCoins;
-                    
-                    updateMembershipStatus();
-                    
-                    db.collection("users").doc(user.uid).onSnapshot(doc => {
-                        if (doc.exists) { 
-                            currentUserCoins = doc.data().coins || 0; 
-                            currentUserMembership = {
-                                active: doc.data().membershipActive || false,
-                                expiresAt: doc.data().membershipExpiresAt || null
-                            };
-                            document.getElementById('coinAmount').textContent = currentUserCoins;
-                            updateMembershipStatus();
-                        }
-                    });
-                }
-            } else {
-                currentUser = null;
-                document.getElementById('authButtons').style.display = 'flex';
-                document.getElementById('userInfo').style.display = 'none';
-                document.getElementById('userCoins').style.display = 'none';
-                document.getElementById('membershipBadge').style.display = 'none';
-            }
-        });
-        
-        function handleSearch(){ searchQuery=document.getElementById('searchInput').value; renderVideos(); }
-        
-        // Updated renderCategories - All Videos pehle rakha gaya
-        function renderCategories(){ 
-            const cats = [
-                { id: 'all', name: '📺 All Videos' },
-                { id: 'premium', name: '🔥 Premium Free' },
-                { id: 'indian', name: '🇮🇳 Indian Scandals' },
-                { id: 'pakistani', name: '🇵🇰 Pakistani Scandals' }
-            ]; 
-            document.getElementById('categoriesContainer').innerHTML = cats.map(c=>`<button class="cat-btn ${currentCategory===c.id?'active':''}" data-category="${c.id}">${c.name}</button>`).join(''); 
-            document.querySelectorAll('.cat-btn').forEach(btn=>{ 
-                btn.addEventListener('click',()=>{ 
-                    currentCategory=btn.dataset.category; 
-                    renderCategories(); 
-                    renderVideos(); 
-                    updateCategoryTitle();
-                    // Show/hide special sections based on category
-                    const specialSections = document.getElementById('specialSections');
-                    if (currentCategory === 'all') {
-                        specialSections.style.display = 'block';
-                        specialSections.classList.add('active');
-                        renderUpcomingTrending();
-                    } else {
-                        specialSections.style.display = 'none';
-                        specialSections.classList.remove('active');
-                    }
-                }); 
-            }); 
-        }
-        
-        function updateCategoryTitle(){ 
-            const titles={
-                all: '📺 All Videos',
-                premium:'🔥 Premium Free Videos',
-                indian:'🇮🇳 Indian Scandals',
-                pakistani:'🇵🇰 Pakistani Scandals'
-            }; 
-            document.getElementById('categoryTitle').innerHTML=titles[currentCategory]||'All Videos'; 
-        }
-        
-        document.getElementById('searchBtn').addEventListener('click',handleSearch);
-        document.getElementById('searchInput').addEventListener('keypress',(e)=>{ if(e.key==='Enter') handleSearch(); });
-        document.getElementById('prevSlide').addEventListener('click',prevSlide);
-        document.getElementById('nextSlide').addEventListener('click',nextSlide);
-        document.getElementById('videoModal').addEventListener('click',(e)=>{ if(e.target===document.getElementById('videoModal')) closeModal(); });
-        document.getElementById('logoBtn').addEventListener('click',()=>{ window.location.reload(); });
-        
-        window.playVideo = handlePlay;
-        window.closeModal = closeModal;
-        window.downloadVideo = downloadVideo;
-        window.openLoginModal = openLoginModal;
-        window.openSignupModal = openSignupModal;
-        window.switchToSignup = switchToSignup;
-        window.switchToLogin = switchToLogin;
-        window.login = login;
-        window.signup = signup;
-        window.logout = logout;
-        window.forgotPassword = forgotPassword;
-        window.closeMembershipModal = closeMembershipModal;
-        window.joinMembership = joinMembership;
-        window.handlePlay = handlePlay;
-        window.openCoinsModal = openCoinsModal;
-        window.closeCoinsModal = closeCoinsModal;
-        window.showTermsModal = showTermsModal;
-        window.closeTermsModal = closeTermsModal;
-        
-        const sC=document.querySelector('.slider-container'); let sX,drag=false;
-        if(sC){ sC.addEventListener('touchstart',(e)=>{ sX=e.touches[0].clientX; drag=true; }); sC.addEventListener('touchend',(e)=>{ if(!drag) return; const dx=e.changedTouches[0].clientX-sX; if(Math.abs(dx)>50) dx>0?prevSlide():nextSlide(); drag=false; }); }
-        
-        async function init(){ 
-            if (!isAgeVerified) {
-                showAgeVerification();
-                return;
-            }
-            await seedDefaultData(); 
-            await loadAdLinks();
-            await loadMembershipUrl();
-            attachFirestoreListeners(); 
-            renderCategories(); 
-            updateCategoryTitle(); 
-            // Refresh ad buttons every 30 seconds to get latest links
-            setInterval(async () => {
+            const password = document.getElementById('adminPassword').value;
+            if (password === 'admin123') {
+                isAdminLoggedIn = true;
+                document.getElementById('loginSection').style.display = 'none';
+                document.getElementById('adminSection').style.display = 'block';
                 await loadAdLinks();
-                if (document.getElementById('coinsModal').classList.contains('active')) {
-                    renderCoinsButtons();
-                }
-            }, 30000);
+                await loadMembershipUrl();
+                await loadUsers();
+                attachListeners();
+                showToast('✅ Admin access granted!');
+                
+                // Refresh users every 30 seconds
+                setInterval(async () => {
+                    await loadUsers();
+                }, 30000);
+            } else {
+                showToast('❌ Wrong password! (Use: admin123)', true);
+            }
         }
         
-        // Show age verification on page load
-        showAgeVerification();
+        // Event Listeners
+        document.getElementById('loginBtn').addEventListener('click', login);
+        document.getElementById('addVideoBtn').addEventListener('click', addVideo);
+        document.getElementById('addSliderBtn').addEventListener('click', addSlider);
+        document.getElementById('saveEditBtn').addEventListener('click', saveEditedVideo);
+        document.getElementById('adminPassword').addEventListener('keypress', (e) => { if (e.key === 'Enter') login(); });
+        document.getElementById('applySingleLinkBtn').addEventListener('click', saveSingleLink);
+        document.getElementById('saveMultiLinksBtn').addEventListener('click', saveMultiLinks);
+        document.getElementById('saveMembershipUrlBtn').addEventListener('click', saveMembershipUrl);
+        document.getElementById('searchUserBtn').addEventListener('click', searchUsers);
+        document.getElementById('refreshUsersBtn').addEventListener('click', () => loadUsers());
+        document.getElementById('searchUserInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') searchUsers(); });
+        
+        window.updateVideoFlags = updateVideoFlags;
+        window.deleteVideo = deleteVideo;
+        window.openEditModal = openEditModal;
+        window.deleteSlider = deleteSlider;
+        window.closeEditModal = closeEditModal;
+        window.switchMode = switchMode;
+        window.activateMembership = activateMembership;
+        window.deactivateMembership = deactivateMembership;
     </script>
 </body>
 </html>
