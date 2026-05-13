@@ -11,1159 +11,702 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-    <!-- hCaptcha Script -->
     <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+    <!-- Adsterra Native Banner Code -->
+    <script async="async" data-cfasync="false" src="https://pl29421924.profitablecpmratenetwork.com/3a1bf338471a5f8a1ad0b21b40e3b12b/invoke.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #0a0a0a; font-family: 'Inter', sans-serif; color: #ffffff; overflow-x: hidden; }
-        ::-webkit-scrollbar { width: 6px; height: 4px; }
+        body { background: #0a0a0a; font-family: 'Inter', sans-serif; color: #fff; overflow-x: hidden; }
+        ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #1a1a1a; }
         ::-webkit-scrollbar-thumb { background: #e50914; border-radius: 4px; }
         
-        .header { background: linear-gradient(180deg, rgba(0,0,0,0.98) 0%, rgba(0,0,0,0.8) 70%, transparent 100%); padding: 20px 40px; position: sticky; top: 0; z-index: 1000; transition: all 0.3s ease; }
+        .header { background: linear-gradient(180deg, rgba(0,0,0,0.98) 0%, rgba(0,0,0,0.8) 70%, transparent 100%); padding: 18px 40px; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(2px); }
         .header-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
         .viral-logo { text-decoration: none; display: flex; flex-direction: column; line-height: 0.9; cursor: pointer; }
-        .viral-text { font-family: 'Bebas Neue', 'Oswald', 'Impact', 'Arial Black', sans-serif; font-size: 52px; font-weight: 900; letter-spacing: 3px; color: #FFD700; text-shadow: 3px 3px 0px rgba(0,0,0,0.5), 0px 0px 15px rgba(255,215,0,0.4); display: inline-block; }
-        .street-text { font-family: 'Bebas Neue', 'Oswald', 'Impact', 'Arial Black', sans-serif; font-size: 52px; font-weight: 900; letter-spacing: 3px; color: #E50914; text-shadow: 2px 2px 0px rgba(0,0,0,0.5), 0px 0px 10px rgba(229,9,20,0.4); display: inline-block; margin-left: 8px; }
-        .logo-tagline { font-size: 11px; letter-spacing: 3px; color: #888; margin-top: 5px; font-weight: 500; }
+        .viral-text { font-family: 'Bebas Neue', 'Oswald', sans-serif; font-size: 52px; font-weight: 900; letter-spacing: 3px; color: #FFD700; text-shadow: 3px 3px 0 rgba(0,0,0,0.5); }
+        .street-text { font-family: 'Bebas Neue', 'Oswald', sans-serif; font-size: 52px; font-weight: 900; letter-spacing: 3px; color: #E50914; text-shadow: 2px 2px 0 rgba(0,0,0,0.5); margin-left: 8px; }
+        .logo-tagline { font-size: 11px; letter-spacing: 3px; color: #888; margin-top: 5px; }
+        .user-coins { background: rgba(0,0,0,0.75); border: 1px solid rgba(255,215,0,0.3); border-radius: 30px; padding: 8px 18px; display: flex; align-items: center; gap: 8px; backdrop-filter: blur(4px); }
+        .membership-badge { background: linear-gradient(135deg, #e50914, #b0070f); border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: bold; margin-left: 10px; }
+        .auth-btn { background: #E50914; border: none; color: white; padding: 8px 20px; border-radius: 30px; cursor: pointer; font-weight: 600; transition: transform 0.2s, background 0.2s; }
+        .auth-btn:hover { transform: scale(1.03); background: #ff1a1a; }
         
-        .user-area { display: flex; align-items: center; gap: 15px; }
-        .user-coins { background: rgba(0,0,0,0.75); border: 1px solid rgba(255,215,0,0.3); border-radius: 30px; padding: 8px 18px; display: flex; align-items: center; gap: 8px; }
-        .user-coins i { color: #FFD700; }
-        .user-coins span { font-weight: bold; color: #FFD700; }
-        .membership-badge { background: linear-gradient(135deg, #e50914, #b0070f); border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: bold; margin-left: 10px; display: inline-block; }
-        .auth-btn { background: #E50914; border: none; color: white; padding: 8px 20px; border-radius: 30px; cursor: pointer; font-weight: 600; transition: all 0.3s; }
-        .auth-btn:hover { transform: scale(1.05); background: #ff1a1a; }
-        .user-name { color: white; font-weight: 500; }
-        
-        /* Free Coins Circle Button */
         .free-coins-container { position: fixed; left: 20px; top: 50%; transform: translateY(-50%); z-index: 100; }
-        .free-coins-circle { width: 80px; height: 80px; background: linear-gradient(135deg, #FFD700, #FFA500); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 20px rgba(255,215,0,0.5); transition: all 0.3s ease; animation: float-circle 2s infinite; position: relative; }
-        .free-coins-circle:hover { transform: scale(1.1); box-shadow: 0 0 30px rgba(255,215,0,0.8); }
-        .free-coins-circle i { font-size: 28px; color: #fff; text-shadow: 0 2px 5px rgba(0,0,0,0.3); }
-        .free-coins-circle span { font-size: 12px; font-weight: bold; color: #fff; margin-top: 5px; }
-        @keyframes float-circle { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .free-coins-circle { width: 80px; height: 80px; background: linear-gradient(135deg, #FFD700, #FFA500); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 20px rgba(255,215,0,0.5); transition: transform 0.2s, box-shadow 0.2s; animation: float-circle 2s infinite; }
+        .free-coins-circle:hover { transform: scale(1.08); box-shadow: 0 0 30px rgba(255,215,0,0.8); }
+        @keyframes float-circle { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
         
-        /* 10 Buttons Modal */
-        .coins-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 6000; display: none; align-items: center; justify-content: center; }
+        .coins-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); z-index: 6000; display: none; align-items: center; justify-content: center; }
         .coins-modal.active { display: flex; }
-        .coins-container { background: linear-gradient(135deg, #151515 0%, #0a0a0a 100%); border-radius: 24px; padding: 30px; width: 90%; max-width: 500px; border: 1px solid rgba(229,9,20,0.3); text-align: center; }
-        .coins-container h3 { color: #FFD700; margin-bottom: 20px; font-size: 24px; }
-        .coins-container p { color: #888; margin-bottom: 25px; font-size: 14px; }
-        .coins-buttons-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 20px; }
-        .coin-ad-btn { background: linear-gradient(135deg, #2a2a2a, #1a1a1a); border: 1px solid rgba(255,215,0,0.3); border-radius: 12px; padding: 15px; cursor: pointer; transition: all 0.3s; text-align: center; }
-        .coin-ad-btn:hover:not(.completed) { transform: scale(1.05); border-color: #FFD700; background: linear-gradient(135deg, #3a3a3a, #2a2a2a); }
-        .coin-ad-btn.completed { opacity: 0.5; filter: grayscale(1); cursor: not-allowed; }
-        .coin-ad-btn.completed:hover { transform: none; }
-        .coin-ad-btn i { font-size: 24px; color: #FFD700; margin-bottom: 8px; display: block; }
-        .coin-ad-btn span { font-size: 14px; color: white; }
-        .coin-ad-btn small { font-size: 11px; color: #888; display: block; margin-top: 5px; }
-        .timer-text { color: #e50914; font-size: 12px; margin-top: 10px; }
-        .close-coins-modal { background: #e50914; border: none; color: white; padding: 12px 24px; border-radius: 30px; cursor: pointer; font-weight: 600; margin-top: 10px; }
+        .coins-container { background: linear-gradient(135deg, #151515, #0a0a0a); border-radius: 24px; padding: 30px; width: 90%; max-width: 500px; border: 1px solid rgba(229,9,20,0.3); text-align: center; }
+        .coins-buttons-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 15px; margin-bottom: 20px; }
+        .coin-ad-btn { background: linear-gradient(135deg, #2a2a2a, #1a1a1a); border: 1px solid rgba(255,215,0,0.3); border-radius: 12px; padding: 15px; cursor: pointer; transition: all 0.2s; }
+        .coin-ad-btn.completed { opacity: 0.5; filter: grayscale(0.8); cursor: not-allowed; }
+        .coin-ad-btn.limit-reached { opacity: 0.4; filter: grayscale(1); cursor: not-allowed; background: #1a1a1a; }
         
-        @media (max-width: 768px) {
-            .free-coins-circle { width: 60px; height: 60px; }
-            .free-coins-circle i { font-size: 22px; }
-            .free-coins-circle span { font-size: 10px; }
-            .coins-buttons-grid { gap: 10px; }
-            .coin-ad-btn { padding: 10px; }
-        }
-        
-        @media (max-width: 768px) { .viral-text, .street-text { font-size: 32px; letter-spacing: 1px; } .logo-tagline { font-size: 8px; } .user-area { gap: 8px; } .user-coins { padding: 5px 12px; font-size: 12px; } .auth-btn { padding: 5px 15px; font-size: 12px; } }
-        
-        .search-box { display: flex; align-items: center; background: rgba(0,0,0,0.75); border: 1px solid rgba(255,255,255,0.2); border-radius: 30px; padding: 8px 18px; transition: all 0.3s; }
-        .search-box:focus-within { border-color: #E50914; box-shadow: 0 0 8px rgba(229,9,20,0.3); }
-        .search-box input { background: transparent; border: none; padding: 8px; color: white; width: 250px; outline: none; font-size: 14px; }
-        .search-box button { background: transparent; border: none; color: white; cursor: pointer; transition: all 0.3s; }
-        .search-box button:hover { color: #E50914; }
-        
-        .hero-section { max-width: 100%; margin: 0 auto; position: relative; margin-top: -80px; }
-        .slider-container { position: relative; overflow: hidden; border-radius: 0; }
-        .slider-wrapper { display: flex; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); cursor: grab; }
-        .slide { min-width: 100%; position: relative; aspect-ratio: 16/9; }
+        .search-box { background: rgba(0,0,0,0.75); border: 1px solid rgba(255,255,255,0.2); border-radius: 30px; padding: 8px 18px; display: flex; gap: 5px; }
+        .search-box input { background: transparent; border: none; padding: 8px; color: white; width: 250px; outline: none; }
+        .hero-section { margin-top: -80px; }
+        .slider-container { overflow: hidden; position: relative; }
+        .slider-wrapper { display: flex; transition: transform 0.5s cubic-bezier(0.2,0.9,0.4,1.1); cursor: grab; }
+        .slide { min-width: 100%; aspect-ratio: 16/9; position: relative; }
         .slide img { width: 100%; height: 100%; object-fit: cover; }
-        .slide-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 50%, transparent 100%); padding: 80px 60px 40px; }
-        .slide-badge { display: inline-block; background: #E50914; padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; margin-bottom: 15px; text-transform: uppercase; }
-        .slide-title { font-size: 48px; font-weight: 800; margin-bottom: 15px; max-width: 60%; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
-        .slide-desc { font-size: 16px; color: #ddd; max-width: 50%; line-height: 1.5; }
-        .slider-nav button { position: absolute; top: 50%; transform: translateY(-50%); width: 45px; height: 45px; background: rgba(0,0,0,0.6); border: none; border-radius: 50%; color: white; cursor: pointer; transition: all 0.3s; z-index: 10; backdrop-filter: blur(4px); }
-        .slider-nav button:hover { background: #E50914; transform: translateY(-50%) scale(1.1); }
-        .slider-nav button:first-child { left: 20px; }
-        .slider-nav button:last-child { right: 20px; }
+        .slide-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, transparent 100%); padding: 60px 60px 30px; }
+        .slide-title { font-size: 48px; font-weight: 800; max-width: 60%; }
+        .slider-nav button { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.6); border: none; width: 45px; height: 45px; border-radius: 50%; color: white; cursor: pointer; z-index: 10; backdrop-filter: blur(4px); }
+        .slider-nav button:hover { background: #E50914; }
         .slider-dots { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 12px; z-index: 10; }
-        .dot { width: 10px; height: 10px; background: rgba(255,255,255,0.5); border-radius: 50%; cursor: pointer; transition: all 0.3s; }
+        .dot { width: 10px; height: 10px; background: rgba(255,255,255,0.5); border-radius: 50%; cursor: pointer; transition: 0.2s; }
         .dot.active { width: 30px; background: #E50914; border-radius: 10px; }
         
-        .categories { max-width: 1400px; margin: 30px auto 20px; padding: 0 40px; display: flex; gap: 15px; flex-wrap: wrap; overflow-x: auto; }
-        .cat-btn { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); padding: 8px 24px; border-radius: 30px; color: #fff; cursor: pointer; transition: all 0.3s; font-size: 14px; font-weight: 500; white-space: nowrap; }
-        .cat-btn:hover, .cat-btn.active { background: #E50914; border-color: #E50914; transform: scale(1.05); }
+        /* Top Banner Ad - 728x90 */
+        .top-ad-container { text-align: center; padding: 10px 20px; background: #0a0a0a; border-bottom: 1px solid rgba(229,9,20,0.3); margin-top: -80px; z-index: 99; position: relative; }
+        .top-ad-container iframe { max-width: 100%; }
+        
+        .categories { max-width: 1400px; margin: 30px auto 20px; padding: 0 40px; display: flex; gap: 15px; flex-wrap: wrap; }
+        .cat-btn { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); padding: 8px 24px; border-radius: 30px; cursor: pointer; transition: 0.2s; font-weight: 500; color: #ffffff; }
+        .cat-btn.active, .cat-btn:hover { background: #E50914; border-color: #E50914; transform: scale(1.03); color: #ffffff; }
+        
+        .stats-container { display: flex; justify-content: center; gap: 30px; margin-top: 30px; flex-wrap: wrap; }
+        .stat-circle { position: relative; width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, #1e1e1e, #0a0a0a); display: flex; align-items: center; justify-content: center; border: 2px solid #e50914; box-shadow: 0 0 20px rgba(229,9,20,0.3); transition: transform 0.3s; }
+        .stat-circle:hover { transform: scale(1.05); }
+        .stat-circle-inner { text-align: center; }
+        .stat-number { font-size: 24px; font-weight: 800; color: #e50914; }
+        .stat-label { font-size: 10px; color: #ccc; margin-top: 5px; letter-spacing: 0.5px; }
+        
+        .membership-popup-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 7000; display: none; align-items: center; justify-content: center; }
+        .membership-popup-modal.active { display: flex; }
+        .membership-popup-container { background: linear-gradient(135deg, #1a1a1a, #0a0a0a); border-radius: 24px; padding: 40px; max-width: 450px; width: 90%; text-align: center; border: 1px solid #e50914; box-shadow: 0 0 40px rgba(229,9,20,0.2); }
+        .membership-popup-container i { font-size: 60px; color: #e50914; margin-bottom: 20px; }
+        .membership-popup-container h3 { color: #FFD700; margin-bottom: 15px; font-size: 24px; }
+        .membership-popup-container p { color: #ccc; margin-bottom: 25px; line-height: 1.6; }
+        .price-strike { text-decoration: line-through; color: #888; font-size: 20px; }
+        .price-offer { color: #2ecc71; font-size: 32px; font-weight: bold; }
+        .telegram-btn { background: linear-gradient(135deg, #0088cc, #005f8c); border: none; padding: 14px 30px; border-radius: 40px; color: white; font-weight: 600; cursor: pointer; transition: all 0.3s; font-size: 16px; display: inline-flex; align-items: center; gap: 10px; }
+        .telegram-btn:hover { transform: scale(1.05); background: linear-gradient(135deg, #00a0e0, #0077b3); }
+        .close-popup-btn { background: rgba(255,255,255,0.1); border: 1px solid #333; padding: 10px 25px; border-radius: 30px; color: white; cursor: pointer; margin-top: 15px; transition: 0.2s; }
+        .close-popup-btn:hover { background: #e50914; border-color: #e50914; }
+        
+        .scroll-container { overflow-x: auto; overflow-y: hidden; white-space: nowrap; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: thin; padding-bottom: 10px; }
+        .scroll-container::-webkit-scrollbar { height: 5px; }
+        .scroll-container::-webkit-scrollbar-track { background: #1a1a1a; border-radius: 10px; }
+        .scroll-container::-webkit-scrollbar-thumb { background: #e50914; border-radius: 10px; }
+        .scroll-grid { display: inline-flex; gap: 20px; white-space: normal; }
+        .scroll-grid .movie-card { width: 200px; display: inline-block; vertical-align: top; }
+        @media (max-width: 768px) { .scroll-grid .movie-card { width: 160px; } }
+        
+        .pagination { display: flex; justify-content: center; gap: 12px; margin-top: 30px; margin-bottom: 20px; flex-wrap: wrap; }
+        .page-btn { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); padding: 10px 16px; border-radius: 30px; cursor: pointer; transition: 0.2s; font-weight: 500; color: white; }
+        .page-btn.active { background: #e50914; border-color: #e50914; }
+        .page-btn:hover:not(.active) { background: rgba(229,9,20,0.5); transform: scale(1.05); }
         
         .special-sections { max-width: 1400px; margin: 0 auto; padding: 0 40px; display: none; }
         .special-sections.active { display: block; }
-        .special-card { background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%); border-radius: 16px; padding: 20px; margin-bottom: 30px; border: 1px solid rgba(229,9,20,0.3); }
-        .special-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #e50914; }
-        .special-header i { font-size: 28px; color: #e50914; }
-        .special-header h2 { font-size: 24px; font-weight: 700; }
-        .special-header .badge-new { background: #e50914; color: white; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; margin-left: 10px; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
-        
-        .section-title { max-width: 1400px; margin: 40px auto 20px; padding: 0 40px; font-size: 24px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
-        .section-title i { color: #E50914; font-size: 28px; }
-        .section-title .badge { background: #E50914; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; margin-left: 10px; }
-        
+        .special-card { background: linear-gradient(135deg, #1a1a1a, #0d0d0d); border-radius: 16px; padding: 20px; margin-bottom: 30px; border: 1px solid rgba(229,9,20,0.3); }
+        .special-header { display: flex; align-items: center; gap: 12px; border-bottom: 2px solid #e50914; padding-bottom: 12px; margin-bottom: 20px; }
         .movies-container { max-width: 1400px; margin: 0 auto; padding: 0 40px 20px; }
         .movies-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 25px; }
-        
-        .movie-card { background: #151515; border-radius: 12px; overflow: hidden; transition: all 0.3s ease; cursor: pointer; position: relative; border: 1px solid rgba(255,255,255,0.05); }
-        .movie-card.featured-card { border: 2px solid #e50914; box-shadow: 0 0 20px rgba(229,9,20,0.3); transform: scale(1.02); }
-        .movie-card:hover { transform: translateY(-8px) scale(1.02); z-index: 10; box-shadow: 0 20px 35px rgba(0,0,0,0.6); border-color: #e50914; }
+        .movie-card { background: #151515; border-radius: 12px; overflow: hidden; transition: transform 0.25s, box-shadow 0.2s; cursor: pointer; border: 1px solid rgba(255,255,255,0.05); }
+        .movie-card:hover { transform: translateY(-6px) scale(1.01); box-shadow: 0 20px 30px rgba(0,0,0,0.5); border-color: #e50914; }
         .movie-thumbnail { position: relative; aspect-ratio: 2/3; overflow: hidden; }
-        .movie-thumbnail img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
-        .movie-card:hover .movie-thumbnail img { transform: scale(1.08); }
-        .movie-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; }
+        .movie-thumbnail img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+        .movie-card:hover .movie-thumbnail img { transform: scale(1.05); }
+        .movie-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s; }
         .movie-card:hover .movie-overlay { opacity: 1; }
-        .play-icon { width: 55px; height: 55px; background: #E50914; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: transform 0.3s; }
-        .play-icon i { font-size: 22px; margin-left: 3px; }
-        .play-icon:hover { transform: scale(1.15); }
+        .play-icon { width: 55px; height: 55px; background: #E50914; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
         .movie-info { padding: 14px; }
-        .movie-title { font-weight: 600; font-size: 14px; margin-bottom: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; }
-        .movie-meta { display: flex; justify-content: space-between; font-size: 12px; color: #b3b3b3; }
-        .movie-year { color: #b3b3b3; }
-        .movie-views { color: #e50914; font-size: 11px; margin-top: 4px; display: flex; align-items: center; gap: 4px; }
-        .movie-views i { font-size: 10px; }
-        .category-badge { position: absolute; top: 10px; right: 10px; padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: bold; z-index: 5; }
-        .badge-premium { background: linear-gradient(135deg, #f5af19, #f12711); color: white; }
-        .badge-indian { background: #ff9933; color: #000; }
-        .badge-pakistani { background: #01411c; color: white; }
-        .badge-all { background: #3498db; color: white; }
-        .featured-badge { position: absolute; top: 10px; left: 10px; background: #e50914; color: white; padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: bold; z-index: 5; animation: pulse 1.5s infinite; }
-        .upcoming-badge { position: absolute; top: 10px; left: 10px; background: #f39c12; color: white; padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: bold; z-index: 5; }
-        .trending-badge { position: absolute; top: 10px; left: 10px; background: #2ecc71; color: white; padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: bold; z-index: 5; }
-        
+        .movie-title { font-weight: 600; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .public-buttons { display: flex; gap: 10px; margin-top: 10px; }
-        .play-now-btn, .download-btn { flex: 1; padding: 8px 0; border-radius: 30px; font-size: 12px; font-weight: 600; cursor: pointer; text-align: center; transition: all 0.2s; border: none; }
+        .play-now-btn, .download-btn { flex:1; padding: 8px 0; border-radius: 30px; font-size: 12px; font-weight: 600; text-align: center; cursor: pointer; border: none; }
         .play-now-btn { background: #E50914; color: white; }
-        .play-now-btn:hover { background: #ff1a1a; transform: scale(1.02); }
         .download-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; }
-        .download-btn:hover { background: #E50914; border-color: #E50914; }
+        .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #000000dd; color: white; padding: 12px 28px; border-radius: 40px; z-index: 4000; animation: fadeOut 2.5s forwards; border-left: 4px solid #E50914; backdrop-filter: blur(8px); }
+        @keyframes fadeOut { 0% { opacity:0; transform: translateX(-50%) translateY(20px); } 15% { opacity:1; transform: translateX(-50%) translateY(0); } 85% { opacity:1; } 100% { opacity:0; visibility: hidden; } }
         
-        .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.95); color: white; padding: 12px 28px; border-radius: 40px; z-index: 4000; animation: fadeInOut 2.5s ease; border-left: 4px solid #E50914; font-size: 14px; }
-        @keyframes fadeInOut { 0% { opacity: 0; transform: translateX(-50%) translateY(20px); } 15% { opacity: 1; transform: translateX(-50%) translateY(0); } 85% { opacity: 1; } 100% { opacity: 0; transform: translateX(-50%) translateY(20px); } }
-        .empty-state { text-align: center; padding: 60px; color: #666; }
+        .modal, .auth-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.97); z-index: 3000; display: none; align-items: center; justify-content: center; }
+        .modal.active, .auth-modal.active { display: flex; }
+        .modal-content { background: #151515; border-radius: 20px; max-width: 1000px; width: 90%; overflow: hidden; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: #0a0a0a; border-bottom: 1px solid #2a2a2a; }
+        .close-modal-btn { background: rgba(255,255,255,0.1); border: none; width: 36px; height: 36px; border-radius: 50%; color: white; font-size: 20px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
+        .close-modal-btn:hover { background: #e50914; transform: scale(1.05); }
         
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); z-index: 3000; display: none; align-items: center; justify-content: center; }
-        .modal.active { display: flex; }
-        .modal-content { width: 90%; max-width: 1000px; background: #151515; border-radius: 16px; overflow: hidden; }
-        .modal-header { padding: 18px 22px; display: flex; justify-content: space-between; align-items: center; background: #0a0a0a; border-bottom: 1px solid #2a2a2a; }
-        .modal-header h3 { color: #E50914; }
-        .close-modal { background: rgba(255,255,255,0.1); border: none; width: 36px; height: 36px; border-radius: 50%; color: white; cursor: pointer; transition: all 0.3s; }
-        .close-modal:hover { background: #E50914; }
-        .video-container { background: #000; }
-        .video-container video { width: 100%; display: block; }
+        /* Professional Video Container with Overlay Ad */
+        .video-wrapper { position: relative; width: 100%; background: #000; }
+        .video-wrapper video { width: 100%; display: block; }
+        /* Disable long press context menu on video */
+        .video-wrapper video {
+            pointer-events: auto;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        .video-overlay-ad { position: absolute; bottom: 15px; right: 15px; background: rgba(0,0,0,0.75); border-radius: 8px; padding: 5px; backdrop-filter: blur(8px); z-index: 10; border: 1px solid rgba(229,9,20,0.4); max-width: 300px; }
+        .video-overlay-ad iframe, .video-overlay-ad div { max-width: 100%; border-radius: 6px; }
         
-        /* Auth Modals Styles */
-        .auth-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 5000; display: none; align-items: center; justify-content: center; }
-        .auth-modal.active { display: flex; }
-        .auth-container { background: linear-gradient(135deg, #151515 0%, #0a0a0a 100%); border-radius: 24px; padding: 40px; width: 90%; max-width: 450px; border: 1px solid rgba(229,9,20,0.3); }
-        .auth-header { text-align: center; margin-bottom: 30px; }
-        .auth-header h2 { color: #e50914; font-size: 28px; margin-bottom: 10px; }
-        .auth-header p { color: #888; font-size: 14px; }
-        .auth-input { width: 100%; background: #2a2a2a; border: 1px solid #3d3d3d; border-radius: 12px; padding: 14px 16px; color: white; margin-bottom: 16px; outline: none; font-size: 14px; transition: all 0.3s; }
-        .auth-input:focus { border-color: #e50914; }
-        .auth-input.error { border-color: #e50914; animation: shake 0.3s ease; }
-        @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
-        .auth-btn-full { width: 100%; background: #e50914; border: none; color: white; padding: 14px; border-radius: 12px; font-weight: 600; cursor: pointer; transition: all 0.3s; font-size: 16px; }
-        .auth-btn-full:hover { transform: scale(1.02); background: #ff1a1a; }
-        .auth-btn-full:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-        .auth-switch { text-align: center; margin-top: 20px; color: #888; font-size: 14px; }
-        .auth-switch a { color: #e50914; cursor: pointer; text-decoration: none; }
-        .forgot-link { text-align: right; margin-top: -10px; margin-bottom: 15px; }
-        .forgot-link a { color: #e50914; font-size: 12px; cursor: pointer; text-decoration: none; }
+        /* Fullscreen me overlay ad hide */
+        .video-wrapper:fullscreen .video-overlay-ad { display: none !important; }
+        .video-wrapper:-webkit-full-screen .video-overlay-ad { display: none !important; }
+        .video-wrapper:-moz-full-screen .video-overlay-ad { display: none !important; }
+        .video-wrapper:fullscreen { width: 100vw; height: 100vh; }
+        .video-wrapper:fullscreen video { width: 100%; height: 100%; object-fit: contain; }
         
-        /* Terms & Conditions Checkbox Style */
-        .terms-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 15px 0;
-            font-size: 13px;
-            color: #ccc;
-        }
-        .terms-container input {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-            margin: 0;
-        }
-        .terms-container a {
-            color: #e50914;
-            text-decoration: none;
-            font-weight: 600;
-        }
-        .terms-container a:hover {
-            text-decoration: underline;
-        }
+        .auth-container { background: linear-gradient(135deg, #151515, #0a0a0a); border-radius: 24px; padding: 40px; width: 90%; max-width: 450px; border: 1px solid #e5091433; position: relative; }
+        .auth-close-btn { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.1); border: none; width: 32px; height: 32px; border-radius: 50%; color: white; font-size: 18px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
+        .auth-close-btn:hover { background: #e50914; transform: scale(1.05); }
+        .auth-input { width: 100%; background: #2a2a2a; border: 1px solid #3d3d3d; border-radius: 12px; padding: 14px; color: white; margin-bottom: 16px; }
+        .auth-btn-full { width: 100%; background: #e50914; border: none; padding: 14px; border-radius: 12px; font-weight: 600; color: white; cursor: pointer; transition: 0.2s; }
+        .age-verification-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 10000; display: flex; align-items: center; justify-content: center; }
+        .age-verification-modal.hidden { display: none; }
+        .insufficient-coins-modal .modal-content { max-width: 400px; text-align: center; padding: 20px; }
         
-        /* Age Verification Modal */
-        .age-verification-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.98);
-            z-index: 10000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .age-verification-modal.hidden {
-            display: none;
-        }
-        .age-verification-container {
-            background: linear-gradient(135deg, #151515, #0a0a0a);
-            border-radius: 24px;
-            padding: 40px;
-            width: 90%;
-            max-width: 500px;
-            text-align: center;
-            border: 1px solid rgba(229,9,20,0.5);
-            box-shadow: 0 0 40px rgba(229,9,20,0.2);
-        }
-        .age-verification-container h2 {
-            color: #e50914;
-            font-size: 28px;
-            margin-bottom: 15px;
-        }
-        .age-verification-container p {
-            color: #ccc;
-            font-size: 14px;
-            margin-bottom: 30px;
-            line-height: 1.6;
-        }
-        .age-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-        }
-        .age-btn {
-            padding: 14px 30px;
-            border: none;
-            border-radius: 40px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 16px;
-        }
-        .age-btn.over {
-            background: #e50914;
-            color: white;
-        }
-        .age-btn.over:hover {
-            transform: scale(1.05);
-            background: #ff1a1a;
-        }
-        .age-btn.under {
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(229,9,20,0.5);
-            color: #e50914;
-        }
-        .age-btn.under:hover {
-            background: rgba(229,9,20,0.2);
-            transform: scale(1.02);
-        }
-        .restricted-message {
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(229,9,20,0.1);
-            border-radius: 12px;
-            color: #e50914;
-            font-size: 14px;
-        }
+        /* Coins Modal Bottom Ad */
+        .coins-bottom-ad { margin-top: 20px; padding-top: 15px; border-top: 1px solid rgba(255,215,0,0.2); text-align: center; }
+        .coins-bottom-ad iframe, .coins-bottom-ad div { max-width: 100%; margin: 0 auto; }
         
-        /* Captcha Container Styling */
-        .captcha-container {
-            margin: 15px 0;
-            display: flex;
-            justify-content: center;
-        }
-        .h-captcha {
-            transform: scale(0.95);
-        }
-        @media (max-width: 768px) {
-            .h-captcha {
-                transform: scale(0.85);
-            }
-        }
-        
-        /* Stats Circles Animation */
-        .stats-container { display: flex; justify-content: center; gap: 40px; margin-top: 30px; flex-wrap: wrap; }
-        .stat-circle { position: relative; width: 120px; height: 120px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(229,9,20,0.1); border: 2px solid #e50914; animation: pulse-circle 2s infinite; }
-        @keyframes pulse-circle { 0% { box-shadow: 0 0 0 0 rgba(229,9,20,0.4); transform: scale(1); } 50% { box-shadow: 0 0 0 15px rgba(229,9,20,0); transform: scale(1.05); } 100% { box-shadow: 0 0 0 0 rgba(229,9,20,0); transform: scale(1); } }
-        .stat-circle-inner { text-align: center; }
-        .stat-number { font-size: 28px; font-weight: 800; color: #e50914; }
-        .stat-label { font-size: 11px; color: #888; margin-top: 5px; }
-        
-        .membership-modal .modal-content { max-width: 400px; text-align: center; }
-        .membership-price { font-size: 48px; font-weight: 800; color: #e50914; margin: 20px 0; }
-        .join-btn { background: #e50914; color: white; border: none; padding: 15px 30px; border-radius: 40px; font-weight: 600; cursor: pointer; margin-top: 20px; }
-        
-        @media (max-width: 768px) {
-            .header { padding: 15px 20px; }
-            .header-content { flex-direction: column; }
+        @media (max-width:768px) {
+            .header { padding: 12px 20px; }
+            .viral-text, .street-text { font-size: 32px; }
             .slide-title { font-size: 24px; max-width: 100%; }
-            .slide-desc { font-size: 12px; max-width: 100%; }
-            .slide-overlay { padding: 40px 20px 20px; }
-            .categories, .section-title, .movies-container, .special-sections { padding: 0 20px; }
-            .movies-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; }
-            .stats-container { gap: 20px; }
-            .stat-circle { width: 90px; height: 90px; }
-            .stat-number { font-size: 20px; }
-            .age-buttons { flex-direction: column; gap: 12px; }
-            .age-btn { padding: 12px; }
+            .movies-grid { grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 15px; }
+            .free-coins-circle { width: 60px; height: 60px; }
+            .stat-circle { width: 80px; height: 80px; }
+            .stat-number { font-size: 18px; }
+            .video-overlay-ad { max-width: 200px; bottom: 10px; right: 10px; }
         }
-        @media (min-width: 1200px) { .movies-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 28px; } }
     </style>
 </head>
 <body>
-    <!-- Age Verification Modal -->
     <div id="ageVerificationModal" class="age-verification-modal">
-        <div class="age-verification-container">
-            <i class="fas fa-exclamation-triangle" style="font-size: 60px; color: #e50914; margin-bottom: 20px;"></i>
-            <h2>Age Verification Required</h2>
-            <p>This website contains adult content, including scandals, sensitive material, and 18+ exclusive videos. You must be 18 years or older to access this site.</p>
-            <div class="age-buttons">
-                <button class="age-btn over" onclick="verifyAge(true)">I AM 18+</button>
-                <button class="age-btn under" onclick="verifyAge(false)">I AM UNDER 18</button>
+        <div class="age-verification-container" style="background:linear-gradient(135deg,#151515,#0a0a0a);border-radius:24px;padding:40px;max-width:500px;text-align:center;border:1px solid #e50914;">
+            <i class="fas fa-exclamation-triangle" style="font-size:60px;color:#e50914;"></i>
+            <h2 style="color:#e50914;">Age Verification</h2>
+            <p>Adult content, scandals, 18+ exclusive videos. You must be 18+ to continue.</p>
+            <div style="display:flex;gap:20px;justify-content:center;margin-top:20px;">
+                <button class="age-btn over" style="background:#e50914;color:white;padding:12px 30px;border:none;border-radius:40px;font-weight:bold;cursor:pointer;" onclick="verifyAge(true)">I AM 18+</button>
+                <button class="age-btn under" style="background:rgba(255,255,255,0.1);border:1px solid #e50914;color:#e50914;padding:12px 30px;border-radius:40px;cursor:pointer;" onclick="verifyAge(false)">UNDER 18</button>
             </div>
-            <div id="restrictedMessage" class="restricted-message" style="display: none;">
-                <i class="fas fa-ban"></i> Sorry, you cannot enter this site because you are under 18. Please come back when you're older. Thank you!
-            </div>
+            <div id="restrictedMessage" style="display:none;color:#e50914;margin-top:15px;"></div>
         </div>
     </div>
 
-    <div class="header" id="header" style="display: none;">
+    <!-- Top Banner Ad 728x90 -->
+    <div class="top-ad-container" id="topAdContainer" style="display:none;">
+        <script>
+            atOptions = {
+                'key' : '00bee7d1573eac9b2bd23e196a210573',
+                'format' : 'iframe',
+                'height' : 90,
+                'width' : 728,
+                'params' : {}
+            };
+        </script>
+        <script src="https://www.highperformanceformat.com/00bee7d1573eac9b2bd23e196a210573/invoke.js"></script>
+    </div>
+
+    <div class="header" id="header" style="display:none;">
         <div class="header-content">
-            <a class="viral-logo" style="text-decoration: none;" id="logoBtn">
-                <div><span class="viral-text">VIRAL</span><span class="street-text">STREET</span></div>
-                <div class="logo-tagline">🔥 SCANDALS EXPOSED 🔥</div>
-            </a>
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Search videos...">
-                <button id="searchBtn"><i class="fas fa-search"></i></button>
-            </div>
-            <div class="user-area" id="userArea">
-                <div class="user-coins" id="userCoins" style="display: none;">
-                    <i class="fas fa-coins"></i>
-                    <span id="coinAmount">0</span>
-                </div>
-                <div id="authButtons">
-                    <button class="auth-btn" onclick="openLoginModal()"><i class="fas fa-sign-in-alt"></i> Login</button>
-                    <button class="auth-btn" onclick="openSignupModal()"><i class="fas fa-user-plus"></i> Signup</button>
-                </div>
-                <div id="userInfo" style="display: none;">
-                    <span class="user-name" id="userName"></span>
-                    <span class="membership-badge" id="membershipBadge" style="display: none;"><i class="fas fa-crown"></i> Premium Member</span>
-                    <button class="auth-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
-                </div>
-            </div>
+            <a class="viral-logo" id="logoBtn"><span class="viral-text">VIRAL</span><span class="street-text">STREET</span><div class="logo-tagline">🔥 SCANDALS EXPOSED 🔥</div></a>
+            <div class="search-box"><input type="text" id="searchInput" placeholder="Search videos..."><button id="searchBtn"><i class="fas fa-search"></i></button></div>
+            <div class="user-area"><div class="user-coins" id="userCoins"><i class="fas fa-coins"></i><span id="coinAmount">0</span></div>
+            <div id="authButtons"><button class="auth-btn" onclick="openLoginModal()"><i class="fas fa-sign-in-alt"></i> Login</button><button class="auth-btn" onclick="openSignupModal()"><i class="fas fa-user-plus"></i> Signup</button></div>
+            <div id="userInfo" style="display:none;"><span class="user-name" id="userName"></span><span class="membership-badge" id="membershipBadge" style="display:none;"><i class="fas fa-crown"></i> Premium</span><button class="auth-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button></div></div>
         </div>
     </div>
 
-    <!-- Free Coins Floating Circle -->
-    <div class="free-coins-container" style="display: none;" id="freeCoinsContainer">
-        <div class="free-coins-circle" onclick="openCoinsModal()">
-            <i class="fas fa-coins"></i>
-            <span>Get Free Coins</span>
-        </div>
-    </div>
-
-    <!-- 10 Buttons Modal -->
+    <div class="free-coins-container" id="freeCoinsContainer" style="display:none;"><div class="free-coins-circle" onclick="openCoinsModal()"><i class="fas fa-coins"></i><span>Free Coins</span></div></div>
     <div class="coins-modal" id="coinsModal">
         <div class="coins-container">
-            <h3><i class="fas fa-gift"></i> Get Free Coins</h3>
-            <p>Watch 10 seconds ad to earn 3 coins per button</p>
-            <div class="coins-buttons-grid" id="coinsButtonsGrid">
-                <!-- 10 buttons will be generated here -->
+            <h3>📺 Earn Free Coins</h3>
+            <p>Watch 10 sec ad → +10 coins each</p>
+            <div class="coins-buttons-grid" id="coinsButtonsGrid"></div>
+            <!-- Bottom Ad in Coins Modal -->
+            <div class="coins-bottom-ad">
+                <div id="container-3a1bf338471a5f8a1ad0b21b40e3b12b"></div>
             </div>
-            <button class="close-coins-modal" onclick="closeCoinsModal()">Close</button>
+            <button class="close-coins-modal" style="background:#e50914;padding:10px 20px;border:none;border-radius:30px;color:white;cursor:pointer;margin-top:15px;" onclick="closeCoinsModal()">Close</button>
         </div>
     </div>
 
-    <div class="hero-section" style="display: none;" id="heroSection">
-        <div class="slider-container">
-            <div class="slider-wrapper" id="sliderWrapper"></div>
-            <div class="slider-nav"><button id="prevSlide"><i class="fas fa-chevron-left"></i></button><button id="nextSlide"><i class="fas fa-chevron-right"></i></button></div>
-            <div class="slider-dots" id="sliderDots"></div>
+    <div class="modal" id="insufficientCoinsModal"><div class="modal-content" style="max-width:400px;text-align:center;padding:30px;"><i class="fas fa-coins" style="font-size:60px;color:#FFD700;"></i><h3>Insufficient Coins</h3><p>You need 50 coins to watch this video.</p><div style="display:flex;flex-direction:column;gap:12px;"><button class="get-coins-btn" style="background:#2ecc71;border:none;padding:12px;border-radius:40px;color:white;font-weight:bold;" onclick="getFreeCoins()">Get Free Coins</button><button class="membership-redirect-btn" style="background:#e50914;border:none;padding:12px;border-radius:40px;color:white;" onclick="redirectToMembership()">Join Membership</button></div><button class="close-modal" style="margin-top:15px;background:#333;border:none;padding:8px;border-radius:30px;color:white;" onclick="closeInsufficientModal()">Close</button></div></div>
+
+    <div class="membership-popup-modal" id="membershipPopupModal">
+        <div class="membership-popup-container">
+            <i class="fab fa-telegram-plane"></i>
+            <h3>Join Premium Membership</h3>
+            <p>Get Unlimited Access for a Month</p>
+            <div style="margin: 15px 0;"><span class="price-strike">₹1200</span><span class="price-offer"> ₹350</span><span style="color:#888;">/month</span></div>
+            <p>If you want to Join Membership, Please Contact Us On Telegram and Send Message <strong>"Join Membership"</strong></p>
+            <button class="telegram-btn" onclick="openTelegram()"><i class="fab fa-telegram"></i> Send Message</button><br>
+            <button class="close-popup-btn" onclick="closeMembershipPopup()">Close</button>
         </div>
     </div>
 
-    <div class="categories" id="categoriesContainer" style="display: none;"></div>
-
-    <!-- Special Sections - Only visible when category is 'all' -->
-    <div class="special-sections" id="specialSections" style="display: none;">
-        <div class="special-card">
-            <div class="special-header">
-                <i class="fas fa-calendar-alt"></i>
-                <h2>Upcoming Virals <span class="badge-new">COMING SOON</span></h2>
-            </div>
-            <div class="movies-grid" id="upcomingGrid"></div>
-        </div>
-        
-        <div class="special-card">
-            <div class="special-header">
-                <i class="fas fa-chart-line"></i>
-                <h2>Trending Now <span class="badge-new">HOT 🔥</span></h2>
-            </div>
-            <div class="movies-grid" id="trendingGrid"></div>
-        </div>
+    <div class="hero-section" id="heroSection" style="display:none;"><div class="slider-container"><div class="slider-wrapper" id="sliderWrapper"></div><div class="slider-nav"><button id="prevSlide"><i class="fas fa-chevron-left"></i></button><button id="nextSlide"><i class="fas fa-chevron-right"></i></button></div><div class="slider-dots" id="sliderDots"></div></div></div>
+    <div class="categories" id="categoriesContainer" style="display:none;"></div>
+    
+    <div class="special-sections" id="specialSections" style="display:none;">
+        <div class="special-card"><div class="special-header"><i class="fas fa-calendar-alt"></i><h2>Upcoming Virals</h2></div><div class="scroll-container" id="upcomingScrollContainer"><div class="scroll-grid" id="upcomingGrid"></div></div></div>
+        <div class="special-card"><div class="special-header"><i class="fas fa-chart-line"></i><h2>Trending Now 🔥</h2></div><div class="scroll-container" id="trendingScrollContainer"><div class="scroll-grid" id="trendingGrid"></div></div></div>
     </div>
+    
+    <div class="section-title" id="sectionTitle" style="display:none; max-width:1400px; margin:30px auto 10px; padding:0 40px; font-size:24px; font-weight:700;"><i class="fas fa-video"></i> <span id="categoryTitle">All Videos</span></div>
+    <div class="movies-container" id="moviesContainer" style="display:none;"><div class="movies-grid" id="videosGrid"></div><div class="pagination" id="paginationContainer"></div></div>
 
-    <div class="section-title" id="sectionTitle" style="display: none;"><i class="fas fa-video"></i><span id="categoryTitle">All Videos</span><span class="badge">Watch Now</span></div>
-    <div class="movies-container" id="moviesContainer" style="display: none;"><div class="movies-grid" id="videosGrid"></div></div>
-
+    <!-- Video Modal with Professional Overlay Ad (Bottom Right) -->
     <div class="modal" id="videoModal">
         <div class="modal-content">
-            <div class="modal-header"><h3 id="modalTitle">Now Playing</h3><button class="close-modal" onclick="closeModal()"><i class="fas fa-times"></i></button></div>
-            <div class="video-container"><video id="videoPlayer" controls playsinline><source id="videoSource" src=""></video></div>
-        </div>
-    </div>
-
-    <!-- Membership Modal -->
-    <div class="modal" id="membershipModal">
-        <div class="modal-content membership-modal">
-            <div class="modal-header"><h3><i class="fas fa-crown"></i> Membership Required</h3><button class="close-modal" onclick="closeMembershipModal()"><i class="fas fa-times"></i></button></div>
-            <div style="padding: 30px; text-align: center;">
-                <i class="fas fa-coins" style="font-size: 60px; color: #FFD700; margin-bottom: 20px;"></i>
-                <p style="margin-bottom: 20px;">You don't have enough coins to watch this video!</p>
-                <div class="membership-price">₹350 <span style="font-size: 14px;">/ month</span></div>
-                <button class="join-btn" onclick="joinMembership()">Join Membership <i class="fas fa-arrow-right"></i></button>
-                <p style="margin-top: 20px; font-size: 12px; color: #888;">Get unlimited access to all premium content</p>
+            <div class="modal-header">
+                <h3 id="modalTitle">Now Playing</h3>
+                <button class="close-modal-btn" onclick="closeVideoModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="video-wrapper" id="videoWrapper">
+                <video id="videoPlayer" controls controlsList="nodownload" oncontextmenu="return false;" playsinline>
+                    <source id="videoSource" src="">
+                </video>
+                <!-- Overlay Ad - Bottom Right (300x250) -->
+                <div class="video-overlay-ad" id="videoOverlayAd">
+                    <script>
+                        atOptions = {
+                            'key' : 'f07f1717236fcdf6f425433aa47201be',
+                            'format' : 'iframe',
+                            'height' : 250,
+                            'width' : 300,
+                            'params' : {}
+                        };
+                    </script>
+                    <script src="https://www.highperformanceformat.com/f07f1717236fcdf6f425433aa47201be/invoke.js"></script>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Login Modal with Captcha -->
+    <!-- Auth Modals -->
     <div class="auth-modal" id="loginModal">
         <div class="auth-container">
-            <div class="auth-header">
-                <h2><i class="fas fa-sign-in-alt"></i> Welcome Back!</h2>
-                <p>Login to continue watching</p>
-            </div>
+            <button class="auth-close-btn" onclick="closeLoginModal()"><i class="fas fa-times"></i></button>
+            <h2 style="color:#e50914; margin-bottom:20px;">Welcome Back</h2>
             <input type="text" id="loginUsername" class="auth-input" placeholder="Username">
             <input type="password" id="loginPassword" class="auth-input" placeholder="Password">
-            <div class="forgot-link"><a onclick="forgotPassword()">Forgot Password?</a></div>
-            <!-- hCaptcha Widget for Login -->
-            <div class="captcha-container">
-                <div class="h-captcha" data-sitekey="061257be-07c2-4968-b10e-bd0a880a6936" data-theme="dark"></div>
-            </div>
+            <div class="captcha-container"><div class="h-captcha" data-sitekey="061257be-07c2-4968-b10e-bd0a880a6936" data-theme="dark"></div></div>
             <button class="auth-btn-full" id="loginBtn" onclick="login()">Login</button>
-            <div class="auth-switch">Don't have an account? <a onclick="switchToSignup()">Sign Up</a></div>
+            <div class="auth-switch" style="margin-top:15px; text-align:center;">New? <a onclick="switchToSignup()" style="color:#e50914;cursor:pointer;">Sign Up</a> <a onclick="forgotPassword()" style="float:right;color:#e50914;cursor:pointer;font-size:12px;">Forgot?</a></div>
         </div>
     </div>
-
-    <!-- Signup Modal with Captcha and Terms (Removed Referral Code) -->
+    
     <div class="auth-modal" id="signupModal">
         <div class="auth-container">
-            <div class="auth-header">
-                <h2><i class="fas fa-user-plus"></i> Create Account</h2>
-                <p>Join Viral Street today!</p>
-            </div>
-            <input type="text" id="signupUsername" class="auth-input" placeholder="Username * (no spaces)">
-            <input type="email" id="signupEmail" class="auth-input" placeholder="Email Address *">
-            <input type="password" id="signupPassword" class="auth-input" placeholder="Password * (min 6 chars)">
-            
-            <!-- Terms & Conditions Checkbox -->
-            <div class="terms-container">
-                <input type="checkbox" id="termsCheckbox">
-                <label>I agree to the <a href="#" onclick="showTermsModal(); return false;">Terms & Conditions</a> and confirm that I am 18+ years old.</label>
-            </div>
-            
-            <!-- hCaptcha Widget for Signup -->
-            <div class="captcha-container">
-                <div class="h-captcha" data-sitekey="061257be-07c2-4968-b10e-bd0a880a6936" data-theme="dark"></div>
-            </div>
-            <button class="auth-btn-full" id="signupBtn" onclick="signup()">Sign Up & Get 100 Coins!</button>
-            <div class="auth-switch">Already have an account? <a onclick="switchToLogin()">Login</a></div>
-            
-            <!-- Stats Circles -->
-            <div class="stats-container">
-                <div class="stat-circle">
-                    <div class="stat-circle-inner">
-                        <div class="stat-number">1.2M</div>
-                        <div class="stat-label">Daily Viewers</div>
-                    </div>
-                </div>
-                <div class="stat-circle">
-                    <div class="stat-circle-inner">
-                        <div class="stat-number">369k</div>
-                        <div class="stat-label">Membership Holders</div>
-                    </div>
-                </div>
-                <div class="stat-circle">
-                    <div class="stat-circle-inner">
-                        <div class="stat-number">1.3M</div>
-                        <div class="stat-label">Total Signups</div>
-                    </div>
-                </div>
-            </div>
+            <button class="auth-close-btn" onclick="closeSignupModal()"><i class="fas fa-times"></i></button>
+            <h2 style="color:#e50914; margin-bottom:20px;">Create Account</h2>
+            <input type="text" id="signupUsername" placeholder="Username (no spaces)" class="auth-input">
+            <input type="email" id="signupEmail" placeholder="Email" class="auth-input">
+            <input type="password" id="signupPassword" placeholder="Password (min 6 chars)" class="auth-input">
+            <div class="terms-container" style="display:flex;gap:8px;margin:10px 0;"><input type="checkbox" id="termsCheckbox"><label>I agree to <a href="#" onclick="showTermsModal();return false;">Terms & 18+</a></label></div>
+            <div class="captcha-container"><div class="h-captcha" data-sitekey="061257be-07c2-4968-b10e-bd0a880a6936" data-theme="dark"></div></div>
+            <button class="auth-btn-full" id="signupBtn" onclick="signup()">Sign Up & Get 100 Coins</button>
+            <div class="auth-switch" style="margin-top:15px; text-align:center;">Have account? <a onclick="switchToLogin()" style="color:#e50914;cursor:pointer;">Login</a></div>
+            <div class="stats-container"><div class="stat-circle"><div class="stat-circle-inner"><div class="stat-number">1.2M</div><div class="stat-label">Viewers</div></div></div><div class="stat-circle"><div class="stat-circle-inner"><div class="stat-number">369k</div><div class="stat-label">Members</div></div></div><div class="stat-circle"><div class="stat-circle-inner"><div class="stat-number">1.3M</div><div class="stat-label">Signups</div></div></div></div>
         </div>
     </div>
-
-    <!-- Terms & Conditions Modal -->
-    <div class="auth-modal" id="termsModal">
-        <div class="auth-container" style="max-width: 500px; max-height: 80vh; overflow-y: auto;">
-            <div class="auth-header">
-                <h2><i class="fas fa-file-contract"></i> Terms & Conditions</h2>
-                <p>Please read our terms carefully</p>
-            </div>
-            <div style="text-align: left; font-size: 13px; color: #ccc; line-height: 1.6;">
-                <h3 style="color: #e50914; margin-top: 10px;">1. Age Restriction</h3>
-                <p>By accessing this website, you confirm that you are at least 18 years of age or the age of majority in your jurisdiction. This website contains adult-oriented content including scandals, sensitive material, and exclusive 18+ videos.</p>
-                
-                <h3 style="color: #e50914; margin-top: 15px;">2. Content Warning</h3>
-                <p>VIRAL STREET contains content that may be considered offensive, explicit, or inappropriate for minors. Viewer discretion is strongly advised.</p>
-                
-                <h3 style="color: #e50914; margin-top: 15px;">3. User Conduct</h3>
-                <p>You agree not to share, distribute, or reproduce any content from this website without prior written permission. All videos and images are property of their respective owners.</p>
-                
-                <h3 style="color: #e50914; margin-top: 15px;">4. Account Responsibility</h3>
-                <p>You are responsible for maintaining the confidentiality of your account credentials. You agree to accept responsibility for all activities that occur under your account.</p>
-                
-                <h3 style="color: #e50914; margin-top: 15px;">5. Coin System</h3>
-                <p>Coins are virtual currency used within the platform. They have no real-world value and cannot be exchanged for cash. Coins are earned by watching ads or through signup bonuses. Each video playback costs 50 coins.</p>
-                
-                <h3 style="color: #e50914; margin-top: 15px;">6. Membership</h3>
-                <p>Premium membership allows unlimited video access without coin deduction. Membership is valid for 30 days from activation and automatically expires. Admin can activate membership from backend.</p>
-                
-                <h3 style="color: #e50914; margin-top: 15px;">7. Termination</h3>
-                <p>We reserve the right to terminate accounts that violate our terms, engage in suspicious activity, or abuse the coin system.</p>
-                
-                <h3 style="color: #e50914; margin-top: 15px;">8. Privacy Policy</h3>
-                <p>We collect basic information such as email addresses and usernames. Your data is stored securely and will not be sold to third parties.</p>
-                
-                <h3 style="color: #e50914; margin-top: 15px;">9. Updates to Terms</h3>
-                <p>We may update these terms from time to time. Continued use of the site constitutes acceptance of the updated terms.</p>
-            </div>
-            <button class="auth-btn-full" onclick="closeTermsModal()" style="margin-top: 20px;">I Understand & Accept</button>
-        </div>
-    </div>
+    
+    <div class="auth-modal" id="termsModal"><div class="auth-container" style="max-height:70vh;overflow:auto;"><h2>Terms & 18+ Policy</h2><p style="font-size:13px;">By signing up you confirm you are 18+. Content includes adult scandals. Coins have no cash value. Membership is non-refundable. Admin can terminate accounts that abuse system.</p><button class="auth-btn-full" onclick="closeTermsModal()">Accept</button></div></div>
 
     <script>
-        // Age Verification
-        let isAgeVerified = localStorage.getItem('ageVerified') === 'true';
+        // ========== LOCAL COIN SYSTEM WITH DAILY LIMIT ==========
+        let localCoins = parseInt(localStorage.getItem('localCoins')) || 0;
+        let dailyCoinsEarned = parseInt(localStorage.getItem('dailyCoinsEarned')) || 0;
+        let lastResetDate = localStorage.getItem('lastResetDate') || '';
+        const DAILY_LIMIT = 300;
         
-        function showAgeVerification() {
-            if (!isAgeVerified) {
-                document.getElementById('ageVerificationModal').classList.remove('hidden');
-            } else {
-                document.getElementById('ageVerificationModal').classList.add('hidden');
-                showMainContent();
-            }
+        let today = new Date().toDateString();
+        if(lastResetDate !== today){
+            dailyCoinsEarned = 0;
+            localStorage.setItem('dailyCoinsEarned', dailyCoinsEarned);
+            localStorage.setItem('lastResetDate', today);
         }
         
-        function verifyAge(isOver18) {
-            if (isOver18) {
-                localStorage.setItem('ageVerified', 'true');
-                isAgeVerified = true;
-                document.getElementById('ageVerificationModal').classList.add('hidden');
-                showMainContent();
-                showToast("✅ Age verified! Welcome to Viral Street!");
-            } else {
-                document.getElementById('restrictedMessage').style.display = 'block';
-                setTimeout(() => {
-                    window.location.href = "https://www.google.com";
-                }, 3000);
-            }
+        let currentUser = null;
+        let currentUserMembership = { active: false };
+        let anonymousId = localStorage.getItem('anonymousId');
+        if(!anonymousId){
+            anonymousId = 'anon_' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('anonymousId', anonymousId);
         }
         
-        function showMainContent() {
-            document.getElementById('header').style.display = 'block';
-            document.getElementById('freeCoinsContainer').style.display = 'block';
-            document.getElementById('heroSection').style.display = 'block';
-            document.getElementById('categoriesContainer').style.display = 'flex';
-            document.getElementById('specialSections').style.display = 'block';
-            document.getElementById('sectionTitle').style.display = 'flex';
-            document.getElementById('moviesContainer').style.display = 'block';
-            
-            if (typeof init === 'function') {
-                init();
-            }
-        }
+        function updateLocalCoinUI() { document.getElementById('coinAmount').innerText = localCoins; }
+        updateLocalCoinUI();
         
-        function showTermsModal() {
-            document.getElementById('termsModal').classList.add('active');
-        }
+        let currentPage = 1;
+        let itemsPerPage = 10;
         
-        function closeTermsModal() {
-            document.getElementById('termsModal').classList.remove('active');
-        }
+        // Download counter for 5 ads before download (using localStorage to persist)
+        let downloadAdCounts = JSON.parse(localStorage.getItem('downloadAdCounts')) || {};
         
-        const firebaseConfig = {
-            apiKey: "AIzaSyDLloBWMeIB62CYFjxx_2DPicV9im6wFiI",
-            authDomain: "viralstreet-c0128.firebaseapp.com",
-            projectId: "viralstreet-c0128",
-            storageBucket: "viralstreet-c0128.firebasestorage.app",
-            messagingSenderId: "436825511768",
-            appId: "1:436825511768:web:1456b6b669c2b00222f72d",
-            measurementId: "G-N02FDH8E8W"
-        };
-        
-        const app = firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-        const auth = firebase.auth();
-        
-        let buttonStates = JSON.parse(localStorage.getItem('coinButtonsState')) || {};
-        let adLinks = {};
-        let adLinksMode = 'single';
-        
-        const defaultVideos = [
-            { title: "🔥 Premium Exclusive: Behind The Scenes", year: "2024", category: "premium", thumbnail: "https://images.pexels.com/photos/2264753/pexels-photo-2264753.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4", downloadUrl: "", views: 12500, isTrending: true, isUpcoming: false, isFeatured: false, requiresCoins: true },
-            { title: "🇮🇳 Indian Scandal: Exposed", year: "2024", category: "indian", thumbnail: "https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFunflies.mp4", downloadUrl: "", views: 8700, isTrending: true, isUpcoming: false, isFeatured: false, requiresCoins: true },
-            { title: "🇵🇰 Pakistani Scandal: Reality Check", year: "2024", category: "pakistani", thumbnail: "https://images.pexels.com/photos/3926126/pexels-photo-3926126.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4", downloadUrl: "", views: 5200, isTrending: false, isUpcoming: true, isFeatured: false, requiresCoins: true },
-            { title: "🎬 Trending: All Access", year: "2023", category: "all", thumbnail: "https://images.pexels.com/photos/3062543/pexels-photo-3062543.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4", downloadUrl: "", views: 34000, isTrending: true, isUpcoming: false, isFeatured: true, requiresCoins: true },
-            { title: "🇮🇳 Indian Scandal: Hidden Truth", year: "2024", category: "indian", thumbnail: "https://images.pexels.com/photos/3184298/pexels-photo-3184298.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4", downloadUrl: "", views: 6300, isTrending: false, isUpcoming: true, isFeatured: false, requiresCoins: true },
-            { title: "🔥 Premium Free: Best Moments", year: "2024", category: "premium", thumbnail: "https://images.pexels.com/photos/3184419/pexels-photo-3184419.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFunflies.mp4", downloadUrl: "", views: 15600, isTrending: false, isUpcoming: false, isFeatured: false, requiresCoins: true }
-        ];
-        
-        const defaultSliders = [
-            { imgUrl: "https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=1200", title: "Indian Scandals Exposed", desc: "Watch the biggest scandals of Indian cinema.", badge: "TRENDING", order: 1 },
-            { imgUrl: "https://images.pexels.com/photos/3926126/pexels-photo-3926126.jpeg?auto=compress&cs=tinysrgb&w=1200", title: "Pakistani Scandals", desc: "Uncovered truths from Lollywood.", badge: "HOT", order: 2 },
-            { imgUrl: "https://images.pexels.com/photos/2264753/pexels-photo-2264753.jpeg?auto=compress&cs=tinysrgb&w=1200", title: "Premium Free Content", desc: "All premium videos available for free.", badge: "FREE", order: 3 }
-        ];
-        
-        let currentVideos = [], currentSlides = [], currentCategory = "all", searchQuery = "", currentSlide = 0, autoSlideInterval;
-        let currentUser = null, currentUserCoins = 0, currentUsername = "";
-        let currentUserMembership = { active: false, expiresAt: null };
-        
-        async function loadAdLinks() {
-            try {
-                const docRef = db.collection("settings").doc("adLinks");
-                const doc = await docRef.get();
-                if (doc.exists) {
-                    adLinks = doc.data().links || {};
-                    adLinksMode = doc.data().mode || 'single';
-                } else {
-                    const defaultLink = "https://www.profitablecpmratenetwork.com/mk65i19v?key=e9f9c255c82dc28e0a257559b623568d";
-                    for (let i = 1; i <= 10; i++) { adLinks[i] = defaultLink; }
-                    adLinksMode = 'single';
-                }
-            } catch (error) {
-                for (let i = 1; i <= 10; i++) { adLinks[i] = "https://www.profitablecpmratenetwork.com/mk65i19v?key=e9f9c255c82dc28e0a257559b623568d"; }
-            }
-        }
-        
-        let membershipUrl = "https://www.profitablecpmratenetwork.com/mk65i19v?key=e9f9c255c82dc28e0a257559b623568d";
-        
-        async function loadMembershipUrl() {
-            try {
-                const docRef = db.collection("settings").doc("membership");
-                const doc = await docRef.get();
-                if (doc.exists && doc.data().url) { membershipUrl = doc.data().url; }
-            } catch (error) { console.error("Error loading membership URL:", error); }
-        }
-        
-        // IMPROVED: Update membership status with proper expiry check
-        async function updateMembershipStatus() {
-            if (!currentUser) return;
-            
-            try {
-                const userDoc = await db.collection("users").doc(currentUser.uid).get();
-                if (userDoc.exists) {
-                    const userData = userDoc.data();
-                    currentUserMembership.active = userData.membershipActive || false;
-                    currentUserMembership.expiresAt = userData.membershipExpiresAt || null;
-                    
-                    // Check if membership expired
-                    if (currentUserMembership.expiresAt && new Date(currentUserMembership.expiresAt) < new Date()) {
-                        currentUserMembership.active = false;
-                        await db.collection("users").doc(currentUser.uid).update({
-                            membershipActive: false,
-                            membershipExpiresAt: null
-                        });
-                        showToast("⚠️ Your premium membership has expired!", true);
-                    }
-                    
-                    // Update badge display
-                    if (currentUserMembership.active) {
-                        document.getElementById('membershipBadge').style.display = 'inline-block';
-                        if (currentUserMembership.expiresAt) {
-                            const expiryDate = new Date(currentUserMembership.expiresAt).toLocaleDateString();
-                            document.getElementById('membershipBadge').title = `Valid until ${expiryDate}`;
-                        }
-                    } else {
-                        document.getElementById('membershipBadge').style.display = 'none';
-                    }
-                }
-            } catch (error) {
-                console.error("Error updating membership status:", error);
-            }
-        }
-        
-        function openCoinsModal() {
-            if (!currentUser) {
-                showToast("Please login to earn free coins!", true);
-                openLoginModal();
-                return;
-            }
-            renderCoinsButtons();
-            document.getElementById('coinsModal').classList.add('active');
-        }
-        
-        function closeCoinsModal() {
-            document.getElementById('coinsModal').classList.remove('active');
-        }
-        
-        function renderCoinsButtons() {
-            const container = document.getElementById('coinsButtonsGrid');
-            container.innerHTML = '';
-            for (let i = 1; i <= 10; i++) {
-                const buttonState = buttonStates[i] || { completed: false, nextAvailable: null };
-                const isCompleted = buttonState.completed;
-                const isAvailable = !isCompleted || (buttonState.nextAvailable && Date.now() >= buttonState.nextAvailable);
-                const adLink = adLinks[i] || "https://www.profitablecpmratenetwork.com/mk65i19v?key=e9f9c255c82dc28e0a257559b623568d";
+        // ========== TRACK AD CLICK IN FIRESTORE ==========
+        async function trackAdClick(adType, buttonId){
+            try{
+                let clickData = {
+                    adType: adType,
+                    adButtonId: buttonId,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    date: new Date().toISOString(),
+                    userAgent: navigator.userAgent,
+                    platform: navigator.platform
+                };
                 
-                const btnDiv = document.createElement('div');
-                btnDiv.className = `coin-ad-btn ${isCompleted && !isAvailable ? 'completed' : ''}`;
-                btnDiv.innerHTML = `
-                    <i class="fas fa-ad"></i>
-                    <span>Watch Ad ${i}</span>
-                    <small>+3 Coins</small>
-                    ${isCompleted && !isAvailable ? `<small class="timer-text" data-timer="${buttonState.nextAvailable}">Available soon</small>` : ''}
-                `;
-                if (!isCompleted || isAvailable) { btnDiv.onclick = () => watchAd(i, adLink); }
-                container.appendChild(btnDiv);
-            }
-            updateTimers();
-        }
-        
-        function updateTimers() {
-            const timerElements = document.querySelectorAll('.timer-text');
-            timerElements.forEach(el => {
-                const nextTime = parseInt(el.dataset.timer);
-                if (nextTime && nextTime > Date.now()) {
-                    const remaining = Math.ceil((nextTime - Date.now()) / 1000);
-                    const minutes = Math.floor(remaining / 60);
-                    const seconds = remaining % 60;
-                    el.textContent = `Available in ${minutes}m ${seconds}s`;
-                    if (remaining <= 0) { renderCoinsButtons(); }
+                if(currentUser){
+                    clickData.userId = currentUser.uid;
+                    clickData.username = currentUsername;
+                    clickData.email = currentUser.email;
+                    clickData.isLoggedIn = true;
+                } else {
+                    clickData.userId = anonymousId;
+                    clickData.username = null;
+                    clickData.isLoggedIn = false;
                 }
-            });
-            setTimeout(() => updateTimers(), 1000);
+                
+                // Store individual click
+                await db.collection("adClicks").add(clickData);
+                
+                // Update total clicks counter
+                const totalStatsRef = db.collection("totalStats").doc("adClicks");
+                const totalStatsDoc = await totalStatsRef.get();
+                if(totalStatsDoc.exists){
+                    await totalStatsRef.update({
+                        totalClicks: firebase.firestore.FieldValue.increment(1),
+                        lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                } else {
+                    await totalStatsRef.set({
+                        totalClicks: 1,
+                        lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                }
+                
+                // If user is logged in, also update user's personal click count
+                if(currentUser){
+                    const userRef = db.collection("users").doc(currentUser.uid);
+                    await userRef.update({
+                        adClicks: firebase.firestore.FieldValue.increment(1),
+                        lastAdClick: firebase.firestore.FieldValue.serverTimestamp()
+                    }).catch(async () => {
+                        await userRef.set({
+                            adClicks: 1,
+                            lastAdClick: firebase.firestore.FieldValue.serverTimestamp()
+                        }, { merge: true });
+                    });
+                }
+                
+                console.log("✅ Ad click tracked successfully!");
+            } catch(error){
+                console.error("Error tracking ad click:", error);
+            }
         }
         
-        async function watchAd(buttonId, adLink) {
-            const buttonState = buttonStates[buttonId] || { completed: false };
-            if (buttonState.completed && buttonState.nextAvailable && Date.now() < buttonState.nextAvailable) {
-                showToast(`Please wait before watching this ad again!`, true);
+        // ========== VIDEO PLAYBACK ==========
+        async function handlePlay(videoId) {
+            let video = currentVideos.find(v=>v.id===videoId);
+            if(!video) return;
+            if(video.isUpcoming===true){ showToast("⏳ Upcoming video, not available yet",true); return; }
+            
+            if(currentUser && currentUserMembership.active){
+                await incrementViews(videoId);
+                openVideoPlayer(video.title, video.videoUrl);
+                showToast(`🎬 Premium access: ${video.title}`);
+            } 
+            else if(localCoins >= 50){
+                localCoins -= 50;
+                localStorage.setItem('localCoins', localCoins);
+                updateLocalCoinUI();
+                await incrementViews(videoId);
+                openVideoPlayer(video.title, video.videoUrl);
+                showToast(`🎬 ${video.title} - 50 coins deducted`);
+            } 
+            else { document.getElementById('insufficientCoinsModal').classList.add('active'); }
+        }
+        
+        function openVideoPlayer(title, url){ 
+            document.getElementById('modalTitle').innerHTML = title; 
+            document.getElementById('videoSource').src = url; 
+            document.getElementById('videoPlayer').load(); 
+            document.getElementById('videoModal').classList.add('active'); 
+            document.getElementById('videoPlayer').play().catch(e=>console.log('Autoplay blocked')); 
+        }
+        
+        function closeVideoModal(){ 
+            document.getElementById('videoPlayer').pause(); 
+            document.getElementById('videoModal').classList.remove('active'); 
+        }
+        
+        async function incrementViews(id){ try{ await db.collection("viral_videos").doc(id).update({views: firebase.firestore.FieldValue.increment(1)}); }catch(e){} }
+        
+        // ========== DOWNLOAD WITH 5 ADS ==========
+        function downloadVideo(vid){
+            let video = currentVideos.find(v=>v.id===vid);
+            if(!video || !video.videoUrl){
+                showToast("No download link available", true);
                 return;
             }
             
-            showToast(`Opening ad... Please wait 10 seconds`, false);
-            const adWindow = window.open(adLink, '_blank');
-            let seconds = 10;
-            const toastInterval = setInterval(() => {
-                if (seconds > 0) { showToast(`Watch ad for ${seconds} more seconds...`, false); seconds--; }
-            }, 1000);
+            if(!downloadAdCounts[vid]) downloadAdCounts[vid] = 0;
             
-            setTimeout(async () => {
-                clearInterval(toastInterval);
-                if (adWindow) adWindow.close();
-                const newCoins = currentUserCoins + 3;
-                await db.collection("users").doc(currentUser.uid).update({
-                    coins: newCoins,
-                    adClicks: firebase.firestore.FieldValue.increment(1)
-                });
-                currentUserCoins = newCoins;
-                updateCoinDisplay();
-                buttonStates[buttonId] = { completed: true, nextAvailable: Date.now() + (10 * 60 * 1000) };
-                localStorage.setItem('coinButtonsState', JSON.stringify(buttonStates));
-                showToast(`✅ You earned 3 coins!`, false);
+            if(downloadAdCounts[vid] >= 5){
+                let a = document.createElement('a');
+                a.href = video.videoUrl;
+                a.download = `${video.title}.mp4`;
+                a.click();
+                showToast(`✅ Download started: ${video.title}`);
+                downloadAdCounts[vid] = 0;
+                localStorage.setItem('downloadAdCounts', JSON.stringify(downloadAdCounts));
+            } else {
+                let adLink = "https://www.profitablecpmratenetwork.com/mk65i19v?key=e9f9c255c82dc28e0a257559b623568d";
+                window.open(adLink, '_blank');
+                downloadAdCounts[vid]++;
+                let remaining = 5 - downloadAdCounts[vid];
+                localStorage.setItem('downloadAdCounts', JSON.stringify(downloadAdCounts));
+                showToast(`⚠️ Ads watched: ${downloadAdCounts[vid]}/5 - ${remaining} more ad(s) to unlock download`, false);
+            }
+        }
+        
+        // ========== ADS WITH DAILY LIMIT + TRACKING ==========
+        function renderCoinsButtons(){
+            let container=document.getElementById('coinsButtonsGrid'); if(!container) return;
+            container.innerHTML='';
+            let limitReached = dailyCoinsEarned >= DAILY_LIMIT;
+            for(let i=1;i<=10;i++){
+                let btn=document.createElement('div');
+                if(limitReached){
+                    btn.className='coin-ad-btn limit-reached';
+                    btn.innerHTML=`<i class="fas fa-ad"></i><span>Ad ${i}</span><small>+10 Coins</small><small style="display:block;color:#ff9800;">Limit Reached</small>`;
+                    btn.onclick=()=> showToast("Daily Coins collecting Limit Reached! Enable Coins collecting After 24 hours. Please be patient or Join Membership to avoid any inconvenience.", true);
+                } else {
+                    btn.className='coin-ad-btn';
+                    btn.innerHTML=`<i class="fas fa-ad"></i><span>Ad ${i}</span><small>+10 Coins</small><small style="display:block;color:#aaa;">Click to watch</small>`;
+                    btn.onclick=()=>watchAd(i);
+                }
+                container.appendChild(btn);
+            }
+        }
+        
+        async function watchAd(buttonId){
+            let limitReached = dailyCoinsEarned >= DAILY_LIMIT;
+            if(limitReached){
+                showToast("Daily Coins collecting Limit Reached! Enable Coins collecting After 24 hours. Please be patient or Join Membership to avoid any inconvenience.", true);
+                renderCoinsButtons();
+                return;
+            }
+            
+            // Track ad click in Firestore BEFORE opening ad
+            await trackAdClick('free_coins_ad', buttonId);
+            
+            let adLink = "https://www.profitablecpmratenetwork.com/mk65i19v?key=e9f9c255c82dc28e0a257559b623568d";
+            showToast("Opening ad... stay for 10 seconds to earn 10 coins!");
+            let adWindow = window.open(adLink, '_blank');
+            setTimeout(() => {
+                if(adWindow) adWindow.close();
+                localCoins += 10;
+                dailyCoinsEarned += 10;
+                localStorage.setItem('localCoins', localCoins);
+                localStorage.setItem('dailyCoinsEarned', dailyCoinsEarned);
+                updateLocalCoinUI();
+                showToast(`✅ +10 coins earned! Total: ${localCoins} coins | Today: ${dailyCoinsEarned}/${DAILY_LIMIT}`);
                 renderCoinsButtons();
             }, 10000);
         }
         
-        function formatViews(views) { if (!views) return "0 views"; if (views >= 1e6) return (views/1e6).toFixed(1)+"M"; if (views >= 1e3) return (views/1e3).toFixed(1)+"K"; return views+" views"; }
-        function escapeHtml(t) { if (!t) return ''; const d=document.createElement('div'); d.textContent=t; return d.innerHTML; }
-        function showToast(msg, isError=false) { const t=document.createElement('div'); t.className='toast'; t.style.background=isError?'rgba(229,9,20,0.95)':'rgba(0,0,0,0.95)'; t.innerHTML=`<i class="fas ${isError?'fa-exclamation-triangle':'fa-check-circle'}"></i> ${msg}`; document.body.appendChild(t); setTimeout(()=>t.remove(),2800); }
+        function openCoinsModal(){ renderCoinsButtons(); document.getElementById('coinsModal').classList.add('active'); }
+        function closeCoinsModal(){ document.getElementById('coinsModal').classList.remove('active'); }
+        function getFreeCoins(){ closeInsufficientModal(); openCoinsModal(); }
+        function redirectToMembership() { closeInsufficientModal(); openMembershipPopup(); }
+        function closeInsufficientModal(){ document.getElementById('insufficientCoinsModal').classList.remove('active'); }
         
-        async function seedDefaultData() {
-            try {
-                const videosSnapshot = await db.collection("viral_videos").get();
-                if (videosSnapshot.empty) { for (const video of defaultVideos) { await db.collection("viral_videos").add({ ...video, createdAt: firebase.firestore.FieldValue.serverTimestamp() }); } }
-                const slidersSnapshot = await db.collection("viral_sliders").get();
-                if (slidersSnapshot.empty) { for (const slider of defaultSliders) { await db.collection("viral_sliders").add({ ...slider, createdAt: firebase.firestore.FieldValue.serverTimestamp() }); } }
-            } catch (error) { console.error("Seed error:", error); }
+        function openMembershipPopup() { document.getElementById('membershipPopupModal').classList.add('active'); }
+        function closeMembershipPopup() { document.getElementById('membershipPopupModal').classList.remove('active'); }
+        function openTelegram() { window.open("https://t.me/boost/viralstreet69", '_blank'); }
+        
+        // ========== AUTH FUNCTIONS ==========
+        let currentUsername = "";
+        
+        function openLoginModal(){ document.getElementById('loginModal').classList.add('active'); }
+        function closeLoginModal(){ document.getElementById('loginModal').classList.remove('active'); if(typeof hcaptcha !== 'undefined') try{ hcaptcha.reset(); }catch(e){} }
+        function openSignupModal(){ document.getElementById('signupModal').classList.add('active'); }
+        function closeSignupModal(){ document.getElementById('signupModal').classList.remove('active'); if(typeof hcaptcha !== 'undefined') try{ hcaptcha.reset(); }catch(e){} }
+        function closeAuthModals(){ 
+            document.getElementById('loginModal').classList.remove('active'); 
+            document.getElementById('signupModal').classList.remove('active'); 
+            if(typeof hcaptcha !== 'undefined') try{ hcaptcha.reset(); }catch(e){}
+        }
+        function switchToSignup(){ closeLoginModal(); openSignupModal(); }
+        function switchToLogin(){ closeSignupModal(); openLoginModal(); }
+        
+        // ========== FIREBASE ==========
+        const firebaseConfig = { apiKey: "AIzaSyDLloBWMeIB62CYFjxx_2DPicV9im6wFiI", authDomain: "viralstreet-c0128.firebaseapp.com", projectId: "viralstreet-c0128", storageBucket: "viralstreet-c0128.firebasestorage.app", messagingSenderId: "436825511768", appId: "1:436825511768:web:1456b6b669c2b00222f72d" };
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+        
+        let currentVideos = [], currentSlides = [], currentCategory = "all", searchQuery = "";
+        const defaultVideos = [
+            { title: "🔥 Premium Exclusive: Behind Scenes", year: "2024", category: "premium", thumbnail: "https://images.pexels.com/photos/2264753/pexels-photo-2264753.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4", views: 12500, isTrending: true, isUpcoming: false, isFeatured: true },
+            { title: "🇮🇳 Indian Scandal: Exposed", year: "2024", category: "indian", thumbnail: "https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFunflies.mp4", views: 8700, isTrending: true, isUpcoming: false },
+            { title: "🇵🇰 Pakistani Scandal: Reality", year: "2024", category: "pakistani", thumbnail: "https://images.pexels.com/photos/3926126/pexels-photo-3926126.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4", views: 5200, isTrending: false, isUpcoming: true },
+            { title: "🎬 Trending All Access", year: "2023", category: "all", thumbnail: "https://images.pexels.com/photos/3062543/pexels-photo-3062543.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4", views: 34000, isTrending: true, isFeatured: true }
+        ];
+        for(let i=5; i<=35; i++){ defaultVideos.push({ title: `Video ${i}: Amazing Content`, year: "2024", category: i%4===0?"premium":i%3===0?"indian":"all", thumbnail: "https://images.pexels.com/photos/3184419/pexels-photo-3184419.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFunflies.mp4", views: 1000+i*100, isTrending: i<8, isUpcoming: false }); }
+        
+        const defaultSliders = [
+            { imgUrl: "https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=1200", title: "Indian Scandals Exposed", desc: "Biggest controversies", badge: "TRENDING", order:1 },
+            { imgUrl: "https://images.pexels.com/photos/3926126/pexels-photo-3926126.jpeg?auto=compress&cs=tinysrgb&w=1200", title: "Pakistani Scandals", desc: "Uncovered truths", badge: "HOT", order:2 }
+        ];
+        
+        async function seedData(){
+            let snap = await db.collection("viral_videos").get();
+            if(snap.empty) for(let v of defaultVideos) await db.collection("viral_videos").add({...v, createdAt: firebase.firestore.FieldValue.serverTimestamp()});
+            let slideSnap = await db.collection("viral_sliders").get();
+            if(slideSnap.empty) for(let s of defaultSliders) await db.collection("viral_sliders").add({...s, createdAt: firebase.firestore.FieldValue.serverTimestamp()});
         }
         
-        function attachFirestoreListeners() {
-            db.collection("viral_videos").orderBy("createdAt", "desc").onSnapshot(snapshot=>{ currentVideos=[]; snapshot.forEach(doc=>{ currentVideos.push({id:doc.id,...doc.data()}); }); renderAllSections(); });
-            db.collection("viral_sliders").orderBy("order","asc").onSnapshot(snapshot=>{ currentSlides=[]; snapshot.forEach(doc=>{ currentSlides.push({id:doc.id,...doc.data()}); }); renderSlider(); if(currentSlides.length>0&&currentSlide>=currentSlides.length) currentSlide=0; updateSliderPosition(); if(currentSlides.length>0&&!autoSlideInterval) startAutoSlide(); });
+        function attachListeners(){
+            db.collection("viral_videos").orderBy("createdAt","desc").onSnapshot(snap=>{ currentVideos=[]; snap.forEach(d=>currentVideos.push({id:d.id,...d.data()})); renderAll(); });
+            db.collection("viral_sliders").orderBy("order").onSnapshot(snap=>{ currentSlides=[]; snap.forEach(d=>currentSlides.push({id:d.id,...d.data()})); renderSlider(); if(currentSlides.length) startAutoSlide(); });
         }
         
-        function renderAllSections() { renderVideos(); renderUpcomingTrending(); }
+        function renderAll(){ renderVideosWithPagination(); renderUpcomingTrending(); }
         
-        function renderUpcomingTrending() {
-            const upcomingVideos = currentVideos.filter(v => v.isUpcoming === true);
-            const trendingVideos = currentVideos.filter(v => v.isTrending === true);
-            document.getElementById('upcomingGrid').innerHTML = upcomingVideos.length ? upcomingVideos.map(v=>renderMovieCard(v)).join('') : '<div class="empty-state" style="grid-column:1/-1"><i class="fas fa-clock fa-3x"></i><p>No upcoming videos</p></div>';
-            document.getElementById('trendingGrid').innerHTML = trendingVideos.length ? trendingVideos.map(v=>renderMovieCard(v)).join('') : '<div class="empty-state" style="grid-column:1/-1"><i class="fas fa-fire fa-3x"></i><p>No trending videos</p></div>';
+        function renderUpcomingTrending(){
+            let upcoming = currentVideos.filter(v=>v.isUpcoming===true);
+            let trending = currentVideos.filter(v=>v.isTrending===true);
+            document.getElementById('upcomingGrid').innerHTML = upcoming.length? upcoming.map(v=>movieCard(v)).join('') : '<div class="empty-state">No upcoming</div>';
+            document.getElementById('trendingGrid').innerHTML = trending.length? trending.map(v=>movieCard(v)).join('') : '<div class="empty-state">No trending</div>';
         }
         
-        function renderMovieCard(video) {
-            let badgeClass='', badgeText='';
-            if(video.category==='premium'){ badgeClass='badge-premium'; badgeText='PREMIUM FREE'; }
-            else if(video.category==='indian'){ badgeClass='badge-indian'; badgeText='INDIAN'; }
-            else if(video.category==='pakistani'){ badgeClass='badge-pakistani'; badgeText='PAKISTANI'; }
-            else{ badgeClass='badge-all'; badgeText='ALL'; }
-            const hasDownloadUrl = video.downloadUrl && video.downloadUrl.trim() !== '';
-            let specialBadge = '';
-            if(video.isFeatured) specialBadge = '<div class="featured-badge"><i class="fas fa-star"></i> FEATURED</div>';
-            else if(video.isUpcoming) specialBadge = '<div class="upcoming-badge"><i class="fas fa-clock"></i> UPCOMING</div>';
-            else if(video.isTrending) specialBadge = '<div class="trending-badge"><i class="fas fa-fire"></i> TRENDING</div>';
-            return `<div class="movie-card ${video.isFeatured ? 'featured-card' : ''}" data-id="${video.id}"><div class="movie-thumbnail" onclick="handlePlay('${video.id}')"><div class="category-badge ${badgeClass}">${badgeText}</div>${specialBadge}<img src="${video.thumbnail}" alt="${video.title}" onerror="this.src='https://via.placeholder.com/300x450?text=No+Image'"><div class="movie-overlay"><div class="play-icon"><i class="fas fa-play"></i></div></div></div><div class="movie-info"><div class="movie-title" onclick="handlePlay('${video.id}')">${escapeHtml(video.title)}</div><div class="movie-meta"><span class="movie-year">${video.year||'2024'}</span></div><div class="movie-views"><i class="fas fa-eye"></i> ${formatViews(video.views||0)}</div><div class="public-buttons"><button class="play-now-btn" onclick="handlePlay('${video.id}')"><i class="fas fa-play"></i> Play Now</button><button class="download-btn" onclick="downloadVideo('${video.id}', ${hasDownloadUrl}, event)"><i class="fas fa-download"></i> Download</button></div></div></div>`;
+        function renderVideosWithPagination(){
+            let filtered = currentVideos.filter(v=> (currentCategory==='all' || v.category===currentCategory) && (!searchQuery || v.title.toLowerCase().includes(searchQuery.toLowerCase())));
+            let totalPages = Math.ceil(filtered.length / itemsPerPage);
+            if(currentPage > totalPages) currentPage = totalPages || 1;
+            let start = (currentPage-1)*itemsPerPage;
+            let paginatedVideos = filtered.slice(start, start+itemsPerPage);
+            document.getElementById('videosGrid').innerHTML = paginatedVideos.length? paginatedVideos.map(v=>movieCard(v)).join('') : '<div class="empty-state">No videos found</div>';
+            renderPagination(totalPages);
         }
         
-        function renderVideos() {
-            let filtered = [...currentVideos];
-            if(currentCategory!=='all') filtered=filtered.filter(v=>v.category===currentCategory);
-            if(searchQuery) filtered=filtered.filter(v=>v.title && v.title.toLowerCase().includes(searchQuery.toLowerCase()));
-            const grid=document.getElementById('videosGrid');
-            if(filtered.length===0){ grid.innerHTML='<div class="empty-state"><i class="fas fa-film fa-3x"></i><p>No videos found</p></div>'; return; }
-            grid.innerHTML=filtered.map(v=>renderMovieCard(v)).join('');
+        function renderPagination(totalPages){
+            let container = document.getElementById('paginationContainer');
+            if(!container) return;
+            if(totalPages <= 1) { container.innerHTML = ''; return; }
+            let html = '';
+            for(let i=1; i<=totalPages && i<=10; i++){ html += `<button class="page-btn ${currentPage===i?'active':''}" onclick="goToPage(${i})">${i}</button>`; }
+            container.innerHTML = html;
         }
         
-        function renderSlider() {
-            const wrapper=document.getElementById('sliderWrapper');
-            if(currentSlides.length===0) wrapper.innerHTML='<div class="slide"><img src="https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=1200"><div class="slide-overlay"><div class="slide-badge">WELCOME</div><div class="slide-title">VIRAL STREET</div><div class="slide-desc">Watch exclusive scandal videos</div></div></div>';
-            else wrapper.innerHTML=currentSlides.map(s=>`<div class="slide"><img src="${s.imgUrl}" onerror="this.src='https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=1200'"><div class="slide-overlay"><span class="slide-badge"><i class="fas fa-fire"></i> ${s.badge||'FEATURED'}</span><div class="slide-title">${escapeHtml(s.title)}</div><div class="slide-desc">${escapeHtml(s.desc)}</div></div></div>`).join('');
+        function goToPage(page){ currentPage = page; renderVideosWithPagination(); }
+        
+        function movieCard(v){
+            let special = v.isFeatured ? '<div class="featured-badge" style="position:absolute;top:10px;left:10px;background:#e50914;padding:4px 10px;border-radius:20px;font-size:10px;">FEATURED</div>' : (v.isUpcoming?'<div class="upcoming-badge" style="position:absolute;top:10px;left:10px;background:#f39c12;padding:4px 10px;border-radius:20px;">UPCOMING</div>':'');
+            return `<div class="movie-card" data-id="${v.id}"><div class="movie-thumbnail" onclick="handlePlay('${v.id}')"><div class="category-badge" style="position:absolute;top:10px;right:10px;background:#111;padding:4px 10px;border-radius:20px;">${v.category.toUpperCase()}</div>${special}<img src="${v.thumbnail}" loading="lazy"><div class="movie-overlay"><div class="play-icon"><i class="fas fa-play"></i></div></div></div><div class="movie-info"><div class="movie-title">${escapeHtml(v.title)}</div><div class="movie-meta"><span>${v.year||'2024'}</span><span><i class="fas fa-eye"></i> ${formatViews(v.views||0)}</span></div><div class="public-buttons"><button class="play-now-btn" onclick="event.stopPropagation();handlePlay('${v.id}')">▶ Play</button><button class="download-btn" onclick="event.stopPropagation();downloadVideo('${v.id}')">📥 Download</button></div></div></div>`;
+        }
+        
+        function renderSlider(){
+            let wrapper = document.getElementById('sliderWrapper');
+            wrapper.innerHTML = currentSlides.map(s=>`<div class="slide"><img src="${s.imgUrl}" loading="lazy"><div class="slide-overlay"><span class="slide-badge" style="background:#e50914;padding:4px 12px;border-radius:20px;">${s.badge}</span><div class="slide-title">${escapeHtml(s.title)}</div><div class="slide-desc">${escapeHtml(s.desc)}</div></div></div>`).join('');
+            let dotsContainer = document.getElementById('sliderDots');
+            dotsContainer.innerHTML = '';
+            for(let i=0;i<currentSlides.length;i++){ let d=document.createElement('div'); d.className='dot'; d.onclick=()=>goToSlide(i); dotsContainer.appendChild(d); }
             updateSliderDots();
         }
         
-        function updateSliderDots(){ const dc=document.getElementById('sliderDots'); dc.innerHTML=''; for(let i=0;i<currentSlides.length;i++){ const d=document.createElement('div'); d.className='dot'+(i===currentSlide?' active':''); d.addEventListener('click',()=>goToSlide(i)); dc.appendChild(d); } }
-        function updateSliderPosition(){ const w=document.getElementById('sliderWrapper'); if(w&&currentSlides.length>0) w.style.transform=`translateX(-${currentSlide*100}%)`; document.querySelectorAll('.dot').forEach((d,i)=>{ d.classList.toggle('active',i===currentSlide); }); }
-        function nextSlide(){ if(currentSlides.length){ currentSlide=(currentSlide+1)%currentSlides.length; updateSliderPosition(); resetAutoSlide(); } }
-        function prevSlide(){ if(currentSlides.length){ currentSlide=(currentSlide-1+currentSlides.length)%currentSlides.length; updateSliderPosition(); resetAutoSlide(); } }
-        function goToSlide(i){ currentSlide=i; updateSliderPosition(); resetAutoSlide(); }
-        function startAutoSlide(){ autoSlideInterval=setInterval(nextSlide,5000); }
-        function resetAutoSlide(){ clearInterval(autoSlideInterval); startAutoSlide(); }
+        let currentSlide=0, autoInterval;
+        function updateSliderDots(){ document.querySelectorAll('.dot').forEach((d,i)=>{ d.classList.toggle('active',i===currentSlide); }); let wrap=document.getElementById('sliderWrapper'); if(wrap) wrap.style.transform=`translateX(-${currentSlide*100}%)`; }
+        function nextSlide(){ if(currentSlides.length){ currentSlide=(currentSlide+1)%currentSlides.length; updateSliderDots(); resetAuto(); } }
+        function prevSlide(){ if(currentSlides.length){ currentSlide=(currentSlide-1+currentSlides.length)%currentSlides.length; updateSliderDots(); resetAuto(); } }
+        function goToSlide(i){ currentSlide=i; updateSliderDots(); resetAuto(); }
+        function startAutoSlide(){ if(autoInterval) clearInterval(autoInterval); autoInterval = setInterval(nextSlide,5000); }
+        function resetAuto(){ clearInterval(autoInterval); startAutoSlide(); }
         
-        async function incrementViews(vid){ try{ await db.collection("viral_videos").doc(vid).update({views:firebase.firestore.FieldValue.increment(1)}); }catch(e){ console.error(e); } }
+        function showToast(msg, err=false){ let t=document.createElement('div'); t.className='toast'; t.innerHTML=`<i class="fas ${err?'fa-exclamation-triangle':'fa-check-circle'}"></i> ${msg}`; document.body.appendChild(t); setTimeout(()=>t.remove(),3500); }
+        async function updateMembershipStatus(){ if(currentUser){ let doc=await db.collection("users").doc(currentUser.uid).get(); if(doc.exists){ currentUserMembership.active=doc.data().membershipActive||false; document.getElementById('membershipBadge').style.display=currentUserMembership.active?'inline-block':'none'; } } }
         
-        async function deductCoins(amount) {
-            if (!currentUser) return false;
-            const newCoins = currentUserCoins - amount;
-            await db.collection("users").doc(currentUser.uid).update({ coins: newCoins });
-            currentUserCoins = newCoins;
-            updateCoinDisplay();
-            return true;
+        async function login(){ 
+            let username=document.getElementById('loginUsername').value.trim(); let pwd=document.getElementById('loginPassword').value; 
+            let captcha=hcaptcha.getResponse(); if(!captcha){ showToast("Complete captcha",true); return; } 
+            let q=await db.collection("users").where("username","==",username).get(); if(q.empty){ showToast("User not found",true); return; } 
+            let email=q.docs[0].data().email; 
+            try{ await auth.signInWithEmailAndPassword(email,pwd); await updateMembershipStatus(); showToast(`Welcome ${username}`); closeAuthModals(); if(typeof hcaptcha !== 'undefined') try{ hcaptcha.reset(); }catch(e){} openMembershipPopup(); }catch(e){ showToast("Invalid credentials",true); } 
         }
         
-        function updateCoinDisplay() {
-            const coinEl = document.getElementById('coinAmount');
-            if (coinEl) coinEl.textContent = currentUserCoins;
+        async function signup(){ 
+            let user=document.getElementById('signupUsername').value.trim(); let email=document.getElementById('signupEmail').value.trim(); let pwd=document.getElementById('signupPassword').value; 
+            let terms=document.getElementById('termsCheckbox').checked; if(!terms){ showToast("Accept terms",true); return; } 
+            let captcha=hcaptcha.getResponse(); if(!captcha){ showToast("Captcha required",true); return; } 
+            if(user.includes(' ')||pwd.length<6){ showToast("Invalid username or short password",true); return; } 
+            let existing=await db.collection("users").where("username","==",user).get(); if(!existing.empty){ showToast("Username taken",true); return; } 
+            try{ let cred=await auth.createUserWithEmailAndPassword(email,pwd); await db.collection("users").doc(cred.user.uid).set({username:user,email:email,coins:0,membershipActive:false,createdAt:firebase.firestore.FieldValue.serverTimestamp()}); showToast(`Signup success!`); closeAuthModals(); if(typeof hcaptcha !== 'undefined') try{ hcaptcha.reset(); }catch(e){} openMembershipPopup(); }catch(e){ showToast(e.message,true); } 
         }
         
-        // IMPROVED: handlePlay with proper membership check
-        async function handlePlay(videoId) {
-            if (!currentUser) { showToast("Please login to watch videos!", true); openLoginModal(); return; }
-            
-            const video = currentVideos.find(v => v.id === videoId);
-            if (!video) return;
-            
-            if (video.isUpcoming === true) {
-                showToast("⏳ This video is UPCOMING! It will be available soon. Please check back later.", true);
-                return;
-            }
-            
-            // Refresh membership status from Firestore
-            await updateMembershipStatus();
-            
-            if (currentUserMembership.active === true) {
-                // Membership active - FREE playback
-                await incrementViews(videoId);
-                document.getElementById('modalTitle').innerHTML = video.title;
-                document.getElementById('videoSource').src = video.videoUrl;
-                document.getElementById('videoPlayer').load();
-                document.getElementById('videoModal').classList.add('active');
-                document.getElementById('videoPlayer').play().catch(e=>console.log('Autoplay blocked'));
-                showToast(`🎬 Playing "${video.title}" - Premium Membership Active (0 coins deducted)`);
-            } else if (currentUserCoins >= 50) {
-                await deductCoins(50);
-                await incrementViews(videoId);
-                document.getElementById('modalTitle').innerHTML = video.title;
-                document.getElementById('videoSource').src = video.videoUrl;
-                document.getElementById('videoPlayer').load();
-                document.getElementById('videoModal').classList.add('active');
-                document.getElementById('videoPlayer').play().catch(e=>console.log('Autoplay blocked'));
-                showToast(`🎬 Playing "${video.title}" - 50 coins deducted`);
-            } else {
-                document.getElementById('membershipModal').classList.add('active');
-            }
+        function logout(){ auth.signOut(); currentUser=null; currentUserMembership.active=false; document.getElementById('authButtons').style.display='flex'; document.getElementById('userInfo').style.display='none'; document.getElementById('membershipBadge').style.display='none'; showToast("Logged out"); }
+        function forgotPassword(){ let email=prompt("Enter your email:"); if(email) auth.sendPasswordResetEmail(email).then(()=>showToast("Reset email sent")).catch(()=>showToast("Error",true)); }
+        function showTermsModal(){ document.getElementById('termsModal').classList.add('active'); }
+        function closeTermsModal(){ document.getElementById('termsModal').classList.remove('active'); }
+        function formatViews(v){ if(v>=1e6) return (v/1e6).toFixed(1)+'M'; if(v>=1e3) return (v/1e3).toFixed(1)+'K'; return v; }
+        function escapeHtml(str){ return String(str).replace(/[&<>]/g, function(m){if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
+        
+        function renderCategories(){
+            let cats=[{id:'all',name:'All'},{id:'premium',name:'🔥 Premium'},{id:'indian',name:'🇮🇳 Indian'},{id:'pakistani',name:'🇵🇰 Pakistani'}];
+            document.getElementById('categoriesContainer').innerHTML=cats.map(c=>`<button class="cat-btn ${currentCategory===c.id?'active':''}" data-cat="${c.id}">${c.name}</button>`).join('');
+            document.querySelectorAll('.cat-btn').forEach(btn=>btn.addEventListener('click',()=>{currentCategory=btn.dataset.cat; currentPage=1; renderCategories(); renderVideosWithPagination(); document.getElementById('specialSections').style.display=currentCategory==='all'?'block':'none'; updateCategoryTitle();}));
         }
+        function updateCategoryTitle(){ document.getElementById('categoryTitle').innerHTML=currentCategory==='all'?'📺 All Videos':currentCategory==='premium'?'🔥 Premium Free':'🇮🇳 Indian/Pakistani Scandals'; }
         
-        function downloadVideo(vid,hasUrl,e){ if(e) e.stopPropagation(); const v=currentVideos.find(v=>v.id===vid); if(v){ if(hasUrl&&v.downloadUrl){ window.open(v.downloadUrl,'_blank'); showToast(`🔗 Opening download link for "${v.title}"...`); } else if(v.videoUrl){ const a=document.createElement('a'); a.href=v.videoUrl; a.download=`${v.title}.mp4`; a.click(); showToast(`📥 Downloading "${v.title}"...`); } else showToast('❌ No download link available',true); } }
-        function closeModal(){ document.getElementById('videoPlayer').pause(); document.getElementById('videoModal').classList.remove('active'); }
-        function closeMembershipModal(){ document.getElementById('membershipModal').classList.remove('active'); }
-        
-        async function joinMembership() {
-            try {
-                showToast("🔄 Loading membership link...", false);
-                await loadMembershipUrl();
-                closeMembershipModal();
-                window.open(membershipUrl, '_blank');
-                showToast("🔗 Opening membership page...", false);
-            } catch (error) {
-                console.error("Membership error:", error);
-                closeMembershipModal();
-                window.open("https://www.profitablecpmratenetwork.com/mk65i19v?key=e9f9c255c82dc28e0a257559b623568d", '_blank');
-            }
-        }
-        
-        function openLoginModal() { document.getElementById('loginModal').classList.add('active'); }
-        function openSignupModal() { document.getElementById('signupModal').classList.add('active'); }
-        function closeAuthModals() { document.getElementById('loginModal').classList.remove('active'); document.getElementById('signupModal').classList.remove('active'); }
-        function switchToSignup() { closeAuthModals(); openSignupModal(); }
-        function switchToLogin() { closeAuthModals(); openLoginModal(); }
-        
-        function clearFieldErrors() {
-            document.getElementById('signupUsername').classList.remove('error');
-            document.getElementById('signupEmail').classList.remove('error');
-        }
-        
-        async function signup() {
-            const signupBtn = document.getElementById('signupBtn');
-            const usernameInput = document.getElementById('signupUsername');
-            const emailInput = document.getElementById('signupEmail');
-            const username = usernameInput.value.trim();
-            const email = emailInput.value.trim();
-            const password = document.getElementById('signupPassword').value;
-            
-            const termsChecked = document.getElementById('termsCheckbox').checked;
-            if (!termsChecked) { showToast("❌ Please accept the Terms & Conditions to sign up!", true); return; }
-            
-            const captchaResponse = hcaptcha.getResponse();
-            if (!captchaResponse) { showToast("❌ Please complete the captcha verification!", true); return; }
-            
-            clearFieldErrors();
-            if (!username || !email || !password) { showToast("Please fill all required fields!", true); return; }
-            if (username.includes(' ')) { showToast("Username cannot contain spaces!", true); usernameInput.classList.add('error'); return; }
-            if (password.length < 6) { showToast("Password must be at least 6 characters!", true); return; }
-            
-            signupBtn.disabled = true;
-            signupBtn.textContent = "Creating Account...";
-            
-            try {
-                const usernameCheck = await db.collection("users").where("username", "==", username).get();
-                if (!usernameCheck.empty) { 
-                    showToast("❌ Username already taken! Please choose another username.", true);
-                    usernameInput.classList.add('error');
-                    signupBtn.disabled = false;
-                    signupBtn.textContent = "Sign Up & Get 100 Coins!";
-                    return;
-                }
-                
-                const userCred = await auth.createUserWithEmailAndPassword(email, password);
-                await db.collection("users").doc(userCred.user.uid).set({
-                    username: username, email: email, coins: 100, adClicks: 0,
-                    lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
-                    membershipActive: false, membershipExpiresAt: null,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    ageVerified: true, termsAccepted: true
-                });
-                
-                showToast(`✅ Welcome ${username}! You got 100 free coins!`);
-                closeAuthModals();
-                hcaptcha.reset();
-                document.getElementById('termsCheckbox').checked = false;
-                usernameInput.value = ''; emailInput.value = ''; document.getElementById('signupPassword').value = '';
-                
-            } catch (error) {
-                console.error("Signup error:", error);
-                if (error.code === 'auth/email-already-in-use') {
-                    showToast("❌ Email already registered! Please login or use another email.", true);
-                    emailInput.classList.add('error');
-                } else if (error.code === 'auth/weak-password') {
-                    showToast("❌ Password too weak! Use at least 6 characters.", true);
-                } else if (error.code === 'auth/invalid-email') {
-                    showToast("❌ Invalid email address!", true);
-                    emailInput.classList.add('error');
-                } else {
-                    showToast(error.message, true);
-                }
-                hcaptcha.reset();
-            } finally {
-                signupBtn.disabled = false;
-                signupBtn.textContent = "Sign Up & Get 100 Coins!";
-            }
-        }
-        
-        async function login() {
-            const loginBtn = document.getElementById('loginBtn');
-            const username = document.getElementById('loginUsername').value.trim();
-            const password = document.getElementById('loginPassword').value;
-            
-            const captchaResponse = hcaptcha.getResponse();
-            if (!captchaResponse) { showToast("❌ Please complete the captcha verification!", true); return; }
-            if (!username || !password) { showToast("Please enter username and password!", true); return; }
-            
-            loginBtn.disabled = true;
-            loginBtn.textContent = "Logging in...";
-            
-            try {
-                const userQuery = await db.collection("users").where("username", "==", username).get();
-                if (userQuery.empty) { showToast("Username not found! Please sign up first.", true); loginBtn.disabled = false; loginBtn.textContent = "Login"; return; }
-                const userDoc = userQuery.docs[0];
-                const email = userDoc.data().email;
-                
-                await auth.signInWithEmailAndPassword(email, password);
-                await db.collection("users").doc(userDoc.id).update({ lastLogin: firebase.firestore.FieldValue.serverTimestamp() });
-                await updateMembershipStatus();
-                
-                showToast(`✅ Welcome back ${username}!`);
-                closeAuthModals();
-                hcaptcha.reset();
-                document.getElementById('loginUsername').value = '';
-                document.getElementById('loginPassword').value = '';
-                
-            } catch (error) {
-                console.error("Login error:", error);
-                if (error.code === 'auth/wrong-password') {
-                    showToast("❌ Invalid password! Please try again.", true);
-                } else {
-                    showToast("❌ Login failed! Please check your credentials.", true);
-                }
-                hcaptcha.reset();
-            } finally {
-                loginBtn.disabled = false;
-                loginBtn.textContent = "Login";
-            }
-        }
-        
-        function forgotPassword() {
-            const email = prompt("Enter your registered email address to reset password:");
-            if (email && email.includes('@')) { 
-                auth.sendPasswordResetEmail(email).then(() => showToast("✅ Password reset email sent! Check your inbox.")).catch(() => showToast("❌ Email not found!", true)); 
-            } else if(email) { showToast("❌ Please enter a valid email address!", true); }
-        }
-        
-        function logout() { auth.signOut(); showToast("Logged out successfully!"); }
-        
-        auth.onAuthStateChanged(async (user) => {
-            if (user) {
-                const userDoc = await db.collection("users").doc(user.uid).get();
-                if (userDoc.exists) {
-                    currentUser = user;
-                    currentUsername = userDoc.data().username;
-                    currentUserCoins = userDoc.data().coins || 0;
-                    currentUserMembership = {
-                        active: userDoc.data().membershipActive || false,
-                        expiresAt: userDoc.data().membershipExpiresAt || null
-                    };
-                    document.getElementById('authButtons').style.display = 'none';
-                    document.getElementById('userInfo').style.display = 'flex';
-                    document.getElementById('userCoins').style.display = 'flex';
-                    document.getElementById('userName').textContent = currentUsername;
-                    document.getElementById('coinAmount').textContent = currentUserCoins;
-                    updateMembershipStatus();
-                    
-                    db.collection("users").doc(user.uid).onSnapshot(doc => {
-                        if (doc.exists) {
-                            currentUserCoins = doc.data().coins || 0;
-                            currentUserMembership.active = doc.data().membershipActive || false;
-                            currentUserMembership.expiresAt = doc.data().membershipExpiresAt || null;
-                            document.getElementById('coinAmount').textContent = currentUserCoins;
-                            updateMembershipStatus();
-                        }
-                    });
-                }
-            } else {
-                currentUser = null;
-                document.getElementById('authButtons').style.display = 'flex';
-                document.getElementById('userInfo').style.display = 'none';
-                document.getElementById('userCoins').style.display = 'none';
-                document.getElementById('membershipBadge').style.display = 'none';
-            }
+        auth.onAuthStateChanged(async(user)=>{ 
+            if(user){ 
+                let doc=await db.collection("users").doc(user.uid).get(); 
+                if(doc.exists){ 
+                    currentUser=user; 
+                    currentUsername=doc.data().username;
+                    currentUserMembership.active=doc.data().membershipActive||false; 
+                    document.getElementById('authButtons').style.display='none'; 
+                    document.getElementById('userInfo').style.display='flex'; 
+                    document.getElementById('userName').innerHTML=doc.data().username; 
+                    document.getElementById('membershipBadge').style.display=currentUserMembership.active?'inline-block':'none'; 
+                } 
+            } else { 
+                currentUser=null; 
+                currentUserMembership.active=false; 
+                document.getElementById('authButtons').style.display='flex'; 
+                document.getElementById('userInfo').style.display='none'; 
+                document.getElementById('membershipBadge').style.display='none'; 
+            } 
         });
         
-        function handleSearch(){ searchQuery=document.getElementById('searchInput').value; renderVideos(); }
+        document.getElementById('searchBtn').addEventListener('click',()=>{ searchQuery=document.getElementById('searchInput').value; currentPage=1; renderVideosWithPagination(); });
+        document.getElementById('prevSlide').addEventListener('click',prevSlide); document.getElementById('nextSlide').addEventListener('click',nextSlide); document.getElementById('logoBtn').addEventListener('click',()=>window.location.reload());
         
-        function renderCategories(){ 
-            const cats = [
-                { id: 'all', name: '📺 All Videos' },
-                { id: 'premium', name: '🔥 Premium Free' },
-                { id: 'indian', name: '🇮🇳 Indian Scandals' },
-                { id: 'pakistani', name: '🇵🇰 Pakistani Scandals' }
-            ]; 
-            document.getElementById('categoriesContainer').innerHTML = cats.map(c=>`<button class="cat-btn ${currentCategory===c.id?'active':''}" data-category="${c.id}">${c.name}</button>`).join(''); 
-            document.querySelectorAll('.cat-btn').forEach(btn=>{ 
-                btn.addEventListener('click',()=>{ 
-                    currentCategory=btn.dataset.category; 
-                    renderCategories(); 
-                    renderVideos(); 
-                    updateCategoryTitle();
-                    const specialSections = document.getElementById('specialSections');
-                    if (currentCategory === 'all') {
-                        specialSections.style.display = 'block';
-                        specialSections.classList.add('active');
-                        renderUpcomingTrending();
-                    } else {
-                        specialSections.style.display = 'none';
-                        specialSections.classList.remove('active');
-                    }
-                }); 
-            }); 
+        window.handlePlay=handlePlay; window.downloadVideo=downloadVideo; window.openLoginModal=openLoginModal; window.openSignupModal=openSignupModal;
+        window.switchToSignup=switchToSignup; window.switchToLogin=switchToLogin; window.login=login; window.signup=signup; window.logout=logout;
+        window.closeVideoModal=closeVideoModal; window.redirectToMembership=redirectToMembership; window.getFreeCoins=getFreeCoins;
+        window.closeInsufficientModal=closeInsufficientModal; window.openCoinsModal=openCoinsModal; window.closeCoinsModal=closeCoinsModal;
+        window.showTermsModal=showTermsModal; window.closeTermsModal=closeTermsModal; window.forgotPassword=forgotPassword;
+        window.goToPage=goToPage; window.openTelegram=openTelegram; window.closeMembershipPopup=closeMembershipPopup;
+        window.closeLoginModal=closeLoginModal; window.closeSignupModal=closeSignupModal;
+        
+        let isAgeVerified = localStorage.getItem('ageVerified') === 'true';
+        function verifyAge(over){
+            if(over){ localStorage.setItem('ageVerified','true'); isAgeVerified=true; document.getElementById('ageVerificationModal').classList.add('hidden'); showMainContent(); showToast("✅ Access granted"); }
+            else{ document.getElementById('restrictedMessage').innerHTML='<i class="fas fa-ban"></i> Under 18 not allowed. Redirecting...'; setTimeout(()=>window.location.href='https://www.google.com',2000); }
         }
-        
-        function updateCategoryTitle(){ 
-            const titles={ all: '📺 All Videos', premium:'🔥 Premium Free Videos', indian:'🇮🇳 Indian Scandals', pakistani:'🇵🇰 Pakistani Scandals' }; 
-            document.getElementById('categoryTitle').innerHTML=titles[currentCategory]||'All Videos'; 
+        function showMainContent(){
+            document.getElementById('header').style.display='block';
+            document.getElementById('topAdContainer').style.display='block';
+            document.getElementById('freeCoinsContainer').style.display='block';
+            document.getElementById('heroSection').style.display='block';
+            document.getElementById('categoriesContainer').style.display='flex';
+            document.getElementById('specialSections').style.display='block';
+            document.getElementById('sectionTitle').style.display='flex';
+            document.getElementById('moviesContainer').style.display='block';
+            init();
         }
-        
-        document.getElementById('searchBtn').addEventListener('click',handleSearch);
-        document.getElementById('searchInput').addEventListener('keypress',(e)=>{ if(e.key==='Enter') handleSearch(); });
-        document.getElementById('prevSlide').addEventListener('click',prevSlide);
-        document.getElementById('nextSlide').addEventListener('click',nextSlide);
-        document.getElementById('videoModal').addEventListener('click',(e)=>{ if(e.target===document.getElementById('videoModal')) closeModal(); });
-        document.getElementById('logoBtn').addEventListener('click',()=>{ window.location.reload(); });
-        
-        window.playVideo = handlePlay;
-        window.closeModal = closeModal;
-        window.downloadVideo = downloadVideo;
-        window.openLoginModal = openLoginModal;
-        window.openSignupModal = openSignupModal;
-        window.switchToSignup = switchToSignup;
-        window.switchToLogin = switchToLogin;
-        window.login = login;
-        window.signup = signup;
-        window.logout = logout;
-        window.forgotPassword = forgotPassword;
-        window.closeMembershipModal = closeMembershipModal;
-        window.joinMembership = joinMembership;
-        window.handlePlay = handlePlay;
-        window.openCoinsModal = openCoinsModal;
-        window.closeCoinsModal = closeCoinsModal;
-        window.showTermsModal = showTermsModal;
-        window.closeTermsModal = closeTermsModal;
-        
-        const sC=document.querySelector('.slider-container'); let sX,drag=false;
-        if(sC){ sC.addEventListener('touchstart',(e)=>{ sX=e.touches[0].clientX; drag=true; }); sC.addEventListener('touchend',(e)=>{ if(!drag) return; const dx=e.changedTouches[0].clientX-sX; if(Math.abs(dx)>50) dx>0?prevSlide():nextSlide(); drag=false; }); }
-        
-        async function init(){ 
-            if (!isAgeVerified) { showAgeVerification(); return; }
-            await seedDefaultData(); 
-            await loadAdLinks();
-            await loadMembershipUrl();
-            attachFirestoreListeners(); 
-            renderCategories(); 
-            updateCategoryTitle(); 
-            setInterval(async () => {
-                await loadAdLinks();
-                if (document.getElementById('coinsModal').classList.contains('active')) { renderCoinsButtons(); }
-            }, 30000);
-        }
-        
-        showAgeVerification();
+        async function init(){ await seedData(); attachListeners(); renderCategories(); updateCategoryTitle(); startAutoSlide(); }
+        if(isAgeVerified) init(); else document.getElementById('ageVerificationModal').classList.remove('hidden');
     </script>
 </body>
 </html>
