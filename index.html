@@ -21,6 +21,9 @@
         ::-webkit-scrollbar-track { background: #1a1a1a; }
         ::-webkit-scrollbar-thumb { background: #e50914; border-radius: 4px; }
         
+        /* Desktop Fixed Width Container */
+        .site-container { max-width: 1400px; margin: 0 auto; background: #0a0a0a; }
+        
         .header { background: linear-gradient(180deg, rgba(0,0,0,0.98) 0%, rgba(0,0,0,0.8) 70%, transparent 100%); padding: 18px 40px; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(2px); }
         .header-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
         .viral-logo { text-decoration: none; display: flex; flex-direction: column; line-height: 0.9; cursor: pointer; }
@@ -59,10 +62,6 @@
         .slider-dots { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 12px; z-index: 10; }
         .dot { width: 10px; height: 10px; background: rgba(255,255,255,0.5); border-radius: 50%; cursor: pointer; transition: 0.2s; }
         .dot.active { width: 30px; background: #E50914; border-radius: 10px; }
-        
-        /* Top Banner Ad - 728x90 */
-        .top-ad-container { text-align: center; padding: 10px 20px; background: #0a0a0a; border-bottom: 1px solid rgba(229,9,20,0.3); margin-top: -80px; z-index: 99; position: relative; }
-        .top-ad-container iframe { max-width: 100%; }
         
         .categories { max-width: 1400px; margin: 30px auto 20px; padding: 0 40px; display: flex; gap: 15px; flex-wrap: wrap; }
         .cat-btn { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); padding: 8px 24px; border-radius: 30px; cursor: pointer; transition: 0.2s; font-weight: 500; color: #ffffff; }
@@ -131,25 +130,27 @@
         .close-modal-btn { background: rgba(255,255,255,0.1); border: none; width: 36px; height: 36px; border-radius: 50%; color: white; font-size: 20px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
         .close-modal-btn:hover { background: #e50914; transform: scale(1.05); }
         
-        /* Professional Video Container with Overlay Ad */
-        .video-wrapper { position: relative; width: 100%; background: #000; }
-        .video-wrapper video { width: 100%; display: block; }
-        /* Disable long press context menu on video */
+        /* Video Player - Fixed Landscape */
+        .video-wrapper { position: relative; width: 100%; background: #000; aspect-ratio: 16 / 9; }
+        .video-wrapper video { width: 100%; height: 100%; object-fit: contain; }
         .video-wrapper video {
             pointer-events: auto;
             -webkit-touch-callout: none;
             -webkit-user-select: none;
             user-select: none;
         }
-        .video-overlay-ad { position: absolute; bottom: 15px; right: 15px; background: rgba(0,0,0,0.75); border-radius: 8px; padding: 5px; backdrop-filter: blur(8px); z-index: 10; border: 1px solid rgba(229,9,20,0.4); max-width: 300px; }
-        .video-overlay-ad iframe, .video-overlay-ad div { max-width: 100%; border-radius: 6px; }
         
-        /* Fullscreen me overlay ad hide */
-        .video-wrapper:fullscreen .video-overlay-ad { display: none !important; }
-        .video-wrapper:-webkit-full-screen .video-overlay-ad { display: none !important; }
-        .video-wrapper:-moz-full-screen .video-overlay-ad { display: none !important; }
-        .video-wrapper:fullscreen { width: 100vw; height: 100vh; }
-        .video-wrapper:fullscreen video { width: 100%; height: 100%; object-fit: contain; }
+        /* Recommended Videos Section */
+        .recommended-section { margin-top: 20px; padding: 15px; background: #0d0d0d; border-radius: 12px; }
+        .recommended-title { color: #e50914; font-size: 18px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .recommended-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; max-height: 300px; overflow-y: auto; padding: 5px; }
+        .recommended-item { background: #1a1a1a; border-radius: 10px; overflow: hidden; cursor: pointer; transition: transform 0.2s; border: 1px solid rgba(229,9,20,0.2); }
+        .recommended-item:hover { transform: translateY(-3px); border-color: #e50914; }
+        .recommended-thumb { aspect-ratio: 2/3; overflow: hidden; }
+        .recommended-thumb img { width: 100%; height: 100%; object-fit: cover; }
+        .recommended-info { padding: 8px; }
+        .recommended-info .title { font-size: 12px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .recommended-info .views { font-size: 10px; color: #888; margin-top: 3px; }
         
         .auth-container { background: linear-gradient(135deg, #151515, #0a0a0a); border-radius: 24px; padding: 40px; width: 90%; max-width: 450px; border: 1px solid #e5091433; position: relative; }
         .auth-close-btn { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.1); border: none; width: 32px; height: 32px; border-radius: 50%; color: white; font-size: 18px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
@@ -164,6 +165,73 @@
         .coins-bottom-ad { margin-top: 20px; padding-top: 15px; border-top: 1px solid rgba(255,215,0,0.2); text-align: center; }
         .coins-bottom-ad iframe, .coins-bottom-ad div { max-width: 100%; margin: 0 auto; }
         
+        /* ========== POPUP NOTE MODAL STYLES ========== */
+        .popup-note-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.96);
+            z-index: 20000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+        .popup-note-modal.hidden {
+            display: none;
+        }
+        .popup-note-container {
+            background: linear-gradient(135deg, #1a1a1a, #0a0a0a);
+            border-radius: 24px;
+            padding: 35px;
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+            border: 2px solid #e50914;
+            box-shadow: 0 0 50px rgba(229,9,20,0.3);
+            animation: popupFadeIn 0.3s ease;
+        }
+        @keyframes popupFadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .popup-note-container i {
+            font-size: 50px;
+            color: #e50914;
+            margin-bottom: 15px;
+        }
+        .popup-note-container h2 {
+            color: #FFD700;
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+        .popup-note-container .message {
+            color: #ccc;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+        .popup-ok-btn {
+            background: #e50914;
+            border: none;
+            padding: 12px 35px;
+            border-radius: 40px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
+        }
+        .popup-ok-btn:hover {
+            transform: scale(1.05);
+            background: #ff1a1a;
+        }
+        
+        @media (max-width: 1200px) {
+            .site-container { max-width: 100%; }
+        }
         @media (max-width:768px) {
             .header { padding: 12px 20px; }
             .viral-text, .street-text { font-size: 32px; }
@@ -172,11 +240,14 @@
             .free-coins-circle { width: 60px; height: 60px; }
             .stat-circle { width: 80px; height: 80px; }
             .stat-number { font-size: 18px; }
-            .video-overlay-ad { max-width: 200px; bottom: 10px; right: 10px; }
+            .recommended-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+            .popup-note-container { padding: 25px; }
+            .popup-note-container h2 { font-size: 20px; }
         }
     </style>
 </head>
 <body>
+<div class="site-container">
     <div id="ageVerificationModal" class="age-verification-modal">
         <div class="age-verification-container" style="background:linear-gradient(135deg,#151515,#0a0a0a);border-radius:24px;padding:40px;max-width:500px;text-align:center;border:1px solid #e50914;">
             <i class="fas fa-exclamation-triangle" style="font-size:60px;color:#e50914;"></i>
@@ -190,18 +261,14 @@
         </div>
     </div>
 
-    <!-- Top Banner Ad 728x90 -->
-    <div class="top-ad-container" id="topAdContainer" style="display:none;">
-        <script>
-            atOptions = {
-                'key' : '00bee7d1573eac9b2bd23e196a210573',
-                'format' : 'iframe',
-                'height' : 90,
-                'width' : 728,
-                'params' : {}
-            };
-        </script>
-        <script src="https://www.highperformanceformat.com/00bee7d1573eac9b2bd23e196a210573/invoke.js"></script>
+    <!-- Popup Note Modal - Admin controlled announcements -->
+    <div id="popupNoteModal" class="popup-note-modal hidden">
+        <div class="popup-note-container">
+            <i class="fas fa-bell"></i>
+            <h2 id="popupNoteTitle">Announcement</h2>
+            <div class="message" id="popupNoteMessage">Loading...</div>
+            <button class="popup-ok-btn" onclick="closePopupNote()">OK</button>
+        </div>
     </div>
 
     <div class="header" id="header" style="display:none;">
@@ -220,7 +287,6 @@
             <h3>📺 Earn Free Coins</h3>
             <p>Watch 10 sec ad → +10 coins each</p>
             <div class="coins-buttons-grid" id="coinsButtonsGrid"></div>
-            <!-- Bottom Ad in Coins Modal -->
             <div class="coins-bottom-ad">
                 <div id="container-3a1bf338471a5f8a1ad0b21b40e3b12b"></div>
             </div>
@@ -253,7 +319,7 @@
     <div class="section-title" id="sectionTitle" style="display:none; max-width:1400px; margin:30px auto 10px; padding:0 40px; font-size:24px; font-weight:700;"><i class="fas fa-video"></i> <span id="categoryTitle">All Videos</span></div>
     <div class="movies-container" id="moviesContainer" style="display:none;"><div class="movies-grid" id="videosGrid"></div><div class="pagination" id="paginationContainer"></div></div>
 
-    <!-- Video Modal with Professional Overlay Ad (Bottom Right) -->
+    <!-- Video Modal - No overlay ad, with recommended videos -->
     <div class="modal" id="videoModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -264,19 +330,11 @@
                 <video id="videoPlayer" controls controlsList="nodownload" oncontextmenu="return false;" playsinline>
                     <source id="videoSource" src="">
                 </video>
-                <!-- Overlay Ad - Bottom Right (300x250) -->
-                <div class="video-overlay-ad" id="videoOverlayAd">
-                    <script>
-                        atOptions = {
-                            'key' : 'f07f1717236fcdf6f425433aa47201be',
-                            'format' : 'iframe',
-                            'height' : 250,
-                            'width' : 300,
-                            'params' : {}
-                        };
-                    </script>
-                    <script src="https://www.highperformanceformat.com/f07f1717236fcdf6f425433aa47201be/invoke.js"></script>
-                </div>
+            </div>
+            <!-- Recommended Videos Section -->
+            <div class="recommended-section" id="recommendedSection">
+                <div class="recommended-title"><i class="fas fa-list"></i> Recommended Videos</div>
+                <div class="recommended-grid" id="recommendedGrid"></div>
             </div>
         </div>
     </div>
@@ -339,8 +397,38 @@
         let currentPage = 1;
         let itemsPerPage = 10;
         
-        // Download counter for 5 ads before download (using localStorage to persist)
         let downloadAdCounts = JSON.parse(localStorage.getItem('downloadAdCounts')) || {};
+        
+        // Current playing video ID for recommended section
+        let currentPlayingVideoId = null;
+        
+        // ========== POPUP NOTE FUNCTIONS ==========
+        async function checkAndShowPopupNote() {
+            try {
+                const docRef = db.collection("popupNotes").doc("activeNote");
+                const doc = await docRef.get();
+                
+                if (doc.exists && doc.data().active === true) {
+                    const noteVersion = localStorage.getItem('popupNoteVersion');
+                    const currentVersion = doc.data().updatedAt ? doc.data().updatedAt.toDate().getTime() : Date.now();
+                    
+                    // If note is different from last closed, show again
+                    if (noteVersion != currentVersion) {
+                        document.getElementById('popupNoteTitle').innerHTML = escapeHtml(doc.data().title);
+                        document.getElementById('popupNoteMessage').innerHTML = escapeHtml(doc.data().message);
+                        document.getElementById('popupNoteModal').classList.remove('hidden');
+                    }
+                }
+            } catch (error) {
+                console.error("Error checking popup note:", error);
+            }
+        }
+        
+        function closePopupNote() {
+            document.getElementById('popupNoteModal').classList.add('hidden');
+            // Store current timestamp to remember user closed this note
+            localStorage.setItem('popupNoteLastClosed', Date.now().toString());
+        }
         
         // ========== TRACK AD CLICK IN FIRESTORE ==========
         async function trackAdClick(adType, buttonId){
@@ -365,10 +453,8 @@
                     clickData.isLoggedIn = false;
                 }
                 
-                // Store individual click
                 await db.collection("adClicks").add(clickData);
                 
-                // Update total clicks counter
                 const totalStatsRef = db.collection("totalStats").doc("adClicks");
                 const totalStatsDoc = await totalStatsRef.get();
                 if(totalStatsDoc.exists){
@@ -383,7 +469,6 @@
                     });
                 }
                 
-                // If user is logged in, also update user's personal click count
                 if(currentUser){
                     const userRef = db.collection("users").doc(currentUser.uid);
                     await userRef.update({
@@ -396,10 +481,64 @@
                         }, { merge: true });
                     });
                 }
-                
-                console.log("✅ Ad click tracked successfully!");
             } catch(error){
                 console.error("Error tracking ad click:", error);
+            }
+        }
+        
+        // ========== RENDER RECOMMENDED VIDEOS (10 videos from all categories, excluding current) ==========
+        function renderRecommendedVideos(currentVideoId) {
+            const container = document.getElementById('recommendedGrid');
+            if (!container) return;
+            
+            // Get 10 random videos excluding current
+            let otherVideos = currentVideos.filter(v => v.id !== currentVideoId && v.isUpcoming !== true);
+            let shuffled = [...otherVideos];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            let recommended = shuffled.slice(0, 10);
+            
+            if (recommended.length === 0) {
+                container.innerHTML = '<div style="text-align:center; padding:20px; color:#666;">No recommended videos found</div>';
+                return;
+            }
+            
+            container.innerHTML = recommended.map(v => `
+                <div class="recommended-item" onclick="handlePlayFromRecommended('${v.id}')">
+                    <div class="recommended-thumb">
+                        <img src="${v.thumbnail}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x450?text=No+Image'">
+                    </div>
+                    <div class="recommended-info">
+                        <div class="title">${escapeHtml(v.title)}</div>
+                        <div class="views"><i class="fas fa-eye"></i> ${formatViews(v.views || 0)}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Play video from recommended section
+        async function handlePlayFromRecommended(videoId) {
+            let video = currentVideos.find(v => v.id === videoId);
+            if (!video) return;
+            if (video.isUpcoming === true) { showToast("⏳ Upcoming video, not available yet", true); return; }
+            
+            if (currentUser && currentUserMembership.active) {
+                await incrementViews(videoId);
+                openVideoPlayer(video.title, video.videoUrl, videoId);
+                showToast(`🎬 Premium access: ${video.title}`);
+            } 
+            else if (localCoins >= 50) {
+                localCoins -= 50;
+                localStorage.setItem('localCoins', localCoins);
+                updateLocalCoinUI();
+                await incrementViews(videoId);
+                openVideoPlayer(video.title, video.videoUrl, videoId);
+                showToast(`🎬 ${video.title} - 50 coins deducted`);
+            } 
+            else {
+                document.getElementById('insufficientCoinsModal').classList.add('active');
             }
         }
         
@@ -411,7 +550,7 @@
             
             if(currentUser && currentUserMembership.active){
                 await incrementViews(videoId);
-                openVideoPlayer(video.title, video.videoUrl);
+                openVideoPlayer(video.title, video.videoUrl, videoId);
                 showToast(`🎬 Premium access: ${video.title}`);
             } 
             else if(localCoins >= 50){
@@ -419,23 +558,26 @@
                 localStorage.setItem('localCoins', localCoins);
                 updateLocalCoinUI();
                 await incrementViews(videoId);
-                openVideoPlayer(video.title, video.videoUrl);
+                openVideoPlayer(video.title, video.videoUrl, videoId);
                 showToast(`🎬 ${video.title} - 50 coins deducted`);
             } 
             else { document.getElementById('insufficientCoinsModal').classList.add('active'); }
         }
         
-        function openVideoPlayer(title, url){ 
+        function openVideoPlayer(title, url, videoId){ 
             document.getElementById('modalTitle').innerHTML = title; 
             document.getElementById('videoSource').src = url; 
             document.getElementById('videoPlayer').load(); 
             document.getElementById('videoModal').classList.add('active'); 
-            document.getElementById('videoPlayer').play().catch(e=>console.log('Autoplay blocked')); 
+            document.getElementById('videoPlayer').play().catch(e=>console.log('Autoplay blocked'));
+            currentPlayingVideoId = videoId;
+            renderRecommendedVideos(videoId);
         }
         
         function closeVideoModal(){ 
             document.getElementById('videoPlayer').pause(); 
             document.getElementById('videoModal').classList.remove('active'); 
+            currentPlayingVideoId = null;
         }
         
         async function incrementViews(id){ try{ await db.collection("viral_videos").doc(id).update({views: firebase.firestore.FieldValue.increment(1)}); }catch(e){} }
@@ -496,7 +638,6 @@
                 return;
             }
             
-            // Track ad click in Firestore BEFORE opening ad
             await trackAdClick('free_coins_ad', buttonId);
             
             let adLink = "https://www.profitablecpmratenetwork.com/mk65i19v?key=e9f9c255c82dc28e0a257559b623568d";
@@ -681,13 +822,15 @@
         document.getElementById('searchBtn').addEventListener('click',()=>{ searchQuery=document.getElementById('searchInput').value; currentPage=1; renderVideosWithPagination(); });
         document.getElementById('prevSlide').addEventListener('click',prevSlide); document.getElementById('nextSlide').addEventListener('click',nextSlide); document.getElementById('logoBtn').addEventListener('click',()=>window.location.reload());
         
-        window.handlePlay=handlePlay; window.downloadVideo=downloadVideo; window.openLoginModal=openLoginModal; window.openSignupModal=openSignupModal;
+        window.handlePlay=handlePlay; window.handlePlayFromRecommended=handlePlayFromRecommended;
+        window.downloadVideo=downloadVideo; window.openLoginModal=openLoginModal; window.openSignupModal=openSignupModal;
         window.switchToSignup=switchToSignup; window.switchToLogin=switchToLogin; window.login=login; window.signup=signup; window.logout=logout;
         window.closeVideoModal=closeVideoModal; window.redirectToMembership=redirectToMembership; window.getFreeCoins=getFreeCoins;
         window.closeInsufficientModal=closeInsufficientModal; window.openCoinsModal=openCoinsModal; window.closeCoinsModal=closeCoinsModal;
         window.showTermsModal=showTermsModal; window.closeTermsModal=closeTermsModal; window.forgotPassword=forgotPassword;
         window.goToPage=goToPage; window.openTelegram=openTelegram; window.closeMembershipPopup=closeMembershipPopup;
         window.closeLoginModal=closeLoginModal; window.closeSignupModal=closeSignupModal;
+        window.closePopupNote=closePopupNote;
         
         let isAgeVerified = localStorage.getItem('ageVerified') === 'true';
         function verifyAge(over){
@@ -696,17 +839,21 @@
         }
         function showMainContent(){
             document.getElementById('header').style.display='block';
-            document.getElementById('topAdContainer').style.display='block';
             document.getElementById('freeCoinsContainer').style.display='block';
             document.getElementById('heroSection').style.display='block';
             document.getElementById('categoriesContainer').style.display='flex';
             document.getElementById('specialSections').style.display='block';
             document.getElementById('sectionTitle').style.display='flex';
             document.getElementById('moviesContainer').style.display='block';
+            // Check for popup note after main content loads
+            setTimeout(() => {
+                checkAndShowPopupNote();
+            }, 1000);
             init();
         }
         async function init(){ await seedData(); attachListeners(); renderCategories(); updateCategoryTitle(); startAutoSlide(); }
         if(isAgeVerified) init(); else document.getElementById('ageVerificationModal').classList.remove('hidden');
     </script>
+</div>
 </body>
 </html>
