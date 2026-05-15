@@ -7,10 +7,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Firebase SDKs -->
+    <!-- Firebase SDKs (kept for auth, coins system, etc.) -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
     <!-- Adsterra Native Banner Code -->
     <script async="async" data-cfasync="false" src="https://pl29421924.profitablecpmratenetwork.com/3a1bf338471a5f8a1ad0b21b40e3b12b/invoke.js"></script>
@@ -370,6 +372,12 @@
     <div class="auth-modal" id="termsModal"><div class="auth-container" style="max-height:70vh;overflow:auto;"><h2>Terms & 18+ Policy</h2><p style="font-size:13px;">By signing up you confirm you are 18+. Content includes adult scandals. Coins have no cash value. Membership is non-refundable. Admin can terminate accounts that abuse system.</p><button class="auth-btn-full" onclick="closeTermsModal()">Accept</button></div></div>
 
     <script>
+        // ========== SUPABASE SETUP ==========
+        const SUPABASE_URL = 'https://gbbugdhizwrrmrvtytec.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdiYnVnZGhpendycm1ydnR5dGVjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3ODEyMTEsImV4cCI6MjA5NDM1NzIxMX0.S5Lp7tyzCjIvFQovX0ntNhgc81KW5MNUoH5CHFZQdxU';
+        
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        
         // ========== LOCAL COIN SYSTEM WITH DAILY LIMIT ==========
         let localCoins = parseInt(localStorage.getItem('localCoins')) || 0;
         let dailyCoinsEarned = parseInt(localStorage.getItem('dailyCoinsEarned')) || 0;
@@ -412,7 +420,6 @@
                     const noteVersion = localStorage.getItem('popupNoteVersion');
                     const currentVersion = doc.data().updatedAt ? doc.data().updatedAt.toDate().getTime() : Date.now();
                     
-                    // If note is different from last closed, show again
                     if (noteVersion != currentVersion) {
                         document.getElementById('popupNoteTitle').innerHTML = escapeHtml(doc.data().title);
                         document.getElementById('popupNoteMessage').innerHTML = escapeHtml(doc.data().message);
@@ -426,7 +433,6 @@
         
         function closePopupNote() {
             document.getElementById('popupNoteModal').classList.add('hidden');
-            // Store current timestamp to remember user closed this note
             localStorage.setItem('popupNoteLastClosed', Date.now().toString());
         }
         
@@ -486,12 +492,11 @@
             }
         }
         
-        // ========== RENDER RECOMMENDED VIDEOS (10 videos from all categories, excluding current) ==========
+        // ========== RENDER RECOMMENDED VIDEOS ==========
         function renderRecommendedVideos(currentVideoId) {
             const container = document.getElementById('recommendedGrid');
             if (!container) return;
             
-            // Get 10 random videos excluding current
             let otherVideos = currentVideos.filter(v => v.id !== currentVideoId && v.isUpcoming !== true);
             let shuffled = [...otherVideos];
             for (let i = shuffled.length - 1; i > 0; i--) {
@@ -518,7 +523,6 @@
             `).join('');
         }
         
-        // Play video from recommended section
         async function handlePlayFromRecommended(videoId) {
             let video = currentVideos.find(v => v.id === videoId);
             if (!video) return;
@@ -580,7 +584,16 @@
             currentPlayingVideoId = null;
         }
         
-        async function incrementViews(id){ try{ await db.collection("viral_videos").doc(id).update({views: firebase.firestore.FieldValue.increment(1)}); }catch(e){} }
+        async function incrementViews(id){ 
+            try{ 
+                // Update views in Supabase
+                const { data, error } = await supabaseClient
+                    .from('videos')
+                    .update({ views: supabaseClient.rpc('increment', { row_id: id, x: 1 }) })
+                    .eq('id', id);
+                if(error) console.error('Error updating views:', error);
+            } catch(e){ console.log('View increment error:', e); }
+        }
         
         // ========== DOWNLOAD WITH 5 ADS ==========
         function downloadVideo(vid){
@@ -680,36 +693,140 @@
         function switchToSignup(){ closeLoginModal(); openSignupModal(); }
         function switchToLogin(){ closeSignupModal(); openLoginModal(); }
         
-        // ========== FIREBASE ==========
+        // ========== FIREBASE (Kept for Auth, Coins, Ad Clicks, Popup Notes) ==========
         const firebaseConfig = { apiKey: "AIzaSyDLloBWMeIB62CYFjxx_2DPicV9im6wFiI", authDomain: "viralstreet-c0128.firebaseapp.com", projectId: "viralstreet-c0128", storageBucket: "viralstreet-c0128.firebasestorage.app", messagingSenderId: "436825511768", appId: "1:436825511768:web:1456b6b669c2b00222f72d" };
         const app = firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
         const auth = firebase.auth();
         
         let currentVideos = [], currentSlides = [], currentCategory = "all", searchQuery = "";
-        const defaultVideos = [
-            { title: "🔥 Premium Exclusive: Behind Scenes", year: "2024", category: "premium", thumbnail: "https://images.pexels.com/photos/2264753/pexels-photo-2264753.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4", views: 12500, isTrending: true, isUpcoming: false, isFeatured: true },
-            { title: "🇮🇳 Indian Scandal: Exposed", year: "2024", category: "indian", thumbnail: "https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFunflies.mp4", views: 8700, isTrending: true, isUpcoming: false },
-            { title: "🇵🇰 Pakistani Scandal: Reality", year: "2024", category: "pakistani", thumbnail: "https://images.pexels.com/photos/3926126/pexels-photo-3926126.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4", views: 5200, isTrending: false, isUpcoming: true },
-            { title: "🎬 Trending All Access", year: "2023", category: "all", thumbnail: "https://images.pexels.com/photos/3062543/pexels-photo-3062543.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4", views: 34000, isTrending: true, isFeatured: true }
-        ];
-        for(let i=5; i<=35; i++){ defaultVideos.push({ title: `Video ${i}: Amazing Content`, year: "2024", category: i%4===0?"premium":i%3===0?"indian":"all", thumbnail: "https://images.pexels.com/photos/3184419/pexels-photo-3184419.jpeg?auto=compress&cs=tinysrgb&w=400", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFunflies.mp4", views: 1000+i*100, isTrending: i<8, isUpcoming: false }); }
         
-        const defaultSliders = [
-            { imgUrl: "https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=1200", title: "Indian Scandals Exposed", desc: "Biggest controversies", badge: "TRENDING", order:1 },
-            { imgUrl: "https://images.pexels.com/photos/3926126/pexels-photo-3926126.jpeg?auto=compress&cs=tinysrgb&w=1200", title: "Pakistani Scandals", desc: "Uncovered truths", badge: "HOT", order:2 }
-        ];
-        
-        async function seedData(){
-            let snap = await db.collection("viral_videos").get();
-            if(snap.empty) for(let v of defaultVideos) await db.collection("viral_videos").add({...v, createdAt: firebase.firestore.FieldValue.serverTimestamp()});
-            let slideSnap = await db.collection("viral_sliders").get();
-            if(slideSnap.empty) for(let s of defaultSliders) await db.collection("viral_sliders").add({...s, createdAt: firebase.firestore.FieldValue.serverTimestamp()});
+        // ========== SUPABASE FUNCTIONS FOR VIDEOS ==========
+        async function loadVideosFromSupabase() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('videos')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+                
+                if (error) throw error;
+                
+                if (data && data.length > 0) {
+                    currentVideos = data.map(v => ({
+                        id: v.id,
+                        title: v.title,
+                        thumbnail: v.image_url,
+                        videoUrl: v.video_url,
+                        category: v.category,
+                        views: v.views || 0,
+                        year: v.year || '2024',
+                        isTrending: v.is_trending || false,
+                        isUpcoming: v.is_upcoming || false,
+                        isFeatured: v.is_featured || false,
+                        createdAt: v.created_at
+                    }));
+                } else {
+                    // Seed default videos if none exist
+                    await seedDefaultVideosToSupabase();
+                }
+                
+                renderAll();
+            } catch (error) {
+                console.error('Error loading videos from Supabase:', error);
+                showToast('Error loading videos', true);
+            }
         }
         
-        function attachListeners(){
-            db.collection("viral_videos").orderBy("createdAt","desc").onSnapshot(snap=>{ currentVideos=[]; snap.forEach(d=>currentVideos.push({id:d.id,...d.data()})); renderAll(); });
-            db.collection("viral_sliders").orderBy("order").onSnapshot(snap=>{ currentSlides=[]; snap.forEach(d=>currentSlides.push({id:d.id,...d.data()})); renderSlider(); if(currentSlides.length) startAutoSlide(); });
+        async function seedDefaultVideosToSupabase() {
+            const defaultVideos = [
+                { title: "🔥 Premium Exclusive: Behind Scenes", year: "2024", category: "premium", image_url: "https://images.pexels.com/photos/2264753/pexels-photo-2264753.jpeg?auto=compress&cs=tinysrgb&w=400", video_url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4", views: 12500, is_trending: true, is_upcoming: false, is_featured: true },
+                { title: "🇮🇳 Indian Scandal: Exposed", year: "2024", category: "indian", image_url: "https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=400", video_url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFunflies.mp4", views: 8700, is_trending: true, is_upcoming: false, is_featured: false },
+                { title: "🇵🇰 Pakistani Scandal: Reality", year: "2024", category: "pakistani", image_url: "https://images.pexels.com/photos/3926126/pexels-photo-3926126.jpeg?auto=compress&cs=tinysrgb&w=400", video_url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4", views: 5200, is_trending: false, is_upcoming: true, is_featured: false },
+                { title: "🎬 Trending All Access", year: "2023", category: "all", image_url: "https://images.pexels.com/photos/3062543/pexels-photo-3062543.jpeg?auto=compress&cs=tinysrgb&w=400", video_url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4", views: 34000, is_trending: true, is_featured: true, is_upcoming: false }
+            ];
+            
+            for(let i=5; i<=35; i++){ 
+                defaultVideos.push({ 
+                    title: `Video ${i}: Amazing Content`, 
+                    year: "2024", 
+                    category: i%4===0?"premium":i%3===0?"indian":"all", 
+                    image_url: "https://images.pexels.com/photos/3184419/pexels-photo-3184419.jpeg?auto=compress&cs=tinysrgb&w=400", 
+                    video_url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFunflies.mp4", 
+                    views: 1000+i*100, 
+                    is_trending: i<8, 
+                    is_upcoming: false,
+                    is_featured: false
+                }); 
+            }
+            
+            for (let v of defaultVideos) {
+                await supabaseClient
+                    .from('videos')
+                    .insert([{
+                        title: v.title,
+                        year: v.year,
+                        category: v.category,
+                        image_url: v.image_url,
+                        video_url: v.video_url,
+                        views: v.views,
+                        is_trending: v.is_trending,
+                        is_upcoming: v.is_upcoming,
+                        is_featured: v.is_featured,
+                        created_at: new Date().toISOString()
+                    }]);
+            }
+            
+            await loadVideosFromSupabase();
+        }
+        
+        async function loadSlidersFromSupabase() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('sliders')
+                    .select('*')
+                    .order('order', { ascending: true });
+                
+                if (error) throw error;
+                
+                if (data && data.length > 0) {
+                    currentSlides = data.map(s => ({
+                        id: s.id,
+                        imgUrl: s.image_url,
+                        title: s.title,
+                        desc: s.description,
+                        badge: s.badge,
+                        order: s.order
+                    }));
+                } else {
+                    await seedDefaultSlidersToSupabase();
+                }
+                
+                renderSlider();
+                if(currentSlides.length) startAutoSlide();
+            } catch (error) {
+                console.error('Error loading sliders from Supabase:', error);
+            }
+        }
+        
+        async function seedDefaultSlidersToSupabase() {
+            const defaultSliders = [
+                { image_url: "https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=1200", title: "Indian Scandals Exposed", description: "Biggest controversies", badge: "TRENDING", order: 1 },
+                { image_url: "https://images.pexels.com/photos/3926126/pexels-photo-3926126.jpeg?auto=compress&cs=tinysrgb&w=1200", title: "Pakistani Scandals", description: "Uncovered truths", badge: "HOT", order: 2 }
+            ];
+            
+            for (let s of defaultSliders) {
+                await supabaseClient
+                    .from('sliders')
+                    .insert([{
+                        image_url: s.image_url,
+                        title: s.title,
+                        description: s.description,
+                        badge: s.badge,
+                        order: s.order
+                    }]);
+            }
+            
+            await loadSlidersFromSupabase();
         }
         
         function renderAll(){ renderVideosWithPagination(); renderUpcomingTrending(); }
@@ -845,13 +962,18 @@
             document.getElementById('specialSections').style.display='block';
             document.getElementById('sectionTitle').style.display='flex';
             document.getElementById('moviesContainer').style.display='block';
-            // Check for popup note after main content loads
             setTimeout(() => {
                 checkAndShowPopupNote();
             }, 1000);
             init();
         }
-        async function init(){ await seedData(); attachListeners(); renderCategories(); updateCategoryTitle(); startAutoSlide(); }
+        async function init(){ 
+            await loadVideosFromSupabase(); 
+            await loadSlidersFromSupabase();
+            renderCategories(); 
+            updateCategoryTitle(); 
+            startAutoSlide(); 
+        }
         if(isAgeVerified) init(); else document.getElementById('ageVerificationModal').classList.remove('hidden');
     </script>
 </div>
