@@ -3,32 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-
-<meta name="6a97888e-site-verification" content="40d3c84816005404bfab3ca9ae638b5c">
-
+    <meta name="6a97888e-site-verification" content="40d3c84816005404bfab3ca9ae638b5c">
     <title>VIRAL STREET | Premium Free | Indian & Pakistani Scandals</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Firebase SDKs (kept for auth, coins system, etc.) -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-    <!-- Supabase SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
-    <!-- Adsterra Native Banner Code -->
-    <script async="async" data-cfasync="false" src="https://pl29421924.profitablecpmratenetwork.com/3a1bf338471a5f8a1ad0b21b40e3b12b/invoke.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #0a0a0a; font-family: 'Inter', sans-serif; color: #fff; overflow-x: hidden; }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #1a1a1a; }
-        ::-webkit-scrollbar-thumb { background: #e50914; border-radius: 4px; }
-        
-        /* Desktop Fixed Width Container */
         .site-container { max-width: 1400px; margin: 0 auto; background: #0a0a0a; }
-        
         .header { background: linear-gradient(180deg, rgba(0,0,0,0.98) 0%, rgba(0,0,0,0.8) 70%, transparent 100%); padding: 18px 40px; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(2px); }
         .header-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
         .viral-logo { text-decoration: none; display: flex; flex-direction: column; line-height: 0.9; cursor: pointer; }
@@ -39,20 +27,15 @@
         .membership-badge { background: linear-gradient(135deg, #e50914, #b0070f); border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: bold; margin-left: 10px; }
         .auth-btn { background: #E50914; border: none; color: white; padding: 8px 20px; border-radius: 30px; cursor: pointer; font-weight: 600; transition: transform 0.2s, background 0.2s; }
         .auth-btn:hover { transform: scale(1.03); background: #ff1a1a; }
-        
         .free-coins-container { position: fixed; left: 20px; top: 50%; transform: translateY(-50%); z-index: 100; }
         .free-coins-circle { width: 80px; height: 80px; background: linear-gradient(135deg, #FFD700, #FFA500); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 20px rgba(255,215,0,0.5); transition: transform 0.2s, box-shadow 0.2s; animation: float-circle 2s infinite; }
         .free-coins-circle:hover { transform: scale(1.08); box-shadow: 0 0 30px rgba(255,215,0,0.8); }
         @keyframes float-circle { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-        
         .coins-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); z-index: 6000; display: none; align-items: center; justify-content: center; }
         .coins-modal.active { display: flex; }
         .coins-container { background: linear-gradient(135deg, #151515, #0a0a0a); border-radius: 24px; padding: 30px; width: 90%; max-width: 500px; border: 1px solid rgba(229,9,20,0.3); text-align: center; }
         .coins-buttons-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 15px; margin-bottom: 20px; }
         .coin-ad-btn { background: linear-gradient(135deg, #2a2a2a, #1a1a1a); border: 1px solid rgba(255,215,0,0.3); border-radius: 12px; padding: 15px; cursor: pointer; transition: all 0.2s; }
-        .coin-ad-btn.completed { opacity: 0.5; filter: grayscale(0.8); cursor: not-allowed; }
-        .coin-ad-btn.limit-reached { opacity: 0.4; filter: grayscale(1); cursor: not-allowed; background: #1a1a1a; }
-        
         .search-box { background: rgba(0,0,0,0.75); border: 1px solid rgba(255,255,255,0.2); border-radius: 30px; padding: 8px 18px; display: flex; gap: 5px; }
         .search-box input { background: transparent; border: none; padding: 8px; color: white; width: 250px; outline: none; }
         .hero-section { margin-top: -80px; }
@@ -67,18 +50,15 @@
         .slider-dots { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 12px; z-index: 10; }
         .dot { width: 10px; height: 10px; background: rgba(255,255,255,0.5); border-radius: 50%; cursor: pointer; transition: 0.2s; }
         .dot.active { width: 30px; background: #E50914; border-radius: 10px; }
-        
         .categories { max-width: 1400px; margin: 30px auto 20px; padding: 0 40px; display: flex; gap: 15px; flex-wrap: wrap; }
         .cat-btn { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); padding: 8px 24px; border-radius: 30px; cursor: pointer; transition: 0.2s; font-weight: 500; color: #ffffff; }
         .cat-btn.active, .cat-btn:hover { background: #E50914; border-color: #E50914; transform: scale(1.03); color: #ffffff; }
-        
         .stats-container { display: flex; justify-content: center; gap: 30px; margin-top: 30px; flex-wrap: wrap; }
         .stat-circle { position: relative; width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, #1e1e1e, #0a0a0a); display: flex; align-items: center; justify-content: center; border: 2px solid #e50914; box-shadow: 0 0 20px rgba(229,9,20,0.3); transition: transform 0.3s; }
         .stat-circle:hover { transform: scale(1.05); }
         .stat-circle-inner { text-align: center; }
         .stat-number { font-size: 24px; font-weight: 800; color: #e50914; }
         .stat-label { font-size: 10px; color: #ccc; margin-top: 5px; letter-spacing: 0.5px; }
-        
         .membership-popup-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 7000; display: none; align-items: center; justify-content: center; }
         .membership-popup-modal.active { display: flex; }
         .membership-popup-container { background: linear-gradient(135deg, #1a1a1a, #0a0a0a); border-radius: 24px; padding: 40px; max-width: 450px; width: 90%; text-align: center; border: 1px solid #e50914; box-shadow: 0 0 40px rgba(229,9,20,0.2); }
@@ -91,7 +71,6 @@
         .telegram-btn:hover { transform: scale(1.05); background: linear-gradient(135deg, #00a0e0, #0077b3); }
         .close-popup-btn { background: rgba(255,255,255,0.1); border: 1px solid #333; padding: 10px 25px; border-radius: 30px; color: white; cursor: pointer; margin-top: 15px; transition: 0.2s; }
         .close-popup-btn:hover { background: #e50914; border-color: #e50914; }
-        
         .scroll-container { overflow-x: auto; overflow-y: hidden; white-space: nowrap; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: thin; padding-bottom: 10px; }
         .scroll-container::-webkit-scrollbar { height: 5px; }
         .scroll-container::-webkit-scrollbar-track { background: #1a1a1a; border-radius: 10px; }
@@ -99,12 +78,9 @@
         .scroll-grid { display: inline-flex; gap: 20px; white-space: normal; }
         .scroll-grid .movie-card { width: 200px; display: inline-block; vertical-align: top; }
         @media (max-width: 768px) { .scroll-grid .movie-card { width: 160px; } }
-        
         .pagination { display: flex; justify-content: center; gap: 12px; margin-top: 30px; margin-bottom: 20px; flex-wrap: wrap; }
         .page-btn { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); padding: 10px 16px; border-radius: 30px; cursor: pointer; transition: 0.2s; font-weight: 500; color: white; }
         .page-btn.active { background: #e50914; border-color: #e50914; }
-        .page-btn:hover:not(.active) { background: rgba(229,9,20,0.5); transform: scale(1.05); }
-        
         .special-sections { max-width: 1400px; margin: 0 auto; padding: 0 40px; display: none; }
         .special-sections.active { display: block; }
         .special-card { background: linear-gradient(135deg, #1a1a1a, #0d0d0d); border-radius: 16px; padding: 20px; margin-bottom: 30px; border: 1px solid rgba(229,9,20,0.3); }
@@ -127,25 +103,14 @@
         .download-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; }
         .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #000000dd; color: white; padding: 12px 28px; border-radius: 40px; z-index: 4000; animation: fadeOut 2.5s forwards; border-left: 4px solid #E50914; backdrop-filter: blur(8px); }
         @keyframes fadeOut { 0% { opacity:0; transform: translateX(-50%) translateY(20px); } 15% { opacity:1; transform: translateX(-50%) translateY(0); } 85% { opacity:1; } 100% { opacity:0; visibility: hidden; } }
-        
         .modal, .auth-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.97); z-index: 3000; display: none; align-items: center; justify-content: center; }
         .modal.active, .auth-modal.active { display: flex; }
         .modal-content { background: #151515; border-radius: 20px; max-width: 1000px; width: 90%; overflow: hidden; }
         .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: #0a0a0a; border-bottom: 1px solid #2a2a2a; }
         .close-modal-btn { background: rgba(255,255,255,0.1); border: none; width: 36px; height: 36px; border-radius: 50%; color: white; font-size: 20px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
         .close-modal-btn:hover { background: #e50914; transform: scale(1.05); }
-        
-        /* Video Player - Fixed Landscape */
         .video-wrapper { position: relative; width: 100%; background: #000; aspect-ratio: 16 / 9; }
         .video-wrapper video { width: 100%; height: 100%; object-fit: contain; }
-        .video-wrapper video {
-            pointer-events: auto;
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            user-select: none;
-        }
-        
-        /* Recommended Videos Section */
         .recommended-section { margin-top: 20px; padding: 15px; background: #0d0d0d; border-radius: 12px; }
         .recommended-title { color: #e50914; font-size: 18px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
         .recommended-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; max-height: 300px; overflow-y: auto; padding: 5px; }
@@ -156,7 +121,6 @@
         .recommended-info { padding: 8px; }
         .recommended-info .title { font-size: 12px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .recommended-info .views { font-size: 10px; color: #888; margin-top: 3px; }
-        
         .auth-container { background: linear-gradient(135deg, #151515, #0a0a0a); border-radius: 24px; padding: 40px; width: 90%; max-width: 450px; border: 1px solid #e5091433; position: relative; }
         .auth-close-btn { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.1); border: none; width: 32px; height: 32px; border-radius: 50%; color: white; font-size: 18px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
         .auth-close-btn:hover { background: #e50914; transform: scale(1.05); }
@@ -164,91 +128,17 @@
         .auth-btn-full { width: 100%; background: #e50914; border: none; padding: 14px; border-radius: 12px; font-weight: 600; color: white; cursor: pointer; transition: 0.2s; }
         .age-verification-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 10000; display: flex; align-items: center; justify-content: center; }
         .age-verification-modal.hidden { display: none; }
-        .insufficient-coins-modal .modal-content { max-width: 400px; text-align: center; padding: 20px; }
-        
-        /* Coins Modal Bottom Ad */
-        .coins-bottom-ad { margin-top: 20px; padding-top: 15px; border-top: 1px solid rgba(255,215,0,0.2); text-align: center; }
-        .coins-bottom-ad iframe, .coins-bottom-ad div { max-width: 100%; margin: 0 auto; }
-        
-        /* ========== POPUP NOTE MODAL STYLES ========== */
-        .popup-note-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.96);
-            z-index: 20000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(5px);
-        }
-        .popup-note-modal.hidden {
-            display: none;
-        }
-        .popup-note-container {
-            background: linear-gradient(135deg, #1a1a1a, #0a0a0a);
-            border-radius: 24px;
-            padding: 35px;
-            max-width: 450px;
-            width: 90%;
-            text-align: center;
-            border: 2px solid #e50914;
-            box-shadow: 0 0 50px rgba(229,9,20,0.3);
-            animation: popupFadeIn 0.3s ease;
-        }
-        @keyframes popupFadeIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        .popup-note-container i {
-            font-size: 50px;
-            color: #e50914;
-            margin-bottom: 15px;
-        }
-        .popup-note-container h2 {
-            color: #FFD700;
-            margin-bottom: 15px;
-            font-size: 24px;
-        }
-        .popup-note-container .message {
-            color: #ccc;
-            line-height: 1.6;
-            margin-bottom: 25px;
-            font-size: 14px;
-        }
-        .popup-ok-btn {
-            background: #e50914;
-            border: none;
-            padding: 12px 35px;
-            border-radius: 40px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 16px;
-        }
-        .popup-ok-btn:hover {
-            transform: scale(1.05);
-            background: #ff1a1a;
-        }
-        
-        @media (max-width: 1200px) {
-            .site-container { max-width: 100%; }
-        }
-        @media (max-width:768px) {
-            .header { padding: 12px 20px; }
-            .viral-text, .street-text { font-size: 32px; }
-            .slide-title { font-size: 24px; max-width: 100%; }
-            .movies-grid { grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 15px; }
-            .free-coins-circle { width: 60px; height: 60px; }
-            .stat-circle { width: 80px; height: 80px; }
-            .stat-number { font-size: 18px; }
-            .recommended-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
-            .popup-note-container { padding: 25px; }
-            .popup-note-container h2 { font-size: 20px; }
-        }
+        .popup-note-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); z-index: 20000; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+        .popup-note-modal.hidden { display: none; }
+        .popup-note-container { background: linear-gradient(135deg, #1a1a1a, #0a0a0a); border-radius: 24px; padding: 35px; max-width: 450px; width: 90%; text-align: center; border: 2px solid #e50914; box-shadow: 0 0 50px rgba(229,9,20,0.3); animation: popupFadeIn 0.3s ease; }
+        @keyframes popupFadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        .popup-note-container i { font-size: 50px; color: #e50914; margin-bottom: 15px; }
+        .popup-note-container h2 { color: #FFD700; margin-bottom: 15px; font-size: 24px; }
+        .popup-note-container .message { color: #ccc; line-height: 1.6; margin-bottom: 25px; font-size: 14px; }
+        .popup-ok-btn { background: #e50914; border: none; padding: 12px 35px; border-radius: 40px; color: white; font-weight: 600; cursor: pointer; transition: all 0.3s; font-size: 16px; }
+        .popup-ok-btn:hover { transform: scale(1.05); background: #ff1a1a; }
+        @media (max-width: 1200px) { .site-container { max-width: 100%; } }
+        @media (max-width:768px) { .header { padding: 12px 20px; } .viral-text, .street-text { font-size: 32px; } .slide-title { font-size: 24px; max-width: 100%; } .movies-grid { grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 15px; } .free-coins-circle { width: 60px; height: 60px; } .stat-circle { width: 80px; height: 80px; } .stat-number { font-size: 18px; } .recommended-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); } }
     </style>
 </head>
 <body>
@@ -266,7 +156,6 @@
         </div>
     </div>
 
-    <!-- Popup Note Modal - Admin controlled announcements -->
     <div id="popupNoteModal" class="popup-note-modal hidden">
         <div class="popup-note-container">
             <i class="fas fa-bell"></i>
@@ -287,14 +176,12 @@
     </div>
 
     <div class="free-coins-container" id="freeCoinsContainer" style="display:none;"><div class="free-coins-circle" onclick="openCoinsModal()"><i class="fas fa-coins"></i><span>Free Coins</span></div></div>
+    
     <div class="coins-modal" id="coinsModal">
         <div class="coins-container">
             <h3>📺 Earn Free Coins</h3>
             <p>Watch 10 sec ad → +10 coins each</p>
             <div class="coins-buttons-grid" id="coinsButtonsGrid"></div>
-            <div class="coins-bottom-ad">
-                <div id="container-3a1bf338471a5f8a1ad0b21b40e3b12b"></div>
-            </div>
             <button class="close-coins-modal" style="background:#e50914;padding:10px 20px;border:none;border-radius:30px;color:white;cursor:pointer;margin-top:15px;" onclick="closeCoinsModal()">Close</button>
         </div>
     </div>
@@ -324,19 +211,18 @@
     <div class="section-title" id="sectionTitle" style="display:none; max-width:1400px; margin:30px auto 10px; padding:0 40px; font-size:24px; font-weight:700;"><i class="fas fa-video"></i> <span id="categoryTitle">All Videos</span></div>
     <div class="movies-container" id="moviesContainer" style="display:none;"><div class="movies-grid" id="videosGrid"></div><div class="pagination" id="paginationContainer"></div></div>
 
-    <!-- Video Modal - No overlay ad, with recommended videos -->
+    <!-- Video Modal -->
     <div class="modal" id="videoModal">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 id="modalTitle">Now Playing</h3>
                 <button class="close-modal-btn" onclick="closeVideoModal()"><i class="fas fa-times"></i></button>
             </div>
-            <div class="video-wrapper" id="videoWrapper">
-                <video id="videoPlayer" controls controlsList="nodownload" oncontextmenu="return false;" playsinline>
+            <div class="video-wrapper">
+                <video id="videoPlayer" controls controlsList="nodownload" oncontextmenu="return false;" playsinline style="width:100%; height:100%;">
                     <source id="videoSource" src="">
                 </video>
             </div>
-            <!-- Recommended Videos Section -->
             <div class="recommended-section" id="recommendedSection">
                 <div class="recommended-title"><i class="fas fa-list"></i> Recommended Videos</div>
                 <div class="recommended-grid" id="recommendedGrid"></div>
@@ -375,17 +261,40 @@
     <div class="auth-modal" id="termsModal"><div class="auth-container" style="max-height:70vh;overflow:auto;"><h2>Terms & 18+ Policy</h2><p style="font-size:13px;">By signing up you confirm you are 18+. Content includes adult scandals. Coins have no cash value. Membership is non-refundable. Admin can terminate accounts that abuse system.</p><button class="auth-btn-full" onclick="closeTermsModal()">Accept</button></div></div>
 
     <script>
-        // ========== SUPABASE SETUP ==========
+        // Supabase Setup
         const SUPABASE_URL = 'https://gbbugdhizwrrmrvtytec.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdiYnVnZGhpendycm1ydnR5dGVjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3ODEyMTEsImV4cCI6MjA5NDM1NzIxMX0.S5Lp7tyzCjIvFQovX0ntNhgc81KW5MNUoH5CHFZQdxU';
-        
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         
-        // ========== LOCAL COIN SYSTEM WITH DAILY LIMIT ==========
+        // Firebase Config
+        const firebaseConfig = {
+            apiKey: "AIzaSyDLloBWMeIB62CYFjxx_2DPicV9im6wFiI",
+            authDomain: "viralstreet-c0128.firebaseapp.com",
+            projectId: "viralstreet-c0128",
+            storageBucket: "viralstreet-c0128.firebasestorage.app",
+            messagingSenderId: "436825511768",
+            appId: "1:436825511768:web:1456b6b669c2b00222f72d"
+        };
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+        
+        // Global Variables
+        let currentVideos = [];
+        let currentSlides = [];
+        let currentCategory = "all";
+        let searchQuery = "";
+        let currentPage = 1;
+        let itemsPerPage = 10;
         let localCoins = parseInt(localStorage.getItem('localCoins')) || 0;
         let dailyCoinsEarned = parseInt(localStorage.getItem('dailyCoinsEarned')) || 0;
         let lastResetDate = localStorage.getItem('lastResetDate') || '';
         const DAILY_LIMIT = 300;
+        let currentUser = null;
+        let currentUserMembership = { active: false };
+        let currentUsername = "";
+        let currentSlide = 0;
+        let autoInterval;
         
         let today = new Date().toDateString();
         if(lastResetDate !== today){
@@ -394,169 +303,53 @@
             localStorage.setItem('lastResetDate', today);
         }
         
-        let currentUser = null;
-        let currentUserMembership = { active: false };
-        let anonymousId = localStorage.getItem('anonymousId');
-        if(!anonymousId){
-            anonymousId = 'anon_' + Math.random().toString(36).substr(2, 9);
-            localStorage.setItem('anonymousId', anonymousId);
+        function updateLocalCoinUI() { 
+            const coinSpan = document.getElementById('coinAmount');
+            if(coinSpan) coinSpan.innerText = localCoins;
         }
-        
-        function updateLocalCoinUI() { document.getElementById('coinAmount').innerText = localCoins; }
         updateLocalCoinUI();
         
-        let currentPage = 1;
-        let itemsPerPage = 10;
-        
-        let downloadAdCounts = JSON.parse(localStorage.getItem('downloadAdCounts')) || {};
-        
-        // Current playing video ID for recommended section
-        let currentPlayingVideoId = null;
-        
-        // ========== POPUP NOTE FUNCTIONS ==========
-        async function checkAndShowPopupNote() {
-            try {
-                const docRef = db.collection("popupNotes").doc("activeNote");
-                const doc = await docRef.get();
-                
-                if (doc.exists && doc.data().active === true) {
-                    const noteVersion = localStorage.getItem('popupNoteVersion');
-                    const currentVersion = doc.data().updatedAt ? doc.data().updatedAt.toDate().getTime() : Date.now();
-                    
-                    if (noteVersion != currentVersion) {
-                        document.getElementById('popupNoteTitle').innerHTML = escapeHtml(doc.data().title);
-                        document.getElementById('popupNoteMessage').innerHTML = escapeHtml(doc.data().message);
-                        document.getElementById('popupNoteModal').classList.remove('hidden');
-                    }
-                }
-            } catch (error) {
-                console.error("Error checking popup note:", error);
-            }
+        function showToast(msg, err=false){ 
+            let t=document.createElement('div'); 
+            t.className='toast'; 
+            t.innerHTML=`<i class="fas ${err?'fa-exclamation-triangle':'fa-check-circle'}"></i> ${msg}`; 
+            document.body.appendChild(t); 
+            setTimeout(()=>t.remove(),3500); 
         }
         
-        function closePopupNote() {
-            document.getElementById('popupNoteModal').classList.add('hidden');
-            localStorage.setItem('popupNoteLastClosed', Date.now().toString());
+        function formatViews(v){ 
+            if(v>=1e6) return (v/1e6).toFixed(1)+'M'; 
+            if(v>=1e3) return (v/1e3).toFixed(1)+'K'; 
+            return v; 
         }
         
-        // ========== TRACK AD CLICK IN FIRESTORE ==========
-        async function trackAdClick(adType, buttonId){
-            try{
-                let clickData = {
-                    adType: adType,
-                    adButtonId: buttonId,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                    date: new Date().toISOString(),
-                    userAgent: navigator.userAgent,
-                    platform: navigator.platform
-                };
-                
-                if(currentUser){
-                    clickData.userId = currentUser.uid;
-                    clickData.username = currentUsername;
-                    clickData.email = currentUser.email;
-                    clickData.isLoggedIn = true;
-                } else {
-                    clickData.userId = anonymousId;
-                    clickData.username = null;
-                    clickData.isLoggedIn = false;
-                }
-                
-                await db.collection("adClicks").add(clickData);
-                
-                const totalStatsRef = db.collection("totalStats").doc("adClicks");
-                const totalStatsDoc = await totalStatsRef.get();
-                if(totalStatsDoc.exists){
-                    await totalStatsRef.update({
-                        totalClicks: firebase.firestore.FieldValue.increment(1),
-                        lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-                } else {
-                    await totalStatsRef.set({
-                        totalClicks: 1,
-                        lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-                }
-                
-                if(currentUser){
-                    const userRef = db.collection("users").doc(currentUser.uid);
-                    await userRef.update({
-                        adClicks: firebase.firestore.FieldValue.increment(1),
-                        lastAdClick: firebase.firestore.FieldValue.serverTimestamp()
-                    }).catch(async () => {
-                        await userRef.set({
-                            adClicks: 1,
-                            lastAdClick: firebase.firestore.FieldValue.serverTimestamp()
-                        }, { merge: true });
-                    });
-                }
-            } catch(error){
-                console.error("Error tracking ad click:", error);
-            }
+        function escapeHtml(str){ 
+            return String(str).replace(/[&<>]/g, function(m){
+                if(m==='&') return '&amp;'; 
+                if(m==='<') return '&lt;'; 
+                if(m==='>') return '&gt;'; 
+                return m;
+            }); 
         }
         
-        // ========== RENDER RECOMMENDED VIDEOS ==========
-        function renderRecommendedVideos(currentVideoId) {
-            const container = document.getElementById('recommendedGrid');
-            if (!container) return;
-            
-            let otherVideos = currentVideos.filter(v => v.id !== currentVideoId && v.isUpcoming !== true);
-            let shuffled = [...otherVideos];
-            for (let i = shuffled.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        // Video Player Functions
+        async function handlePlay(videoId) {
+            console.log("🎬 handlePlay called for:", videoId);
+            let video = currentVideos.find(v => v.id == videoId);
+            if(!video) {
+                showToast("Video not found!", true);
+                return;
             }
-            let recommended = shuffled.slice(0, 10);
-            
-            if (recommended.length === 0) {
-                container.innerHTML = '<div style="text-align:center; padding:20px; color:#666;">No recommended videos found</div>';
+            if(video.isUpcoming === true){ 
+                showToast("⏳ Upcoming video, not available yet", true); 
+                return; 
+            }
+            if(!video.videoUrl) {
+                showToast("Video URL not available", true);
                 return;
             }
             
-            container.innerHTML = recommended.map(v => `
-                <div class="recommended-item" onclick="handlePlayFromRecommended('${v.id}')">
-                    <div class="recommended-thumb">
-                        <img src="${v.thumbnail}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x450?text=No+Image'">
-                    </div>
-                    <div class="recommended-info">
-                        <div class="title">${escapeHtml(v.title)}</div>
-                        <div class="views"><i class="fas fa-eye"></i> ${formatViews(v.views || 0)}</div>
-                    </div>
-                </div>
-            `).join('');
-        }
-        
-        async function handlePlayFromRecommended(videoId) {
-            let video = currentVideos.find(v => v.id === videoId);
-            if (!video) return;
-            if (video.isUpcoming === true) { showToast("⏳ Upcoming video, not available yet", true); return; }
-            
-            if (currentUser && currentUserMembership.active) {
-                await incrementViews(videoId);
-                openVideoPlayer(video.title, video.videoUrl, videoId);
-                showToast(`🎬 Premium access: ${video.title}`);
-            } 
-            else if (localCoins >= 50) {
-                localCoins -= 50;
-                localStorage.setItem('localCoins', localCoins);
-                updateLocalCoinUI();
-                await incrementViews(videoId);
-                openVideoPlayer(video.title, video.videoUrl, videoId);
-                showToast(`🎬 ${video.title} - 50 coins deducted`);
-            } 
-            else {
-                document.getElementById('insufficientCoinsModal').classList.add('active');
-            }
-        }
-        
-        // ========== VIDEO PLAYBACK ==========
-        async function handlePlay(videoId) {
-            let video = currentVideos.find(v=>v.id===videoId);
-            if(!video) return;
-            if(video.isUpcoming===true){ showToast("⏳ Upcoming video, not available yet",true); return; }
-            
             if(currentUser && currentUserMembership.active){
-                await incrementViews(videoId);
                 openVideoPlayer(video.title, video.videoUrl, videoId);
                 showToast(`🎬 Premium access: ${video.title}`);
             } 
@@ -564,147 +357,39 @@
                 localCoins -= 50;
                 localStorage.setItem('localCoins', localCoins);
                 updateLocalCoinUI();
-                await incrementViews(videoId);
                 openVideoPlayer(video.title, video.videoUrl, videoId);
                 showToast(`🎬 ${video.title} - 50 coins deducted`);
             } 
-            else { document.getElementById('insufficientCoinsModal').classList.add('active'); }
+            else { 
+                document.getElementById('insufficientCoinsModal').classList.add('active');
+            }
         }
         
         function openVideoPlayer(title, url, videoId){ 
-            document.getElementById('modalTitle').innerHTML = title; 
-            document.getElementById('videoSource').src = url; 
-            document.getElementById('videoPlayer').load(); 
-            document.getElementById('videoModal').classList.add('active'); 
-            document.getElementById('videoPlayer').play().catch(e=>console.log('Autoplay blocked'));
-            currentPlayingVideoId = videoId;
-            renderRecommendedVideos(videoId);
+            console.log("🎬 Opening player:", title, url);
+            const modal = document.getElementById('videoModal');
+            const titleEl = document.getElementById('modalTitle');
+            const sourceEl = document.getElementById('videoSource');
+            const videoEl = document.getElementById('videoPlayer');
+            
+            if(titleEl) titleEl.innerHTML = title;
+            if(sourceEl) sourceEl.src = url;
+            if(videoEl) {
+                videoEl.load();
+                setTimeout(() => {
+                    videoEl.play().catch(e => console.log('Play error:', e));
+                }, 100);
+            }
+            if(modal) modal.classList.add('active');
         }
         
         function closeVideoModal(){ 
-            document.getElementById('videoPlayer').pause(); 
-            document.getElementById('videoModal').classList.remove('active'); 
-            currentPlayingVideoId = null;
+            const videoEl = document.getElementById('videoPlayer');
+            if(videoEl) videoEl.pause();
+            const modal = document.getElementById('videoModal');
+            if(modal) modal.classList.remove('active');
         }
         
-        async function incrementViews(id){ 
-            try{ 
-                // Update views in Supabase
-                const { data, error } = await supabaseClient
-                    .from('videos')
-                    .update({ views: supabaseClient.rpc('increment', { row_id: id, x: 1 }) })
-                    .eq('id', id);
-                if(error) console.error('Error updating views:', error);
-            } catch(e){ console.log('View increment error:', e); }
-        }
-        
-        // ========== DOWNLOAD WITH 5 ADS ==========
-        function downloadVideo(vid){
-            let video = currentVideos.find(v=>v.id===vid);
-            if(!video || !video.videoUrl){
-                showToast("No download link available", true);
-                return;
-            }
-            
-            if(!downloadAdCounts[vid]) downloadAdCounts[vid] = 0;
-            
-            if(downloadAdCounts[vid] >= 5){
-                let a = document.createElement('a');
-                a.href = video.videoUrl;
-                a.download = `${video.title}.mp4`;
-                a.click();
-                showToast(`✅ Download started: ${video.title}`);
-                downloadAdCounts[vid] = 0;
-                localStorage.setItem('downloadAdCounts', JSON.stringify(downloadAdCounts));
-            } else {
-                let adLink = "https://www.profitablecpmratenetwork.com/mk65i19v?key=e9f9c255c82dc28e0a257559b623568d";
-                window.open(adLink, '_blank');
-                downloadAdCounts[vid]++;
-                let remaining = 5 - downloadAdCounts[vid];
-                localStorage.setItem('downloadAdCounts', JSON.stringify(downloadAdCounts));
-                showToast(`⚠️ Ads watched: ${downloadAdCounts[vid]}/5 - ${remaining} more ad(s) to unlock download`, false);
-            }
-        }
-        
-        // ========== ADS WITH DAILY LIMIT + TRACKING ==========
-        function renderCoinsButtons(){
-            let container=document.getElementById('coinsButtonsGrid'); if(!container) return;
-            container.innerHTML='';
-            let limitReached = dailyCoinsEarned >= DAILY_LIMIT;
-            for(let i=1;i<=10;i++){
-                let btn=document.createElement('div');
-                if(limitReached){
-                    btn.className='coin-ad-btn limit-reached';
-                    btn.innerHTML=`<i class="fas fa-ad"></i><span>Ad ${i}</span><small>+10 Coins</small><small style="display:block;color:#ff9800;">Limit Reached</small>`;
-                    btn.onclick=()=> showToast("Daily Coins collecting Limit Reached! Enable Coins collecting After 24 hours. Please be patient or Join Membership to avoid any inconvenience.", true);
-                } else {
-                    btn.className='coin-ad-btn';
-                    btn.innerHTML=`<i class="fas fa-ad"></i><span>Ad ${i}</span><small>+10 Coins</small><small style="display:block;color:#aaa;">Click to watch</small>`;
-                    btn.onclick=()=>watchAd(i);
-                }
-                container.appendChild(btn);
-            }
-        }
-        
-        async function watchAd(buttonId){
-            let limitReached = dailyCoinsEarned >= DAILY_LIMIT;
-            if(limitReached){
-                showToast("Daily Coins collecting Limit Reached! Enable Coins collecting After 24 hours. Please be patient or Join Membership to avoid any inconvenience.", true);
-                renderCoinsButtons();
-                return;
-            }
-            
-            await trackAdClick('free_coins_ad', buttonId);
-            
-            let adLink = "https://www.profitablecpmratenetwork.com/mk65i19v?key=e9f9c255c82dc28e0a257559b623568d";
-            showToast("Opening ad... stay for 10 seconds to earn 10 coins!");
-            let adWindow = window.open(adLink, '_blank');
-            setTimeout(() => {
-                if(adWindow) adWindow.close();
-                localCoins += 10;
-                dailyCoinsEarned += 10;
-                localStorage.setItem('localCoins', localCoins);
-                localStorage.setItem('dailyCoinsEarned', dailyCoinsEarned);
-                updateLocalCoinUI();
-                showToast(`✅ +10 coins earned! Total: ${localCoins} coins | Today: ${dailyCoinsEarned}/${DAILY_LIMIT}`);
-                renderCoinsButtons();
-            }, 10000);
-        }
-        
-        function openCoinsModal(){ renderCoinsButtons(); document.getElementById('coinsModal').classList.add('active'); }
-        function closeCoinsModal(){ document.getElementById('coinsModal').classList.remove('active'); }
-        function getFreeCoins(){ closeInsufficientModal(); openCoinsModal(); }
-        function redirectToMembership() { closeInsufficientModal(); openMembershipPopup(); }
-        function closeInsufficientModal(){ document.getElementById('insufficientCoinsModal').classList.remove('active'); }
-        
-        function openMembershipPopup() { document.getElementById('membershipPopupModal').classList.add('active'); }
-        function closeMembershipPopup() { document.getElementById('membershipPopupModal').classList.remove('active'); }
-        function openTelegram() { window.open("https://t.me/boost/viralstreet69", '_blank'); }
-        
-        // ========== AUTH FUNCTIONS ==========
-        let currentUsername = "";
-        
-        function openLoginModal(){ document.getElementById('loginModal').classList.add('active'); }
-        function closeLoginModal(){ document.getElementById('loginModal').classList.remove('active'); if(typeof hcaptcha !== 'undefined') try{ hcaptcha.reset(); }catch(e){} }
-        function openSignupModal(){ document.getElementById('signupModal').classList.add('active'); }
-        function closeSignupModal(){ document.getElementById('signupModal').classList.remove('active'); if(typeof hcaptcha !== 'undefined') try{ hcaptcha.reset(); }catch(e){} }
-        function closeAuthModals(){ 
-            document.getElementById('loginModal').classList.remove('active'); 
-            document.getElementById('signupModal').classList.remove('active'); 
-            if(typeof hcaptcha !== 'undefined') try{ hcaptcha.reset(); }catch(e){}
-        }
-        function switchToSignup(){ closeLoginModal(); openSignupModal(); }
-        function switchToLogin(){ closeSignupModal(); openLoginModal(); }
-        
-        // ========== FIREBASE (Kept for Auth, Coins, Ad Clicks, Popup Notes) ==========
-        const firebaseConfig = { apiKey: "AIzaSyDLloBWMeIB62CYFjxx_2DPicV9im6wFiI", authDomain: "viralstreet-c0128.firebaseapp.com", projectId: "viralstreet-c0128", storageBucket: "viralstreet-c0128.firebasestorage.app", messagingSenderId: "436825511768", appId: "1:436825511768:web:1456b6b669c2b00222f72d" };
-        const app = firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-        const auth = firebase.auth();
-        
-        let currentVideos = [], currentSlides = [], currentCategory = "all", searchQuery = "";
-        
-        // ========== SUPABASE FUNCTIONS FOR VIDEOS ==========
         async function loadVideosFromSupabase() {
             try {
                 const { data, error } = await supabaseClient
@@ -725,61 +410,14 @@
                         year: v.year || '2024',
                         isTrending: v.is_trending || false,
                         isUpcoming: v.is_upcoming || false,
-                        isFeatured: v.is_featured || false,
-                        createdAt: v.created_at
+                        isFeatured: v.is_featured || false
                     }));
-                } else {
-                    // Seed default videos if none exist
-                    await seedDefaultVideosToSupabase();
                 }
-                
+                console.log("✅ Videos loaded:", currentVideos.length);
                 renderAll();
             } catch (error) {
-                console.error('Error loading videos from Supabase:', error);
-                showToast('Error loading videos', true);
+                console.error('Error loading videos:', error);
             }
-        }
-        
-        async function seedDefaultVideosToSupabase() {
-            const defaultVideos = [
-                { title: "🔥 Premium Exclusive: Behind Scenes", year: "2024", category: "premium", image_url: "https://images.pexels.com/photos/2264753/pexels-photo-2264753.jpeg?auto=compress&cs=tinysrgb&w=400", video_url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4", views: 12500, is_trending: true, is_upcoming: false, is_featured: true },
-                { title: "🇮🇳 Indian Scandal: Exposed", year: "2024", category: "indian", image_url: "https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=400", video_url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFunflies.mp4", views: 8700, is_trending: true, is_upcoming: false, is_featured: false },
-                { title: "🇵🇰 Pakistani Scandal: Reality", year: "2024", category: "pakistani", image_url: "https://images.pexels.com/photos/3926126/pexels-photo-3926126.jpeg?auto=compress&cs=tinysrgb&w=400", video_url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4", views: 5200, is_trending: false, is_upcoming: true, is_featured: false },
-                { title: "🎬 Trending All Access", year: "2023", category: "all", image_url: "https://images.pexels.com/photos/3062543/pexels-photo-3062543.jpeg?auto=compress&cs=tinysrgb&w=400", video_url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4", views: 34000, is_trending: true, is_featured: true, is_upcoming: false }
-            ];
-            
-            for(let i=5; i<=35; i++){ 
-                defaultVideos.push({ 
-                    title: `Video ${i}: Amazing Content`, 
-                    year: "2024", 
-                    category: i%4===0?"premium":i%3===0?"indian":"all", 
-                    image_url: "https://images.pexels.com/photos/3184419/pexels-photo-3184419.jpeg?auto=compress&cs=tinysrgb&w=400", 
-                    video_url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFunflies.mp4", 
-                    views: 1000+i*100, 
-                    is_trending: i<8, 
-                    is_upcoming: false,
-                    is_featured: false
-                }); 
-            }
-            
-            for (let v of defaultVideos) {
-                await supabaseClient
-                    .from('videos')
-                    .insert([{
-                        title: v.title,
-                        year: v.year,
-                        category: v.category,
-                        image_url: v.image_url,
-                        video_url: v.video_url,
-                        views: v.views,
-                        is_trending: v.is_trending,
-                        is_upcoming: v.is_upcoming,
-                        is_featured: v.is_featured,
-                        created_at: new Date().toISOString()
-                    }]);
-            }
-            
-            await loadVideosFromSupabase();
         }
         
         async function loadSlidersFromSupabase() {
@@ -797,48 +435,33 @@
                         imgUrl: s.image_url,
                         title: s.title,
                         desc: s.description,
-                        badge: s.badge,
-                        order: s.order
+                        badge: s.badge
                     }));
-                } else {
-                    await seedDefaultSlidersToSupabase();
                 }
-                
                 renderSlider();
-                if(currentSlides.length) startAutoSlide();
             } catch (error) {
-                console.error('Error loading sliders from Supabase:', error);
+                console.error('Error loading sliders:', error);
             }
         }
         
-        async function seedDefaultSlidersToSupabase() {
-            const defaultSliders = [
-                { image_url: "https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=1200", title: "Indian Scandals Exposed", description: "Biggest controversies", badge: "TRENDING", order: 1 },
-                { image_url: "https://images.pexels.com/photos/3926126/pexels-photo-3926126.jpeg?auto=compress&cs=tinysrgb&w=1200", title: "Pakistani Scandals", description: "Uncovered truths", badge: "HOT", order: 2 }
-            ];
-            
-            for (let s of defaultSliders) {
-                await supabaseClient
-                    .from('sliders')
-                    .insert([{
-                        image_url: s.image_url,
-                        title: s.title,
-                        description: s.description,
-                        badge: s.badge,
-                        order: s.order
-                    }]);
-            }
-            
-            await loadSlidersFromSupabase();
-        }
-        
-        function renderAll(){ renderVideosWithPagination(); renderUpcomingTrending(); }
-        
-        function renderUpcomingTrending(){
-            let upcoming = currentVideos.filter(v=>v.isUpcoming===true);
-            let trending = currentVideos.filter(v=>v.isTrending===true);
-            document.getElementById('upcomingGrid').innerHTML = upcoming.length? upcoming.map(v=>movieCard(v)).join('') : '<div class="empty-state">No upcoming</div>';
-            document.getElementById('trendingGrid').innerHTML = trending.length? trending.map(v=>movieCard(v)).join('') : '<div class="empty-state">No trending</div>';
+        function movieCard(v){
+            return `<div class="movie-card" data-id="${v.id}">
+                <div class="movie-thumbnail" onclick="handlePlay('${v.id}')">
+                    <div class="category-badge" style="position:absolute;top:10px;right:10px;background:#111;padding:4px 10px;border-radius:20px;">${v.category.toUpperCase()}</div>
+                    ${v.isFeatured ? '<div class="featured-badge" style="position:absolute;top:10px;left:10px;background:#e50914;padding:4px 10px;border-radius:20px;font-size:10px;">FEATURED</div>' : ''}
+                    ${v.isUpcoming ? '<div class="upcoming-badge" style="position:absolute;top:10px;left:10px;background:#f39c12;padding:4px 10px;border-radius:20px;">UPCOMING</div>' : ''}
+                    <img src="${v.thumbnail}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x450?text=No+Image'">
+                    <div class="movie-overlay"><div class="play-icon"><i class="fas fa-play"></i></div></div>
+                </div>
+                <div class="movie-info">
+                    <div class="movie-title">${escapeHtml(v.title)}</div>
+                    <div class="movie-meta"><span>${v.year||'2024'}</span><span><i class="fas fa-eye"></i> ${formatViews(v.views||0)}</span></div>
+                    <div class="public-buttons">
+                        <button class="play-now-btn" onclick="event.stopPropagation();handlePlay('${v.id}')">▶ Play</button>
+                        <button class="download-btn" onclick="event.stopPropagation();alert('Download feature coming soon')">📥 Download</button>
+                    </div>
+                </div>
+            </div>`;
         }
         
         function renderVideosWithPagination(){
@@ -847,76 +470,224 @@
             if(currentPage > totalPages) currentPage = totalPages || 1;
             let start = (currentPage-1)*itemsPerPage;
             let paginatedVideos = filtered.slice(start, start+itemsPerPage);
-            document.getElementById('videosGrid').innerHTML = paginatedVideos.length? paginatedVideos.map(v=>movieCard(v)).join('') : '<div class="empty-state">No videos found</div>';
-            renderPagination(totalPages);
+            const videosGrid = document.getElementById('videosGrid');
+            if(videosGrid) videosGrid.innerHTML = paginatedVideos.length ? paginatedVideos.map(v=>movieCard(v)).join('') : '<div class="empty-state">No videos found</div>';
         }
         
-        function renderPagination(totalPages){
-            let container = document.getElementById('paginationContainer');
-            if(!container) return;
-            if(totalPages <= 1) { container.innerHTML = ''; return; }
-            let html = '';
-            for(let i=1; i<=totalPages && i<=10; i++){ html += `<button class="page-btn ${currentPage===i?'active':''}" onclick="goToPage(${i})">${i}</button>`; }
-            container.innerHTML = html;
+        function renderUpcomingTrending(){
+            let upcoming = currentVideos.filter(v=>v.isUpcoming===true);
+            let trending = currentVideos.filter(v=>v.isTrending===true);
+            const upcomingGrid = document.getElementById('upcomingGrid');
+            const trendingGrid = document.getElementById('trendingGrid');
+            if(upcomingGrid) upcomingGrid.innerHTML = upcoming.length ? upcoming.map(v=>movieCard(v)).join('') : '<div>No upcoming</div>';
+            if(trendingGrid) trendingGrid.innerHTML = trending.length ? trending.map(v=>movieCard(v)).join('') : '<div>No trending</div>';
         }
         
-        function goToPage(page){ currentPage = page; renderVideosWithPagination(); }
-        
-        function movieCard(v){
-            let special = v.isFeatured ? '<div class="featured-badge" style="position:absolute;top:10px;left:10px;background:#e50914;padding:4px 10px;border-radius:20px;font-size:10px;">FEATURED</div>' : (v.isUpcoming?'<div class="upcoming-badge" style="position:absolute;top:10px;left:10px;background:#f39c12;padding:4px 10px;border-radius:20px;">UPCOMING</div>':'');
-            return `<div class="movie-card" data-id="${v.id}"><div class="movie-thumbnail" onclick="handlePlay('${v.id}')"><div class="category-badge" style="position:absolute;top:10px;right:10px;background:#111;padding:4px 10px;border-radius:20px;">${v.category.toUpperCase()}</div>${special}<img src="${v.thumbnail}" loading="lazy"><div class="movie-overlay"><div class="play-icon"><i class="fas fa-play"></i></div></div></div><div class="movie-info"><div class="movie-title">${escapeHtml(v.title)}</div><div class="movie-meta"><span>${v.year||'2024'}</span><span><i class="fas fa-eye"></i> ${formatViews(v.views||0)}</span></div><div class="public-buttons"><button class="play-now-btn" onclick="event.stopPropagation();handlePlay('${v.id}')">▶ Play</button><button class="download-btn" onclick="event.stopPropagation();downloadVideo('${v.id}')">📥 Download</button></div></div></div>`;
+        function renderAll(){ 
+            renderVideosWithPagination(); 
+            renderUpcomingTrending(); 
         }
         
         function renderSlider(){
             let wrapper = document.getElementById('sliderWrapper');
-            wrapper.innerHTML = currentSlides.map(s=>`<div class="slide"><img src="${s.imgUrl}" loading="lazy"><div class="slide-overlay"><span class="slide-badge" style="background:#e50914;padding:4px 12px;border-radius:20px;">${s.badge}</span><div class="slide-title">${escapeHtml(s.title)}</div><div class="slide-desc">${escapeHtml(s.desc)}</div></div></div>`).join('');
+            if(!wrapper || currentSlides.length === 0) return;
+            wrapper.innerHTML = currentSlides.map(s=>`<div class="slide"><img src="${s.imgUrl}" loading="lazy"><div class="slide-overlay"><span class="slide-badge" style="background:#e50914;padding:4px 12px;border-radius:20px;">${s.badge || 'NEW'}</span><div class="slide-title">${escapeHtml(s.title)}</div><div class="slide-desc">${escapeHtml(s.desc || '')}</div></div></div>`).join('');
             let dotsContainer = document.getElementById('sliderDots');
-            dotsContainer.innerHTML = '';
-            for(let i=0;i<currentSlides.length;i++){ let d=document.createElement('div'); d.className='dot'; d.onclick=()=>goToSlide(i); dotsContainer.appendChild(d); }
+            if(dotsContainer) {
+                dotsContainer.innerHTML = '';
+                for(let i=0;i<currentSlides.length;i++){ 
+                    let d=document.createElement('div'); 
+                    d.className='dot'; 
+                    d.onclick=()=>goToSlide(i); 
+                    dotsContainer.appendChild(d); 
+                }
+            }
             updateSliderDots();
+            startAutoSlide();
         }
         
-        let currentSlide=0, autoInterval;
-        function updateSliderDots(){ document.querySelectorAll('.dot').forEach((d,i)=>{ d.classList.toggle('active',i===currentSlide); }); let wrap=document.getElementById('sliderWrapper'); if(wrap) wrap.style.transform=`translateX(-${currentSlide*100}%)`; }
-        function nextSlide(){ if(currentSlides.length){ currentSlide=(currentSlide+1)%currentSlides.length; updateSliderDots(); resetAuto(); } }
-        function prevSlide(){ if(currentSlides.length){ currentSlide=(currentSlide-1+currentSlides.length)%currentSlides.length; updateSliderDots(); resetAuto(); } }
-        function goToSlide(i){ currentSlide=i; updateSliderDots(); resetAuto(); }
-        function startAutoSlide(){ if(autoInterval) clearInterval(autoInterval); autoInterval = setInterval(nextSlide,5000); }
-        function resetAuto(){ clearInterval(autoInterval); startAutoSlide(); }
-        
-        function showToast(msg, err=false){ let t=document.createElement('div'); t.className='toast'; t.innerHTML=`<i class="fas ${err?'fa-exclamation-triangle':'fa-check-circle'}"></i> ${msg}`; document.body.appendChild(t); setTimeout(()=>t.remove(),3500); }
-        async function updateMembershipStatus(){ if(currentUser){ let doc=await db.collection("users").doc(currentUser.uid).get(); if(doc.exists){ currentUserMembership.active=doc.data().membershipActive||false; document.getElementById('membershipBadge').style.display=currentUserMembership.active?'inline-block':'none'; } } }
-        
-        async function login(){ 
-            let username=document.getElementById('loginUsername').value.trim(); let pwd=document.getElementById('loginPassword').value; 
-            let captcha=hcaptcha.getResponse(); if(!captcha){ showToast("Complete captcha",true); return; } 
-            let q=await db.collection("users").where("username","==",username).get(); if(q.empty){ showToast("User not found",true); return; } 
-            let email=q.docs[0].data().email; 
-            try{ await auth.signInWithEmailAndPassword(email,pwd); await updateMembershipStatus(); showToast(`Welcome ${username}`); closeAuthModals(); if(typeof hcaptcha !== 'undefined') try{ hcaptcha.reset(); }catch(e){} openMembershipPopup(); }catch(e){ showToast("Invalid credentials",true); } 
+        function updateSliderDots(){ 
+            document.querySelectorAll('.dot').forEach((d,i)=>{ d.classList.toggle('active',i===currentSlide); }); 
+            let wrap=document.getElementById('sliderWrapper'); 
+            if(wrap) wrap.style.transform=`translateX(-${currentSlide*100}%)`; 
         }
         
-        async function signup(){ 
-            let user=document.getElementById('signupUsername').value.trim(); let email=document.getElementById('signupEmail').value.trim(); let pwd=document.getElementById('signupPassword').value; 
-            let terms=document.getElementById('termsCheckbox').checked; if(!terms){ showToast("Accept terms",true); return; } 
-            let captcha=hcaptcha.getResponse(); if(!captcha){ showToast("Captcha required",true); return; } 
-            if(user.includes(' ')||pwd.length<6){ showToast("Invalid username or short password",true); return; } 
-            let existing=await db.collection("users").where("username","==",user).get(); if(!existing.empty){ showToast("Username taken",true); return; } 
-            try{ let cred=await auth.createUserWithEmailAndPassword(email,pwd); await db.collection("users").doc(cred.user.uid).set({username:user,email:email,coins:0,membershipActive:false,createdAt:firebase.firestore.FieldValue.serverTimestamp()}); showToast(`Signup success!`); closeAuthModals(); if(typeof hcaptcha !== 'undefined') try{ hcaptcha.reset(); }catch(e){} openMembershipPopup(); }catch(e){ showToast(e.message,true); } 
+        function nextSlide(){ 
+            if(currentSlides.length){ 
+                currentSlide=(currentSlide+1)%currentSlides.length; 
+                updateSliderDots(); 
+            } 
         }
         
-        function logout(){ auth.signOut(); currentUser=null; currentUserMembership.active=false; document.getElementById('authButtons').style.display='flex'; document.getElementById('userInfo').style.display='none'; document.getElementById('membershipBadge').style.display='none'; showToast("Logged out"); }
-        function forgotPassword(){ let email=prompt("Enter your email:"); if(email) auth.sendPasswordResetEmail(email).then(()=>showToast("Reset email sent")).catch(()=>showToast("Error",true)); }
-        function showTermsModal(){ document.getElementById('termsModal').classList.add('active'); }
-        function closeTermsModal(){ document.getElementById('termsModal').classList.remove('active'); }
-        function formatViews(v){ if(v>=1e6) return (v/1e6).toFixed(1)+'M'; if(v>=1e3) return (v/1e3).toFixed(1)+'K'; return v; }
-        function escapeHtml(str){ return String(str).replace(/[&<>]/g, function(m){if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
+        function prevSlide(){ 
+            if(currentSlides.length){ 
+                currentSlide=(currentSlide-1+currentSlides.length)%currentSlides.length; 
+                updateSliderDots(); 
+            } 
+        }
+        
+        function goToSlide(i){ 
+            currentSlide=i; 
+            updateSliderDots(); 
+        }
+        
+        function startAutoSlide(){ 
+            if(autoInterval) clearInterval(autoInterval); 
+            autoInterval = setInterval(nextSlide, 5000); 
+        }
         
         function renderCategories(){
             let cats=[{id:'all',name:'All'},{id:'premium',name:'🔥 Premium'},{id:'indian',name:'🇮🇳 Indian'},{id:'pakistani',name:'🇵🇰 Pakistani'}];
-            document.getElementById('categoriesContainer').innerHTML=cats.map(c=>`<button class="cat-btn ${currentCategory===c.id?'active':''}" data-cat="${c.id}">${c.name}</button>`).join('');
-            document.querySelectorAll('.cat-btn').forEach(btn=>btn.addEventListener('click',()=>{currentCategory=btn.dataset.cat; currentPage=1; renderCategories(); renderVideosWithPagination(); document.getElementById('specialSections').style.display=currentCategory==='all'?'block':'none'; updateCategoryTitle();}));
+            const container = document.getElementById('categoriesContainer');
+            if(container) {
+                container.innerHTML=cats.map(c=>`<button class="cat-btn ${currentCategory===c.id?'active':''}" data-cat="${c.id}">${c.name}</button>`).join('');
+                document.querySelectorAll('.cat-btn').forEach(btn=>btn.addEventListener('click',()=>{
+                    currentCategory=btn.dataset.cat; 
+                    currentPage=1; 
+                    renderCategories(); 
+                    renderVideosWithPagination(); 
+                    const specialSections = document.getElementById('specialSections'); 
+                    if(specialSections) specialSections.style.display=currentCategory==='all'?'block':'none'; 
+                    updateCategoryTitle();
+                }));
+            }
         }
-        function updateCategoryTitle(){ document.getElementById('categoryTitle').innerHTML=currentCategory==='all'?'📺 All Videos':currentCategory==='premium'?'🔥 Premium Free':'🇮🇳 Indian/Pakistani Scandals'; }
+        
+        function updateCategoryTitle(){ 
+            const titleSpan = document.getElementById('categoryTitle');
+            if(titleSpan) titleSpan.innerHTML=currentCategory==='all'?'📺 All Videos':currentCategory==='premium'?'🔥 Premium Free':'🇮🇳 Indian/Pakistani Scandals'; 
+        }
+        
+        function renderCoinsButtons(){
+            let container=document.getElementById('coinsButtonsGrid'); 
+            if(!container) return;
+            container.innerHTML='';
+            let limitReached = dailyCoinsEarned >= DAILY_LIMIT;
+            for(let i=1;i<=10;i++){
+                let btn=document.createElement('div');
+                if(limitReached){
+                    btn.className='coin-ad-btn limit-reached';
+                    btn.innerHTML=`<i class="fas fa-ad"></i><span>Ad ${i}</span><small>+10 Coins</small><small style="display:block;color:#ff9800;">Limit Reached</small>`;
+                    btn.onclick=()=> showToast("Daily limit reached! Try after 24 hours.", true);
+                } else {
+                    btn.className='coin-ad-btn';
+                    btn.innerHTML=`<i class="fas fa-ad"></i><span>Ad ${i}</span><small>+10 Coins</small><small style="display:block;color:#aaa;">Click to watch</small>`;
+                    btn.onclick=()=>watchAd(i);
+                }
+                container.appendChild(btn);
+            }
+        }
+        
+        async function watchAd(buttonId){
+            let limitReached = dailyCoinsEarned >= DAILY_LIMIT;
+            if(limitReached){
+                showToast("Daily Coins Limit Reached! Try after 24 hours.", true);
+                renderCoinsButtons();
+                return;
+            }
+            
+            showToast("Opening ad... stay for 10 seconds to earn 10 coins!");
+            let adWindow = window.open("https://www.profitablecpmratenetwork.com/mk65i19v?key=e9f9c255c82dc28e0a257559b623568d", '_blank');
+            setTimeout(() => {
+                if(adWindow) adWindow.close();
+                localCoins += 10;
+                dailyCoinsEarned += 10;
+                localStorage.setItem('localCoins', localCoins);
+                localStorage.setItem('dailyCoinsEarned', dailyCoinsEarned);
+                updateLocalCoinUI();
+                showToast(`✅ +10 coins! Total: ${localCoins} | Today: ${dailyCoinsEarned}/${DAILY_LIMIT}`);
+                renderCoinsButtons();
+            }, 10000);
+        }
+        
+        function openCoinsModal(){ 
+            renderCoinsButtons(); 
+            document.getElementById('coinsModal').classList.add('active'); 
+        }
+        function closeCoinsModal(){ 
+            document.getElementById('coinsModal').classList.remove('active'); 
+        }
+        function getFreeCoins(){ 
+            closeInsufficientModal(); 
+            openCoinsModal(); 
+        }
+        function redirectToMembership() { 
+            closeInsufficientModal(); 
+            openMembershipPopup(); 
+        }
+        function closeInsufficientModal(){ 
+            document.getElementById('insufficientCoinsModal').classList.remove('active'); 
+        }
+        function openMembershipPopup() { 
+            document.getElementById('membershipPopupModal').classList.add('active'); 
+        }
+        function closeMembershipPopup() { 
+            document.getElementById('membershipPopupModal').classList.remove('active'); 
+        }
+        function openTelegram() { 
+            window.open("https://t.me/boost/viralstreet69", '_blank'); 
+        }
+        
+        function openLoginModal(){ 
+            document.getElementById('loginModal').classList.add('active'); 
+        }
+        function closeLoginModal(){ 
+            document.getElementById('loginModal').classList.remove('active'); 
+        }
+        function openSignupModal(){ 
+            document.getElementById('signupModal').classList.add('active'); 
+        }
+        function closeSignupModal(){ 
+            document.getElementById('signupModal').classList.remove('active'); 
+        }
+        function switchToSignup(){ closeLoginModal(); openSignupModal(); }
+        function switchToLogin(){ closeSignupModal(); openLoginModal(); }
+        function showTermsModal(){ document.getElementById('termsModal').classList.add('active'); }
+        function closeTermsModal(){ document.getElementById('termsModal').classList.remove('active'); }
+        
+        async function login(){ 
+            let username=document.getElementById('loginUsername').value.trim(); 
+            let pwd=document.getElementById('loginPassword').value; 
+            let q=await db.collection("users").where("username","==",username).get(); 
+            if(q.empty){ showToast("User not found",true); return; } 
+            let email=q.docs[0].data().email; 
+            try{ 
+                await auth.signInWithEmailAndPassword(email,pwd); 
+                showToast(`Welcome ${username}`); 
+                closeLoginModal(); 
+            }catch(e){ showToast("Invalid credentials",true); } 
+        }
+        
+        async function signup(){ 
+            let user=document.getElementById('signupUsername').value.trim(); 
+            let email=document.getElementById('signupEmail').value.trim(); 
+            let pwd=document.getElementById('signupPassword').value; 
+            let terms=document.getElementById('termsCheckbox').checked; 
+            if(!terms){ showToast("Accept terms",true); return; } 
+            if(user.includes(' ')||pwd.length<6){ showToast("Invalid username or short password",true); return; } 
+            let existing=await db.collection("users").where("username","==",user).get(); 
+            if(!existing.empty){ showToast("Username taken",true); return; } 
+            try{ 
+                let cred=await auth.createUserWithEmailAndPassword(email,pwd); 
+                await db.collection("users").doc(cred.user.uid).set({
+                    username:user, email:email, coins:0, membershipActive:false,
+                    createdAt:firebase.firestore.FieldValue.serverTimestamp()
+                }); 
+                showToast(`Signup success!`); 
+                closeSignupModal(); 
+            }catch(e){ showToast(e.message,true); } 
+        }
+        
+        function logout(){ 
+            auth.signOut(); 
+            currentUser=null; 
+            showToast("Logged out"); 
+        }
+        
+        function forgotPassword(){ 
+            let email=prompt("Enter your email:"); 
+            if(email) auth.sendPasswordResetEmail(email); 
+        }
         
         auth.onAuthStateChanged(async(user)=>{ 
             if(user){ 
@@ -932,31 +703,37 @@
                 } 
             } else { 
                 currentUser=null; 
-                currentUserMembership.active=false; 
                 document.getElementById('authButtons').style.display='flex'; 
                 document.getElementById('userInfo').style.display='none'; 
-                document.getElementById('membershipBadge').style.display='none'; 
             } 
         });
         
-        document.getElementById('searchBtn').addEventListener('click',()=>{ searchQuery=document.getElementById('searchInput').value; currentPage=1; renderVideosWithPagination(); });
-        document.getElementById('prevSlide').addEventListener('click',prevSlide); document.getElementById('nextSlide').addEventListener('click',nextSlide); document.getElementById('logoBtn').addEventListener('click',()=>window.location.reload());
-        
-        window.handlePlay=handlePlay; window.handlePlayFromRecommended=handlePlayFromRecommended;
-        window.downloadVideo=downloadVideo; window.openLoginModal=openLoginModal; window.openSignupModal=openSignupModal;
-        window.switchToSignup=switchToSignup; window.switchToLogin=switchToLogin; window.login=login; window.signup=signup; window.logout=logout;
-        window.closeVideoModal=closeVideoModal; window.redirectToMembership=redirectToMembership; window.getFreeCoins=getFreeCoins;
-        window.closeInsufficientModal=closeInsufficientModal; window.openCoinsModal=openCoinsModal; window.closeCoinsModal=closeCoinsModal;
-        window.showTermsModal=showTermsModal; window.closeTermsModal=closeTermsModal; window.forgotPassword=forgotPassword;
-        window.goToPage=goToPage; window.openTelegram=openTelegram; window.closeMembershipPopup=closeMembershipPopup;
-        window.closeLoginModal=closeLoginModal; window.closeSignupModal=closeSignupModal;
-        window.closePopupNote=closePopupNote;
-        
-        let isAgeVerified = localStorage.getItem('ageVerified') === 'true';
-        function verifyAge(over){
-            if(over){ localStorage.setItem('ageVerified','true'); isAgeVerified=true; document.getElementById('ageVerificationModal').classList.add('hidden'); showMainContent(); showToast("✅ Access granted"); }
-            else{ document.getElementById('restrictedMessage').innerHTML='<i class="fas fa-ban"></i> Under 18 not allowed. Redirecting...'; setTimeout(()=>window.location.href='https://www.google.com',2000); }
+        async function checkAndShowPopupNote() {
+            try {
+                const doc = await db.collection("popupNotes").doc("activeNote").get();
+                if (doc.exists && doc.data().active === true) {
+                    document.getElementById('popupNoteTitle').innerHTML = escapeHtml(doc.data().title);
+                    document.getElementById('popupNoteMessage').innerHTML = escapeHtml(doc.data().message);
+                    document.getElementById('popupNoteModal').classList.remove('hidden');
+                }
+            } catch (error) { console.error("Error:", error); }
         }
+        
+        function closePopupNote() {
+            document.getElementById('popupNoteModal').classList.add('hidden');
+        }
+        
+        function verifyAge(over){
+            if(over){ 
+                localStorage.setItem('ageVerified','true'); 
+                document.getElementById('ageVerificationModal').classList.add('hidden'); 
+                showMainContent(); 
+            } else { 
+                document.getElementById('restrictedMessage').innerHTML='Under 18 not allowed. Redirecting...'; 
+                setTimeout(()=>window.location.href='https://www.google.com',2000);
+            }
+        }
+        
         function showMainContent(){
             document.getElementById('header').style.display='block';
             document.getElementById('freeCoinsContainer').style.display='block';
@@ -965,19 +742,56 @@
             document.getElementById('specialSections').style.display='block';
             document.getElementById('sectionTitle').style.display='flex';
             document.getElementById('moviesContainer').style.display='block';
-            setTimeout(() => {
-                checkAndShowPopupNote();
-            }, 1000);
+            setTimeout(() => checkAndShowPopupNote(), 1000);
             init();
         }
+        
         async function init(){ 
             await loadVideosFromSupabase(); 
             await loadSlidersFromSupabase();
             renderCategories(); 
             updateCategoryTitle(); 
-            startAutoSlide(); 
         }
-        if(isAgeVerified) init(); else document.getElementById('ageVerificationModal').classList.remove('hidden');
+        
+        // Event Listeners
+        document.getElementById('searchBtn')?.addEventListener('click',()=>{ 
+            searchQuery=document.getElementById('searchInput').value; 
+            currentPage=1; 
+            renderVideosWithPagination(); 
+        });
+        document.getElementById('prevSlide')?.addEventListener('click',prevSlide);
+        document.getElementById('nextSlide')?.addEventListener('click',nextSlide);
+        document.getElementById('logoBtn')?.addEventListener('click',()=>window.location.reload());
+        
+        // Make functions global
+        window.handlePlay = handlePlay;
+        window.closeVideoModal = closeVideoModal;
+        window.openCoinsModal = openCoinsModal;
+        window.closeCoinsModal = closeCoinsModal;
+        window.getFreeCoins = getFreeCoins;
+        window.redirectToMembership = redirectToMembership;
+        window.closeInsufficientModal = closeInsufficientModal;
+        window.openLoginModal = openLoginModal;
+        window.openSignupModal = openSignupModal;
+        window.closeLoginModal = closeLoginModal;
+        window.closeSignupModal = closeSignupModal;
+        window.switchToSignup = switchToSignup;
+        window.switchToLogin = switchToLogin;
+        window.login = login;
+        window.signup = signup;
+        window.logout = logout;
+        window.forgotPassword = forgotPassword;
+        window.showTermsModal = showTermsModal;
+        window.closeTermsModal = closeTermsModal;
+        window.openMembershipPopup = openMembershipPopup;
+        window.closeMembershipPopup = closeMembershipPopup;
+        window.openTelegram = openTelegram;
+        window.closePopupNote = closePopupNote;
+        window.verifyAge = verifyAge;
+        
+        let isAgeVerified = localStorage.getItem('ageVerified') === 'true';
+        if(isAgeVerified) init(); 
+        else document.getElementById('ageVerificationModal').classList.remove('hidden');
     </script>
 </div>
 </body>
