@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -78,9 +79,13 @@
         .scroll-grid { display: inline-flex; gap: 20px; white-space: normal; }
         .scroll-grid .movie-card { width: 200px; display: inline-block; vertical-align: top; }
         @media (max-width: 768px) { .scroll-grid .movie-card { width: 160px; } }
-        .pagination { display: flex; justify-content: center; gap: 12px; margin-top: 30px; margin-bottom: 20px; flex-wrap: wrap; }
-        .page-btn { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); padding: 10px 16px; border-radius: 30px; cursor: pointer; transition: 0.2s; font-weight: 500; color: white; }
+        .pagination { display: flex; justify-content: center; gap: 8px; margin-top: 30px; margin-bottom: 20px; flex-wrap: wrap; }
+        .page-btn { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); padding: 10px 16px; border-radius: 30px; cursor: pointer; transition: 0.2s; font-weight: 500; color: white; min-width: 45px; text-align: center; }
         .page-btn.active { background: #e50914; border-color: #e50914; }
+        .page-btn:hover:not(.active) { background: rgba(229,9,20,0.5); transform: scale(1.05); }
+        .page-nav-btn { background: #e50914; border: none; padding: 10px 16px; border-radius: 30px; cursor: pointer; font-weight: 600; color: white; margin: 0 5px; }
+        .page-nav-btn:hover { transform: scale(1.05); }
+        .page-nav-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
         .special-sections { max-width: 1400px; margin: 0 auto; padding: 0 40px; display: none; }
         .special-sections.active { display: block; }
         .special-card { background: linear-gradient(135deg, #1a1a1a, #0d0d0d); border-radius: 16px; padding: 20px; margin-bottom: 30px; border: 1px solid rgba(229,9,20,0.3); }
@@ -138,7 +143,7 @@
         .popup-ok-btn { background: #e50914; border: none; padding: 12px 35px; border-radius: 40px; color: white; font-weight: 600; cursor: pointer; transition: all 0.3s; font-size: 16px; }
         .popup-ok-btn:hover { transform: scale(1.05); background: #ff1a1a; }
         @media (max-width: 1200px) { .site-container { max-width: 100%; } }
-        @media (max-width:768px) { .header { padding: 12px 20px; } .viral-text, .street-text { font-size: 32px; } .slide-title { font-size: 24px; max-width: 100%; } .movies-grid { grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 15px; } .free-coins-circle { width: 60px; height: 60px; } .stat-circle { width: 80px; height: 80px; } .stat-number { font-size: 18px; } .recommended-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); } }
+        @media (max-width:768px) { .header { padding: 12px 20px; } .viral-text, .street-text { font-size: 32px; } .slide-title { font-size: 24px; max-width: 100%; } .movies-grid { grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 15px; } .free-coins-circle { width: 60px; height: 60px; } .stat-circle { width: 80px; height: 80px; } .stat-number { font-size: 18px; } .recommended-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); } .page-btn { padding: 6px 12px; min-width: 35px; } }
     </style>
 </head>
 <body>
@@ -285,7 +290,8 @@
         let currentCategory = "all";
         let searchQuery = "";
         let currentPage = 1;
-        let itemsPerPage = 10;
+        let itemsPerPage = 12;
+        let totalPages = 1;
         let localCoins = parseInt(localStorage.getItem('localCoins')) || 0;
         let dailyCoinsEarned = parseInt(localStorage.getItem('dailyCoinsEarned')) || 0;
         let lastResetDate = localStorage.getItem('lastResetDate') || '';
@@ -330,6 +336,74 @@
                 if(m==='>') return '&gt;'; 
                 return m;
             }); 
+        }
+        
+        // ========== IMPROVED PAGINATION FUNCTION ==========
+        function renderPagination() {
+            const container = document.getElementById('paginationContainer');
+            if (!container) return;
+            
+            let filtered = currentVideos.filter(v=> (currentCategory==='all' || v.category===currentCategory) && (!searchQuery || v.title.toLowerCase().includes(searchQuery.toLowerCase())));
+            totalPages = Math.ceil(filtered.length / itemsPerPage);
+            
+            if (totalPages <= 1) {
+                container.innerHTML = '';
+                return;
+            }
+            
+            let html = '';
+            
+            // Previous button
+            html += `<button class="page-nav-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}><i class="fas fa-chevron-left"></i></button>`;
+            
+            // Calculate visible page range (show max 5 pages at a time)
+            let startPage = Math.max(1, currentPage - 2);
+            let endPage = Math.min(totalPages, currentPage + 2);
+            
+            // Adjust if near start
+            if (startPage <= 2) {
+                startPage = 1;
+                endPage = Math.min(totalPages, 5);
+            }
+            
+            // Adjust if near end
+            if (endPage >= totalPages - 1) {
+                endPage = totalPages;
+                startPage = Math.max(1, totalPages - 4);
+            }
+            
+            // First page button if not in range
+            if (startPage > 1) {
+                html += `<button class="page-btn" onclick="goToPage(1)">1</button>`;
+                if (startPage > 2) html += `<span style="color:#666; padding:0 5px;">...</span>`;
+            }
+            
+            // Page numbers
+            for (let i = startPage; i <= endPage; i++) {
+                html += `<button class="page-btn ${currentPage === i ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+            }
+            
+            // Last page button if not in range
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) html += `<span style="color:#666; padding:0 5px;">...</span>`;
+                html += `<button class="page-btn" onclick="goToPage(${totalPages})">${totalPages}</button>`;
+            }
+            
+            // Next button
+            html += `<button class="page-nav-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}><i class="fas fa-chevron-right"></i></button>`;
+            
+            // Page info
+            html += `<span style="color:#888; margin-left: 15px; font-size: 14px;">Page ${currentPage} of ${totalPages}</span>`;
+            
+            container.innerHTML = html;
+        }
+        
+        function goToPage(page) {
+            if (page < 1 || page > totalPages) return;
+            currentPage = page;
+            renderVideosWithPagination();
+            renderPagination();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
         
         // Video Player Functions
@@ -447,9 +521,9 @@
         function movieCard(v){
             return `<div class="movie-card" data-id="${v.id}">
                 <div class="movie-thumbnail" onclick="handlePlay('${v.id}')">
-                    <div class="category-badge" style="position:absolute;top:10px;right:10px;background:#111;padding:4px 10px;border-radius:20px;">${v.category.toUpperCase()}</div>
+                    <div class="category-badge" style="position:absolute;top:10px;right:10px;background:#111;padding:4px 10px;border-radius:20px;font-size:10px;">${v.category.toUpperCase()}</div>
                     ${v.isFeatured ? '<div class="featured-badge" style="position:absolute;top:10px;left:10px;background:#e50914;padding:4px 10px;border-radius:20px;font-size:10px;">FEATURED</div>' : ''}
-                    ${v.isUpcoming ? '<div class="upcoming-badge" style="position:absolute;top:10px;left:10px;background:#f39c12;padding:4px 10px;border-radius:20px;">UPCOMING</div>' : ''}
+                    ${v.isUpcoming ? '<div class="upcoming-badge" style="position:absolute;top:10px;left:10px;background:#f39c12;padding:4px 10px;border-radius:20px;font-size:10px;">UPCOMING</div>' : ''}
                     <img src="${v.thumbnail}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x450?text=No+Image'">
                     <div class="movie-overlay"><div class="play-icon"><i class="fas fa-play"></i></div></div>
                 </div>
@@ -466,21 +540,22 @@
         
         function renderVideosWithPagination(){
             let filtered = currentVideos.filter(v=> (currentCategory==='all' || v.category===currentCategory) && (!searchQuery || v.title.toLowerCase().includes(searchQuery.toLowerCase())));
-            let totalPages = Math.ceil(filtered.length / itemsPerPage);
+            totalPages = Math.ceil(filtered.length / itemsPerPage);
             if(currentPage > totalPages) currentPage = totalPages || 1;
             let start = (currentPage-1)*itemsPerPage;
             let paginatedVideos = filtered.slice(start, start+itemsPerPage);
             const videosGrid = document.getElementById('videosGrid');
-            if(videosGrid) videosGrid.innerHTML = paginatedVideos.length ? paginatedVideos.map(v=>movieCard(v)).join('') : '<div class="empty-state">No videos found</div>';
+            if(videosGrid) videosGrid.innerHTML = paginatedVideos.length ? paginatedVideos.map(v=>movieCard(v)).join('') : '<div class="empty-state" style="text-align:center;padding:50px;color:#666;">No videos found</div>';
+            renderPagination();
         }
         
         function renderUpcomingTrending(){
-            let upcoming = currentVideos.filter(v=>v.isUpcoming===true);
-            let trending = currentVideos.filter(v=>v.isTrending===true);
+            let upcoming = currentVideos.filter(v=>v.isUpcoming===true).slice(0, 10);
+            let trending = currentVideos.filter(v=>v.isTrending===true).slice(0, 10);
             const upcomingGrid = document.getElementById('upcomingGrid');
             const trendingGrid = document.getElementById('trendingGrid');
-            if(upcomingGrid) upcomingGrid.innerHTML = upcoming.length ? upcoming.map(v=>movieCard(v)).join('') : '<div>No upcoming</div>';
-            if(trendingGrid) trendingGrid.innerHTML = trending.length ? trending.map(v=>movieCard(v)).join('') : '<div>No trending</div>';
+            if(upcomingGrid) upcomingGrid.innerHTML = upcoming.length ? upcoming.map(v=>movieCard(v)).join('') : '<div style="text-align:center;padding:20px;color:#666;">No upcoming</div>';
+            if(trendingGrid) trendingGrid.innerHTML = trending.length ? trending.map(v=>movieCard(v)).join('') : '<div style="text-align:center;padding:20px;color:#666;">No trending</div>';
         }
         
         function renderAll(){ 
@@ -788,6 +863,7 @@
         window.openTelegram = openTelegram;
         window.closePopupNote = closePopupNote;
         window.verifyAge = verifyAge;
+        window.goToPage = goToPage;
         
         let isAgeVerified = localStorage.getItem('ageVerified') === 'true';
         if(isAgeVerified) init(); 
@@ -796,3 +872,4 @@
 </div>
 </body>
 </html>
+```
