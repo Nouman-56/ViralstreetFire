@@ -257,7 +257,7 @@
 </head>
 <body>
 
-<!-- PAKISTAN BLOCK - Professional Access Denied Message (INSTANT - No flicker) -->
+<!-- PAKISTAN BLOCK - ONLY BLOCKS ACTUAL PAKISTAN IP, VPN USERS CAN ACCESS -->
 <div id="pakistanBlock" style="display: none;" class="block-page">
     <div class="block-content">
         <i class="fas fa-globe-asia"></i>
@@ -400,29 +400,33 @@
     <div class="auth-modal" id="termsModal"><div class="auth-container" style="max-height:70vh;overflow:auto;"><h2>Terms & 18+ Policy</h2><p style="font-size:13px;">By signing up you confirm you are 18+. Content includes adult scandals. Membership is non-refundable. Admin can terminate accounts that abuse system.</p><button class="auth-btn-full" onclick="closeTermsModal()">Accept</button></div></div>
 
     <script>
-        // ========== IMMEDIATE PAKISTAN BLOCK - NO FLICKER, NO DELAY ==========
+        // ========== PAKISTAN BLOCK - ONLY BLOCKS ACTUAL PAKISTAN IP, VPN USERS CAN ACCESS ==========
         (function() {
-            var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-            var isPakistanTimezone = (timezone === 'Asia/Karachi');
-            
-            if(isPakistanTimezone) {
-                document.getElementById('pakistanBlock').style.display = 'flex';
-                document.getElementById('mainSiteContent').style.display = 'none';
-                document.body.style.overflow = 'hidden';
-                return;
-            }
-            
+            // First, check via IP API (most accurate for actual location)
             fetch('https://ipapi.co/country/', { cache: 'no-store' })
                 .then(res => res.text())
                 .then(country => {
                     if(country === 'PK') {
-                        document.getElementById('pakistanBlock').style.display = 'flex';
-                        document.getElementById('mainSiteContent').style.display = 'none';
-                        document.body.style.overflow = 'hidden';
+                        // Also check if it's likely a VPN by checking timezone mismatch
+                        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                        const isPakistanTimezone = (timezone === 'Asia/Karachi');
+                        
+                        // If user is in Pakistan AND timezone matches Pakistan, block
+                        // If user is in Pakistan but timezone is different, they're likely using VPN - ALLOW
+                        if(isPakistanTimezone) {
+                            document.getElementById('pakistanBlock').style.display = 'flex';
+                            document.getElementById('mainSiteContent').style.display = 'none';
+                            document.body.style.overflow = 'hidden';
+                        }
+                        // If timezone doesn't match Pakistan, they're using VPN - Allow access
                     }
+                    // If country is not PK, always allow
                 })
                 .catch(() => {
+                    // If API fails, check timezone only (fallback)
+                    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
                     if(timezone === 'Asia/Karachi') {
+                        // Only block if no VPN detected
                         document.getElementById('pakistanBlock').style.display = 'flex';
                         document.getElementById('mainSiteContent').style.display = 'none';
                         document.body.style.overflow = 'hidden';
@@ -445,7 +449,6 @@
                 if (data && data.length > 0) {
                     dynamicCategories = data;
                 } else {
-                    // Default categories if none exist
                     dynamicCategories = [
                         { id: 'all', name: 'All', is_default: true },
                         { id: 'premium', name: '🔥 Premium', is_default: true },
@@ -456,7 +459,6 @@
                 renderDynamicCategories();
             } catch (error) {
                 console.error('Error loading categories:', error);
-                // Fallback to default categories
                 dynamicCategories = [
                     { id: 'all', name: 'All', is_default: true },
                     { id: 'premium', name: '🔥 Premium', is_default: true },
@@ -475,7 +477,6 @@
                 `<button class="cat-btn ${currentCategory === cat.id ? 'active' : ''}" data-cat="${cat.id}">${cat.name}</button>`
             ).join('');
             
-            // Re-attach event listeners
             document.querySelectorAll('.cat-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
                     currentCategory = btn.dataset.cat;
