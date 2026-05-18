@@ -401,9 +401,7 @@
 
     <script>
         // ========== IMMEDIATE PAKISTAN BLOCK - NO FLICKER, NO DELAY ==========
-        // This runs synchronously before any page rendering
         (function() {
-            // Block immediately based on timezone as first line of defense
             var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
             var isPakistanTimezone = (timezone === 'Asia/Karachi');
             
@@ -411,10 +409,9 @@
                 document.getElementById('pakistanBlock').style.display = 'flex';
                 document.getElementById('mainSiteContent').style.display = 'none';
                 document.body.style.overflow = 'hidden';
-                return; // Stop further execution
+                return;
             }
             
-            // Async check with API
             fetch('https://ipapi.co/country/', { cache: 'no-store' })
                 .then(res => res.text())
                 .then(country => {
@@ -425,7 +422,6 @@
                     }
                 })
                 .catch(() => {
-                    // On API failure, check timezone again as backup
                     if(timezone === 'Asia/Karachi') {
                         document.getElementById('pakistanBlock').style.display = 'flex';
                         document.getElementById('mainSiteContent').style.display = 'none';
@@ -433,6 +429,80 @@
                     }
                 });
         })();
+        
+        // ========== DYNAMIC CATEGORIES SYSTEM (Supabase) ==========
+        let dynamicCategories = [];
+        
+        async function loadDynamicCategories() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('categories')
+                    .select('*')
+                    .order('name', { ascending: true });
+                
+                if (error) throw error;
+                
+                if (data && data.length > 0) {
+                    dynamicCategories = data;
+                } else {
+                    // Default categories if none exist
+                    dynamicCategories = [
+                        { id: 'all', name: 'All', is_default: true },
+                        { id: 'premium', name: '🔥 Premium', is_default: true },
+                        { id: 'indian', name: '🇮🇳 Indian', is_default: true },
+                        { id: 'pakistani', name: '🇵🇰 Pakistani', is_default: true }
+                    ];
+                }
+                renderDynamicCategories();
+            } catch (error) {
+                console.error('Error loading categories:', error);
+                // Fallback to default categories
+                dynamicCategories = [
+                    { id: 'all', name: 'All', is_default: true },
+                    { id: 'premium', name: '🔥 Premium', is_default: true },
+                    { id: 'indian', name: '🇮🇳 Indian', is_default: true },
+                    { id: 'pakistani', name: '🇵🇰 Pakistani', is_default: true }
+                ];
+                renderDynamicCategories();
+            }
+        }
+        
+        function renderDynamicCategories() {
+            const container = document.getElementById('categoriesContainer');
+            if (!container) return;
+            
+            container.innerHTML = dynamicCategories.map(cat => 
+                `<button class="cat-btn ${currentCategory === cat.id ? 'active' : ''}" data-cat="${cat.id}">${cat.name}</button>`
+            ).join('');
+            
+            // Re-attach event listeners
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    currentCategory = btn.dataset.cat;
+                    currentPage = 1;
+                    renderDynamicCategories();
+                    renderVideosWithPagination();
+                    const specialSections = document.getElementById('specialSections');
+                    if (specialSections) specialSections.style.display = currentCategory === 'all' ? 'block' : 'none';
+                    updateCategoryTitle();
+                });
+            });
+        }
+        
+        function updateCategoryTitle() {
+            const titleSpan = document.getElementById('categoryTitle');
+            if (!titleSpan) return;
+            
+            const currentCat = dynamicCategories.find(c => c.id === currentCategory);
+            if (currentCat) {
+                titleSpan.innerHTML = currentCat.name === 'All' ? '📺 All Videos' : currentCat.name;
+            } else {
+                titleSpan.innerHTML = currentCategory === 'all' ? '📺 All Videos' : 
+                                    (currentCategory === 'premium' ? '🔥 Premium Free' : 
+                                    (currentCategory === 'indian' ? '🇮🇳 Indian Scandals' : 
+                                    (currentCategory === 'pakistani' ? '🇵🇰 Pakistani Scandals' : currentCategory)));
+            }
+        }
         
         // ========== FLAG TO PREVENT ADS ON AGE VERIFICATION ==========
         let ageVerificationDone = false;
@@ -466,7 +536,6 @@
             }
             
             canShowAd() {
-                // Don't show ads if age verification not done
                 if(!ageVerificationDone || !ageVerifyButtonClicked) {
                     return false;
                 }
@@ -534,7 +603,6 @@
             
             setupClickTracking() {
                 document.addEventListener('click', (e) => {
-                    // Only track clicks on play buttons, download buttons, and movie cards
                     const isClickable = e.target.closest('.play-now-btn') || 
                                        e.target.closest('.download-btn') || 
                                        e.target.closest('.movie-thumbnail');
@@ -608,7 +676,13 @@
             const container = document.getElementById('paginationContainer');
             if (!container) return;
             
-            let filtered = currentVideos.filter(v=> (currentCategory==='all' || v.category===currentCategory) && (!searchQuery || v.title.toLowerCase().includes(searchQuery.toLowerCase())));
+            let filtered = currentVideos.filter(v=> {
+                if(currentCategory === 'all') {
+                    return (!v.isUpcoming && !v.isTrending) && (!searchQuery || v.title.toLowerCase().includes(searchQuery.toLowerCase()));
+                }
+                return (v.category === currentCategory) && (!searchQuery || v.title.toLowerCase().includes(searchQuery.toLowerCase()));
+            });
+            
             totalPages = Math.ceil(filtered.length / itemsPerPage);
             
             if (totalPages <= 1) {
@@ -877,28 +951,6 @@
             autoInterval = setInterval(nextSlide, 5000); 
         }
         
-        function renderCategories(){
-            let cats=[{id:'all',name:'All'},{id:'premium',name:'🔥 Premium'},{id:'indian',name:'🇮🇳 Indian'},{id:'pakistani',name:'🇵🇰 Pakistani'}];
-            const container = document.getElementById('categoriesContainer');
-            if(container) {
-                container.innerHTML=cats.map(c=>`<button class="cat-btn ${currentCategory===c.id?'active':''}" data-cat="${c.id}">${c.name}</button>`).join('');
-                document.querySelectorAll('.cat-btn').forEach(btn=>btn.addEventListener('click',()=>{
-                    currentCategory=btn.dataset.cat; 
-                    currentPage=1; 
-                    renderCategories(); 
-                    renderVideosWithPagination(); 
-                    const specialSections = document.getElementById('specialSections'); 
-                    if(specialSections) specialSections.style.display=currentCategory==='all'?'block':'none'; 
-                    updateCategoryTitle();
-                }));
-            }
-        }
-        
-        function updateCategoryTitle(){ 
-            const titleSpan = document.getElementById('categoryTitle');
-            if(titleSpan) titleSpan.innerHTML=currentCategory==='all'?'📺 All Videos':currentCategory==='premium'?'🔥 Premium Free':'🇮🇳 Indian/Pakistani Scandals'; 
-        }
-        
         function openCoinsModal(){ 
             showToast("🎬 Videos are free! Just click play.");
         }
@@ -1034,7 +1086,6 @@
             document.getElementById('popupNoteModal').classList.add('hidden');
         }
         
-        // AGE VERIFICATION - NO ADS ON THESE BUTTONS
         function verifyAge(over){
             if(over){ 
                 localStorage.setItem('ageVerified','true'); 
@@ -1073,9 +1124,9 @@
         }
         
         async function init(){ 
+            await loadDynamicCategories();
             await loadVideosFromSupabase(); 
             await loadSlidersFromSupabase();
-            renderCategories(); 
             updateCategoryTitle(); 
         }
         
