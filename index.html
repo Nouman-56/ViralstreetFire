@@ -7,9 +7,7 @@
     <title>VIRAL STREET | Premium Free | Indian & Pakistani Scandals</title>
 
     <meta name='admaven-placement' content='BqjrFrjnH'>
-
     <meta name="ppck-ver" content="27c4b946d905964139a5e9878391bf8d" />
-
     <meta name="clckd" content="1719603597deeec58ca902f4208d9f86" />
     
     <!-- Favicon - Professional VS Logo -->
@@ -27,7 +25,40 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #0a0a0a; font-family: 'Inter', sans-serif; color: #fff; overflow-x: hidden; }
-        .site-container { max-width: 1400px; margin: 0 auto; background: #0a0a0a; }
+        
+        /* FORCE DESKTOP MODE - Fixed width container */
+        .site-container { 
+            max-width: 1400px; 
+            width: 100%;
+            margin: 0 auto; 
+            background: #0a0a0a; 
+        }
+        
+        /* Desktop default - no zoom, fixed scale */
+        html {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+        
+        /* Prevent mobile zoom out - maintain desktop layout */
+        @media (max-width: 768px) {
+            body {
+                min-width: 1024px;
+                overflow-x: auto;
+            }
+            .site-container {
+                min-width: 1024px;
+                margin: 0 auto;
+            }
+        }
+        
+        /* Desktop styles remain same */
+        @media (min-width: 769px) {
+            body {
+                min-width: auto;
+            }
+        }
+        
         .header { background: linear-gradient(180deg, rgba(0,0,0,0.98) 0%, rgba(0,0,0,0.8) 70%, transparent 100%); padding: 18px 40px; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(2px); }
         .header-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
         .viral-logo { text-decoration: none; display: flex; flex-direction: column; line-height: 0.9; cursor: pointer; }
@@ -38,10 +69,12 @@
         .membership-badge { background: linear-gradient(135deg, #e50914, #b0070f); border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: bold; margin-left: 10px; }
         .auth-btn { background: #E50914; border: none; color: white; padding: 8px 20px; border-radius: 30px; cursor: pointer; font-weight: 600; transition: transform 0.2s, background 0.2s; }
         .auth-btn:hover { transform: scale(1.03); background: #ff1a1a; }
-        .free-coins-container { position: fixed; left: 20px; top: 50%; transform: translateY(-50%); z-index: 100; }
-        .free-coins-circle { width: 80px; height: 80px; background: linear-gradient(135deg, #FFD700, #FFA500); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 20px rgba(255,215,0,0.5); transition: transform 0.2s, box-shadow 0.2s; animation: float-circle 2s infinite; }
-        .free-coins-circle:hover { transform: scale(1.08); box-shadow: 0 0 30px rgba(255,215,0,0.8); }
-        @keyframes float-circle { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+        
+        /* FREE COINS BUTTON - REMOVED (display: none) */
+        .free-coins-container { 
+            display: none !important; 
+        }
+        
         .coins-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); z-index: 6000; display: none; align-items: center; justify-content: center; }
         .coins-modal.active { display: flex; }
         .coins-container { background: linear-gradient(135deg, #151515, #0a0a0a); border-radius: 24px; padding: 30px; width: 90%; max-width: 500px; border: 1px solid rgba(229,9,20,0.3); text-align: center; }
@@ -86,7 +119,7 @@
         .scroll-container::-webkit-scrollbar-thumb { background: #e50914; border-radius: 10px; }
         .scroll-grid { display: inline-flex; gap: 20px; white-space: normal; }
         .scroll-grid .movie-card { width: 200px; display: inline-block; vertical-align: top; }
-        @media (max-width: 768px) { .scroll-grid .movie-card { width: 160px; } }
+        @media (max-width: 768px) { .scroll-grid .movie-card { width: 200px; } }
         .pagination { display: flex; justify-content: center; gap: 8px; margin-top: 30px; margin-bottom: 20px; flex-wrap: wrap; }
         .page-btn { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); padding: 10px 16px; border-radius: 30px; cursor: pointer; transition: 0.2s; font-weight: 500; color: white; min-width: 45px; text-align: center; }
         .page-btn.active { background: #e50914; border-color: #e50914; }
@@ -150,7 +183,6 @@
         .popup-note-container .message { color: #ccc; line-height: 1.6; margin-bottom: 25px; font-size: 14px; }
         .popup-ok-btn { background: #e50914; border: none; padding: 12px 35px; border-radius: 40px; color: white; font-weight: 600; cursor: pointer; transition: all 0.3s; font-size: 16px; }
         .popup-ok-btn:hover { transform: scale(1.05); background: #ff1a1a; }
-        /* Footer Banner Ad Styles */
         .footer-ad-container {
             text-align: center;
             margin: 40px 0 20px 0;
@@ -166,95 +198,25 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-        /* Stats Calendar Styles */
-        .stats-calendar {
-            background: #151515;
-            border-radius: 16px;
-            padding: 20px;
-            margin-top: 20px;
-            border: 1px solid rgba(229,9,20,0.3);
-        }
-        .stats-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-        .date-filter {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        .date-filter input, .date-filter select {
-            background: #2a2a2a;
-            border: 1px solid #3d3d3d;
-            border-radius: 8px;
-            padding: 10px 15px;
-            color: white;
-            cursor: pointer;
-        }
-        .stats-summary {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        .stat-card-small {
-            background: #1a1a1a;
-            border-radius: 12px;
-            padding: 15px;
-            text-align: center;
-            border-left: 3px solid #e50914;
-        }
-        .stat-card-small .number {
-            font-size: 28px;
-            font-weight: 800;
-            color: #FFD700;
-        }
-        .stat-card-small .label {
-            font-size: 12px;
-            color: #888;
-            margin-top: 5px;
-        }
-        .stats-table {
-            overflow-x: auto;
-        }
-        .stats-table table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .stats-table th, .stats-table td {
-            padding: 12px;
-            text-align: center;
-            border-bottom: 1px solid #2a2a2a;
-        }
-        .stats-table th {
-            color: #e50914;
-            font-weight: 600;
-        }
-        .stats-table tr:hover {
-            background: #1a1a1a;
-        }
-        .range-buttons {
-            display: flex;
-            gap: 10px;
-        }
-        .range-btn {
-            background: #2a2a2a;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            color: white;
-            cursor: pointer;
-            font-size: 12px;
-        }
-        .range-btn.active {
-            background: #e50914;
-        }
         @media (max-width: 1200px) { .site-container { max-width: 100%; } }
-        @media (max-width:768px) { .header { padding: 12px 20px; } .viral-text, .street-text { font-size: 32px; } .slide-title { font-size: 24px; max-width: 100%; } .movies-grid { grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 15px; } .free-coins-circle { width: 60px; height: 60px; } .stat-circle { width: 80px; height: 80px; } .stat-number { font-size: 18px; } .recommended-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); } .page-btn { padding: 6px 12px; min-width: 35px; } }
+        @media (max-width:768px) { 
+            .header { padding: 12px 20px; } 
+            .viral-text, .street-text { font-size: 32px; } 
+            .slide-title { font-size: 24px; max-width: 100%; } 
+            .movies-grid { grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 15px; } 
+            .stat-circle { width: 80px; height: 80px; } 
+            .stat-number { font-size: 18px; } 
+            .recommended-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); } 
+            .page-btn { padding: 6px 12px; min-width: 35px; }
+            /* Desktop mode on mobile - force horizontal scroll */
+            body {
+                min-width: 1024px;
+                overflow-x: auto;
+            }
+            .site-container {
+                min-width: 1024px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -291,7 +253,8 @@
         </div>
     </div>
 
-    <div class="free-coins-container" id="freeCoinsContainer" style="display:none;"><div class="free-coins-circle" onclick="openCoinsModal()"><i class="fas fa-coins"></i><span>Free Coins</span></div></div>
+    <!-- FREE COINS BUTTON - REMOVED (hidden) -->
+    <div class="free-coins-container" id="freeCoinsContainer" style="display:none;"></div>
     
     <!-- COINS MODAL -->
     <div class="coins-modal" id="coinsModal">
@@ -452,62 +415,6 @@
         // Track if video modal is open
         let isVideoModalOpen = false;
         
-        // ========== VISITOR STATS SYSTEM ==========
-        async function trackVisitor() {
-            const today = new Date().toISOString().split('T')[0];
-            const visitorId = localStorage.getItem('visitor_id');
-            const todayVisit = localStorage.getItem('visited_today');
-            
-            if(!visitorId) {
-                const newId = 'visitor_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-                localStorage.setItem('visitor_id', newId);
-            }
-            
-            const docRef = db.collection("site_stats").doc(today);
-            const doc = await docRef.get();
-            
-            if(!doc.exists) {
-                await docRef.set({
-                    date: today,
-                    visitors: 1,
-                    page_views: 1,
-                    unique_visitors: 1,
-                    auth_views: 0,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                });
-                localStorage.setItem('visited_today', today);
-            } else {
-                const isNewVisitor = todayVisit !== today;
-                
-                if(isNewVisitor) {
-                    await docRef.update({
-                        visitors: firebase.firestore.FieldValue.increment(1),
-                        unique_visitors: firebase.firestore.FieldValue.increment(1),
-                        page_views: firebase.firestore.FieldValue.increment(1)
-                    });
-                    localStorage.setItem('visited_today', today);
-                } else {
-                    await docRef.update({
-                        page_views: firebase.firestore.FieldValue.increment(1)
-                    });
-                }
-            }
-            
-            // Track auth page views
-            if(window.location.pathname.includes('login') || window.location.pathname.includes('signup')) {
-                await docRef.update({
-                    auth_views: firebase.firestore.FieldValue.increment(1)
-                }).catch(() => {});
-            }
-        }
-        
-        // Call on page load
-        if(document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', trackVisitor);
-        } else {
-            trackVisitor();
-        }
-        
         function showToast(msg, err=false){ 
             let t=document.createElement('div'); 
             t.className='toast'; 
@@ -529,21 +436,6 @@
                 if(m==='>') return '&gt;'; 
                 return m;
             }); 
-        }
-        
-        // Handle mobile back button to close video modal only, not entire website
-        function handleBackButton() {
-            if(isVideoModalOpen) {
-                closeVideoModal();
-                history.pushState(null, null, location.href);
-            }
-        }
-        
-        function setupBackButtonHandler() {
-            history.pushState(null, null, location.href);
-            window.addEventListener('popstate', function(event) {
-                handleBackButton();
-            });
         }
         
         function renderPagination() {
@@ -648,10 +540,8 @@
             const videoEl = document.getElementById('videoPlayer');
             if(videoEl) videoEl.pause();
             const modal = document.getElementById('videoModal');
-            if(modal) {
-                modal.classList.remove('active');
-                isVideoModalOpen = false;
-            }
+            if(modal) modal.classList.remove('active');
+            isVideoModalOpen = false;
         }
         
         async function loadVideosFromSupabase() {
@@ -842,10 +732,6 @@
         }
         
         function openCoinsModal(){ 
-            if(!ageVerificationDone) {
-                showToast("Please verify your age first!", true);
-                return;
-            }
             showToast("🎬 Videos are free! Just click play.");
         }
         function closeCoinsModal(){ 
@@ -995,7 +881,6 @@
         
         function showMainContent(){
             document.getElementById('header').style.display='block';
-            document.getElementById('freeCoinsContainer').style.display='block';
             document.getElementById('heroSection').style.display='block';
             document.getElementById('categoriesContainer').style.display='flex';
             document.getElementById('specialSections').style.display='block';
@@ -1005,6 +890,16 @@
             setupBackButtonHandler();
             setTimeout(() => checkAndShowPopupNote(), 1000);
             init();
+        }
+        
+        function setupBackButtonHandler() {
+            history.pushState(null, null, location.href);
+            window.addEventListener('popstate', function(event) {
+                if(isVideoModalOpen) {
+                    closeVideoModal();
+                    history.pushState(null, null, location.href);
+                }
+            });
         }
         
         async function init(){ 
