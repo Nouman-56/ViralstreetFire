@@ -57,7 +57,7 @@
             }
         }
         
-        /* PAKISTAN BLOCK PAGE STYLES */
+        /* PAKISTAN BLOCK PAGE STYLES - FIXED INSTANT BLOCK */
         .block-page {
             position: fixed;
             top: 0;
@@ -257,7 +257,7 @@
 </head>
 <body>
 
-<!-- PAKISTAN BLOCK - Professional Access Denied Message -->
+<!-- PAKISTAN BLOCK - Professional Access Denied Message (INSTANT - No flicker) -->
 <div id="pakistanBlock" style="display: none;" class="block-page">
     <div class="block-content">
         <i class="fas fa-globe-asia"></i>
@@ -269,7 +269,7 @@
     </div>
 </div>
 
-<div class="site-container" id="mainSiteContent">
+<div class="site-container" id="mainSiteContent" style="display: block;">
     <div id="ageVerificationModal" class="age-verification-modal">
         <div class="age-verification-container" style="background:linear-gradient(135deg,#151515,#0a0a0a);border-radius:24px;padding:40px;max-width:500px;text-align:center;border:1px solid #e50914;">
             <i class="fas fa-exclamation-triangle" style="font-size:60px;color:#e50914;"></i>
@@ -400,29 +400,39 @@
     <div class="auth-modal" id="termsModal"><div class="auth-container" style="max-height:70vh;overflow:auto;"><h2>Terms & 18+ Policy</h2><p style="font-size:13px;">By signing up you confirm you are 18+. Content includes adult scandals. Membership is non-refundable. Admin can terminate accounts that abuse system.</p><button class="auth-btn-full" onclick="closeTermsModal()">Accept</button></div></div>
 
     <script>
-        // ========== PAKISTAN BLOCK - Check user country ==========
-        function checkAndBlockPakistan() {
-            fetch('https://ipapi.co/country/')
+        // ========== IMMEDIATE PAKISTAN BLOCK - NO FLICKER, NO DELAY ==========
+        // This runs synchronously before any page rendering
+        (function() {
+            // Block immediately based on timezone as first line of defense
+            var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            var isPakistanTimezone = (timezone === 'Asia/Karachi');
+            
+            if(isPakistanTimezone) {
+                document.getElementById('pakistanBlock').style.display = 'flex';
+                document.getElementById('mainSiteContent').style.display = 'none';
+                document.body.style.overflow = 'hidden';
+                return; // Stop further execution
+            }
+            
+            // Async check with API
+            fetch('https://ipapi.co/country/', { cache: 'no-store' })
                 .then(res => res.text())
                 .then(country => {
                     if(country === 'PK') {
                         document.getElementById('pakistanBlock').style.display = 'flex';
                         document.getElementById('mainSiteContent').style.display = 'none';
                         document.body.style.overflow = 'hidden';
-                    } else {
-                        document.getElementById('pakistanBlock').style.display = 'none';
-                        document.getElementById('mainSiteContent').style.display = 'block';
                     }
                 })
                 .catch(() => {
-                    // If API fails, allow access (fallback)
-                    document.getElementById('pakistanBlock').style.display = 'none';
-                    document.getElementById('mainSiteContent').style.display = 'block';
+                    // On API failure, check timezone again as backup
+                    if(timezone === 'Asia/Karachi') {
+                        document.getElementById('pakistanBlock').style.display = 'flex';
+                        document.getElementById('mainSiteContent').style.display = 'none';
+                        document.body.style.overflow = 'hidden';
+                    }
                 });
-        }
-        
-        // Run block check immediately
-        checkAndBlockPakistan();
+        })();
         
         // ========== FLAG TO PREVENT ADS ON AGE VERIFICATION ==========
         let ageVerificationDone = false;
@@ -458,7 +468,6 @@
             canShowAd() {
                 // Don't show ads if age verification not done
                 if(!ageVerificationDone || !ageVerifyButtonClicked) {
-                    console.log("⏳ Age verification not done yet - no ads");
                     return false;
                 }
                 
@@ -501,7 +510,6 @@
                 localStorage.setItem('rotator_count', this.dailyCount);
                 localStorage.setItem('rotator_time', this.lastAdTime);
                 
-                console.log(`✅ Showing: ${network.name} (${this.dailyCount}/20 today) - Random rotation`);
                 return true;
             }
             
