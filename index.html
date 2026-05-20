@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +7,12 @@
     <meta name="6a97888e-site-verification" content="40d3c84816005404bfab3ca9ae638b5c">
     <title>VIRAL STREET | Premium Free | Indian & Pakistani Scandals</title>
 
+    <meta name='admaven-placement' content='BqjrFrjnH'>
+
+    <meta name="ppck-ver" content="27c4b946d905964139a5e9878391bf8d" />
+
+    <meta name="clckd" content="1719603597deeec58ca902f4208d9f86" />
+    
     <!-- Favicon - Professional VS Logo -->
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23e50914' rx='20'/%3E%3Ctext x='50' y='68' font-size='50' text-anchor='middle' fill='%23FFD700' font-weight='bold' font-family='Arial'%3EV%3C/text%3E%3Ctext x='50' y='90' font-size='30' text-anchor='middle' fill='white' font-weight='bold'%3ES%3C/text%3E%3C/svg%3E">
     <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23e50914' rx='20'/%3E%3Ctext x='50' y='68' font-size='50' text-anchor='middle' fill='%23FFD700' font-weight='bold'%3EV%3C/text%3E%3Ctext x='50' y='90' font-size='30' text-anchor='middle' fill='white' font-weight='bold'%3ES%3C/text%3E%3C/svg%3E">
@@ -159,6 +166,93 @@
             margin-bottom: 8px;
             text-transform: uppercase;
             letter-spacing: 1px;
+        }
+        /* Stats Calendar Styles */
+        .stats-calendar {
+            background: #151515;
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid rgba(229,9,20,0.3);
+        }
+        .stats-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .date-filter {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .date-filter input, .date-filter select {
+            background: #2a2a2a;
+            border: 1px solid #3d3d3d;
+            border-radius: 8px;
+            padding: 10px 15px;
+            color: white;
+            cursor: pointer;
+        }
+        .stats-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .stat-card-small {
+            background: #1a1a1a;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            border-left: 3px solid #e50914;
+        }
+        .stat-card-small .number {
+            font-size: 28px;
+            font-weight: 800;
+            color: #FFD700;
+        }
+        .stat-card-small .label {
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+        }
+        .stats-table {
+            overflow-x: auto;
+        }
+        .stats-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .stats-table th, .stats-table td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #2a2a2a;
+        }
+        .stats-table th {
+            color: #e50914;
+            font-weight: 600;
+        }
+        .stats-table tr:hover {
+            background: #1a1a1a;
+        }
+        .range-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .range-btn {
+            background: #2a2a2a;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .range-btn.active {
+            background: #e50914;
         }
         @media (max-width: 1200px) { .site-container { max-width: 100%; } }
         @media (max-width:768px) { .header { padding: 12px 20px; } .viral-text, .street-text { font-size: 32px; } .slide-title { font-size: 24px; max-width: 100%; } .movies-grid { grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 15px; } .free-coins-circle { width: 60px; height: 60px; } .stat-circle { width: 80px; height: 80px; } .stat-number { font-size: 18px; } .recommended-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); } .page-btn { padding: 6px 12px; min-width: 35px; } }
@@ -359,6 +453,62 @@
         // Track if video modal is open
         let isVideoModalOpen = false;
         
+        // ========== VISITOR STATS SYSTEM ==========
+        async function trackVisitor() {
+            const today = new Date().toISOString().split('T')[0];
+            const visitorId = localStorage.getItem('visitor_id');
+            const todayVisit = localStorage.getItem('visited_today');
+            
+            if(!visitorId) {
+                const newId = 'visitor_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                localStorage.setItem('visitor_id', newId);
+            }
+            
+            const docRef = db.collection("site_stats").doc(today);
+            const doc = await docRef.get();
+            
+            if(!doc.exists) {
+                await docRef.set({
+                    date: today,
+                    visitors: 1,
+                    page_views: 1,
+                    unique_visitors: 1,
+                    auth_views: 0,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                localStorage.setItem('visited_today', today);
+            } else {
+                const isNewVisitor = todayVisit !== today;
+                
+                if(isNewVisitor) {
+                    await docRef.update({
+                        visitors: firebase.firestore.FieldValue.increment(1),
+                        unique_visitors: firebase.firestore.FieldValue.increment(1),
+                        page_views: firebase.firestore.FieldValue.increment(1)
+                    });
+                    localStorage.setItem('visited_today', today);
+                } else {
+                    await docRef.update({
+                        page_views: firebase.firestore.FieldValue.increment(1)
+                    });
+                }
+            }
+            
+            // Track auth page views
+            if(window.location.pathname.includes('login') || window.location.pathname.includes('signup')) {
+                await docRef.update({
+                    auth_views: firebase.firestore.FieldValue.increment(1)
+                }).catch(() => {});
+            }
+        }
+        
+        // Call on page load
+        if(document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', trackVisitor);
+        } else {
+            trackVisitor();
+        }
+        
         function showToast(msg, err=false){ 
             let t=document.createElement('div'); 
             t.className='toast'; 
@@ -385,19 +535,13 @@
         // Handle mobile back button to close video modal only, not entire website
         function handleBackButton() {
             if(isVideoModalOpen) {
-                // Video modal is open - close it
                 closeVideoModal();
-                // Push a new state to prevent page navigation
                 history.pushState(null, null, location.href);
             }
         }
         
-        // Setup history API for back button handling
         function setupBackButtonHandler() {
-            // Push initial state
             history.pushState(null, null, location.href);
-            
-            // Listen for popstate (back button)
             window.addEventListener('popstate', function(event) {
                 handleBackButton();
             });
@@ -457,9 +601,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
         
-        // VIDEO PLAYER - NO COINS REQUIRED
         async function handlePlay(videoId) {
-            // Don't allow video play if age verification not done
             if(!ageVerificationDone) {
                 showToast("Please verify your age first!", true);
                 return;
@@ -479,7 +621,6 @@
                 return;
             }
             
-            // DIRECT PLAY - NO COINS CHECK
             openVideoPlayer(video.title, video.videoUrl, videoId);
         }
         
@@ -500,7 +641,6 @@
             if(modal) {
                 modal.classList.add('active');
                 isVideoModalOpen = true;
-                // Push new state when video opens for back button handling
                 history.pushState(null, null, location.href);
             }
         }
@@ -569,8 +709,6 @@
         }
         
         function movieCard(v){
-            // Check if video is upcoming or trending only - hide from All videos if isUpcoming or isTrending is true and current category is 'all'
-            // But show in their respective special sections only
             return `<div class="movie-card" data-id="${v.id}">
                 <div class="movie-thumbnail" onclick="handlePlay('${v.id}')">
                     <div class="category-badge" style="position:absolute;top:10px;right:10px;background:#111;padding:4px 10px;border-radius:20px;font-size:10px;">${v.category.toUpperCase()}</div>
@@ -604,14 +742,10 @@
         }
         
         function renderVideosWithPagination(){
-            // Filter: Exclude videos that are marked as Upcoming OR Trending when showing "All Videos" category
-            // But show them only in their respective special sections
             let filtered = currentVideos.filter(v=> {
-                // For 'all' category, exclude upcoming and trending videos (they only show in special sections)
                 if(currentCategory === 'all') {
                     return (!v.isUpcoming && !v.isTrending) && (!searchQuery || v.title.toLowerCase().includes(searchQuery.toLowerCase()));
                 }
-                // For other categories, show normally
                 return (v.category === currentCategory) && (!searchQuery || v.title.toLowerCase().includes(searchQuery.toLowerCase()));
             });
             
@@ -847,7 +981,6 @@
             document.getElementById('popupNoteModal').classList.add('hidden');
         }
         
-        // AGE VERIFICATION FIXED - NO ADS WHEN CLICKING
         function verifyAge(over){
             if(over){ 
                 localStorage.setItem('ageVerified','true'); 
@@ -934,3 +1067,4 @@
 </div>
 </body>
 </html>
+```
