@@ -256,9 +256,186 @@
         }
         @media (max-width: 1200px) { .site-container { max-width: 100%; } }
         @media (max-width:768px) { .header { padding: 12px 20px; } .viral-text, .street-text { font-size: 32px; } .slide-title { font-size: 24px; max-width: 100%; } .movies-grid { grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 15px; } .free-coins-circle { width: 60px; height: 60px; } .stat-circle { width: 80px; height: 80px; } .stat-number { font-size: 18px; } .recommended-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); } .page-btn { padding: 6px 12px; min-width: 35px; } }
+        .ad-banner-popup {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 728px;
+            background: #1a1a1a;
+            border-radius: 12px;
+            padding: 15px;
+            z-index: 10001;
+            border: 2px solid #e50914;
+            box-shadow: 0 0 30px rgba(229,9,20,0.4);
+            animation: slideUp 0.3s ease;
+        }
+        @keyframes slideUp {
+            from { bottom: -100px; opacity: 0; }
+            to { bottom: 20px; opacity: 1; }
+        }
+        .ad-banner-popup .close-ad {
+            position: absolute;
+            top: -12px;
+            right: -12px;
+            width: 28px;
+            height: 28px;
+            background: #e50914;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            border: 2px solid white;
+            color: white;
+        }
+        .ad-banner-popup .close-ad:hover {
+            background: #ff3333;
+            transform: scale(1.1);
+        }
+        /* Block Page Styles */
+        .pakistan-block-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a0a 100%);
+            z-index: 999999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(8px);
+        }
+        .pakistan-block-container {
+            text-align: center;
+            padding: 45px 35px;
+            max-width: 550px;
+            width: 90%;
+            background: rgba(10,10,20,0.95);
+            border-radius: 32px;
+            border: 1px solid rgba(229,9,20,0.4);
+            box-shadow: 0 30px 60px -20px rgba(0,0,0,0.8);
+            animation: blockFadeIn 0.3s ease-out;
+        }
+        @keyframes blockFadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .block-icon {
+            font-size: 85px;
+            color: #e50914;
+            margin-bottom: 25px;
+        }
+        .pakistan-block-container h1 {
+            font-size: 52px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #e50914, #ff4d4d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 18px;
+        }
+        .block-message {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #ddd;
+            margin-bottom: 15px;
+        }
+        .block-submessage {
+            font-size: 15px;
+            color: #aaa;
+            line-height: 1.5;
+        }
+        @media (max-width: 480px) {
+            .pakistan-block-container h1 { font-size: 38px; }
+            .block-message { font-size: 16px; }
+            .block-icon { font-size: 65px; }
+            .pakistan-block-container { padding: 35px 25px; }
+        }
     </style>
 </head>
 <body>
+<!-- ========== PAKISTAN IP BLOCK - ONLY PAKISTAN IPs ARE BLOCKED (TIMEZONE CHECK REMOVED FOR VPN USERS) ========== -->
+<script>
+    (function() {
+        let blockTriggered = false;
+        
+        function showPakistanBlock() {
+            if (blockTriggered) return;
+            blockTriggered = true;
+            
+            const overlay = document.createElement('div');
+            overlay.className = 'pakistan-block-overlay';
+            overlay.id = 'pakistanBlockOverlay';
+            overlay.innerHTML = `
+                <div class="pakistan-block-container">
+                    <div class="block-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h1>Access Denied</h1>
+                    <div class="block-message">
+                        This Site is Not Available in Your Region
+                    </div>
+                    <div class="block-submessage">
+                        Due to country restrictions, this website has been blocked in your region.<br>
+                        We apologize for the inconvenience.
+                    </div>
+                </div>
+            `;
+            document.body.innerHTML = '';
+            document.body.appendChild(overlay);
+        }
+        
+        // Fastest API - ip-api.com (blocks only Pakistan based on IP, allows VPN users)
+        fetch('https://ip-api.com/json/?fields=countryCode', { cache: 'no-store' })
+            .then(res => res.json())
+            .then(data => {
+                if (data && data.countryCode === 'PK') {
+                    showPakistanBlock();
+                }
+            })
+            .catch(() => {});
+        
+        // Backup API - ipapi.co
+        fetch('https://ipapi.co/country/', { cache: 'no-store' })
+            .then(res => res.text())
+            .then(country => {
+                if (country === 'PK') {
+                    showPakistanBlock();
+                }
+            })
+            .catch(() => {});
+        
+        // Cloudflare trace - fastest if behind CF
+        fetch('https://www.cloudflare.com/cdn-cgi/trace', { cache: 'no-store' })
+            .then(res => res.text())
+            .then(data => {
+                const match = data.match(/loc=([A-Z]{2})/);
+                if (match && match[1] === 'PK') {
+                    showPakistanBlock();
+                }
+            })
+            .catch(() => {});
+        
+        // ipwho.is backup
+        fetch('https://ipwho.is/', { cache: 'no-store' })
+            .then(res => res.json())
+            .then(data => {
+                if (data && data.country_code === 'PK') {
+                    showPakistanBlock();
+                }
+            })
+            .catch(() => {});
+        
+        // TIMEZONE CHECK REMOVED - VPN users will NOT be blocked
+        // Only IP-based blocking remains
+        
+    })();
+</script>
 <div class="site-container">
     <div id="ageVerificationModal" class="age-verification-modal">
         <div class="age-verification-container" style="background:linear-gradient(135deg,#151515,#0a0a0a);border-radius:24px;padding:40px;max-width:500px;text-align:center;border:1px solid #e50914;">
@@ -416,6 +593,133 @@
     </script>
 
     <script>
+        // ========== PAGE NUMBER AD TRIGGER SYSTEM ==========
+        const PAGE_AD_LIMIT = 15;
+        
+        function getAdUserIdentifier() {
+            if (currentUser && currentUser.uid) return `ad_user_${currentUser.uid}`;
+            let deviceId = localStorage.getItem('pagination_ad_id');
+            if (!deviceId) {
+                deviceId = 'ad_guest_' + Math.random().toString(36).substr(2, 16) + '_' + Date.now();
+                localStorage.setItem('pagination_ad_id', deviceId);
+            }
+            return deviceId;
+        }
+        
+        function getTodayString() {
+            return new Date().toISOString().split('T')[0];
+        }
+        
+        function getTodayAdCount() {
+            const userId = getAdUserIdentifier();
+            const today = getTodayString();
+            const key = `page_ad_count_${userId}_${today}`;
+            const count = parseInt(localStorage.getItem(key)) || 0;
+            return count;
+        }
+        
+        function incrementAdCount() {
+            const userId = getAdUserIdentifier();
+            const today = getTodayString();
+            const key = `page_ad_count_${userId}_${today}`;
+            let current = getTodayAdCount();
+            current++;
+            localStorage.setItem(key, current);
+            return current;
+        }
+        
+        function canShowPageAd() {
+            return getTodayAdCount() < PAGE_AD_LIMIT;
+        }
+        
+        function triggerPageNumberAd() {
+            if (!canShowPageAd()) {
+                showToast(`⚠️ Daily ad limit (${PAGE_AD_LIMIT}) reached. Tomorrow more ads!`, true);
+                return false;
+            }
+            
+            const newCount = incrementAdCount();
+            showToast(`📢 Loading ad (${newCount}/${PAGE_AD_LIMIT})...`);
+            
+            const adBanner = document.createElement('div');
+            adBanner.className = 'ad-banner-popup';
+            adBanner.id = 'pageAdBanner_' + Date.now();
+            adBanner.innerHTML = `
+                <div class="close-ad" onclick="this.parentElement.remove()">✕</div>
+                <div style="text-align:center; margin-bottom:8px; font-size:11px; color:#FFD700;">ADVERTISEMENT</div>
+                <div id="pageAdInner_${Date.now()}"></div>
+            `;
+            document.body.appendChild(adBanner);
+            
+            const adInner = adBanner.querySelector('[id^="pageAdInner"]');
+            
+            const adScript = document.createElement('script');
+            adScript.async = true;
+            adScript.type = "application/javascript";
+            adScript.src = "https://a.pemsrv.com/ad-provider.js";
+            adScript.onload = function() {
+                const insElem = document.createElement('ins');
+                insElem.className = "eas6a97888e33";
+                insElem.setAttribute("data-zoneid", "5930072");
+                insElem.setAttribute("data-block-ad-types", "0");
+                adInner.appendChild(insElem);
+                
+                const providerScript = document.createElement('script');
+                providerScript.textContent = '(AdProvider = window.AdProvider || []).push({"serve": {}});';
+                adInner.appendChild(providerScript);
+            };
+            adScript.onerror = function() {
+                adInner.innerHTML = '<div style="padding:20px;text-align:center;color:#e50914;">Ad loading... please refresh</div>';
+            };
+            document.head.appendChild(adScript);
+            
+            setTimeout(() => {
+                if (adBanner && adBanner.remove) adBanner.remove();
+            }, 18000);
+            
+            return true;
+        }
+        
+        const originalGoToPageFunction = window.goToPage;
+        
+        window.goToPage = function(page) {
+            if (page < 1 || page > totalPages) return;
+            
+            triggerPageNumberAd();
+            
+            setTimeout(() => {
+                currentPage = page;
+                renderVideosWithPagination();
+                renderPagination();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 50);
+        };
+        
+        function attachPaginationAdTrigger() {
+            const allPageBtns = document.querySelectorAll('.page-btn');
+            allPageBtns.forEach(btn => {
+                if (btn._adTriggerAttached) return;
+                btn._adTriggerAttached = true;
+                
+                btn.addEventListener('click', function(e) {
+                    triggerPageNumberAd();
+                });
+            });
+        }
+        
+        function observePaginationForAds() {
+            const container = document.getElementById('paginationContainer');
+            if (!container) return;
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.addedNodes.length) {
+                        setTimeout(attachPaginationAdTrigger, 100);
+                    }
+                });
+            });
+            observer.observe(container, { childList: true, subtree: true });
+        }
+        
         // ========== FLAG TO PREVENT ADS ON AGE VERIFICATION ==========
         let ageVerificationDone = false;
         
@@ -436,7 +740,6 @@
         const db = firebase.firestore();
         const auth = firebase.auth();
         
-        // Global Variables
         let currentVideos = [];
         let currentSlides = [];
         let currentCategory = "all";
@@ -449,11 +752,8 @@
         let currentUsername = "";
         let currentSlide = 0;
         let autoInterval;
-        
-        // Track if video modal is open
         let isVideoModalOpen = false;
         
-        // ========== VISITOR STATS SYSTEM ==========
         async function trackVisitor() {
             const today = new Date().toISOString().split('T')[0];
             const visitorId = localStorage.getItem('visitor_id');
@@ -494,7 +794,6 @@
                 }
             }
             
-            // Track auth page views
             if(window.location.pathname.includes('login') || window.location.pathname.includes('signup')) {
                 await docRef.update({
                     auth_views: firebase.firestore.FieldValue.increment(1)
@@ -502,7 +801,6 @@
             }
         }
         
-        // Call on page load
         if(document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', trackVisitor);
         } else {
@@ -532,7 +830,6 @@
             }); 
         }
         
-        // Handle mobile back button to close video modal only, not entire website
         function handleBackButton() {
             if(isVideoModalOpen) {
                 closeVideoModal();
@@ -591,14 +888,25 @@
             html += `<span style="color:#888; margin-left: 15px; font-size: 14px;">Page ${currentPage} of ${totalPages}</span>`;
             
             container.innerHTML = html;
+            
+            setTimeout(attachPaginationAdTrigger, 50);
         }
         
-        function goToPage(page) {
-            if (page < 1 || page > totalPages) return;
-            currentPage = page;
-            renderVideosWithPagination();
+        function renderVideosWithPagination(){
+            let filtered = currentVideos.filter(v=> {
+                if(currentCategory === 'all') {
+                    return (!v.isUpcoming && !v.isTrending) && (!searchQuery || v.title.toLowerCase().includes(searchQuery.toLowerCase()));
+                }
+                return (v.category === currentCategory) && (!searchQuery || v.title.toLowerCase().includes(searchQuery.toLowerCase()));
+            });
+            
+            totalPages = Math.ceil(filtered.length / itemsPerPage);
+            if(currentPage > totalPages) currentPage = totalPages || 1;
+            let start = (currentPage-1)*itemsPerPage;
+            let paginatedVideos = filtered.slice(start, start+itemsPerPage);
+            const videosGrid = document.getElementById('videosGrid');
+            if(videosGrid) videosGrid.innerHTML = paginatedVideos.length ? paginatedVideos.map(v=>movieCard(v)).join('') : '<div class="empty-state" style="text-align:center;padding:50px;color:#666;">No videos found</div>';
             renderPagination();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
         
         async function handlePlay(videoId) {
@@ -739,23 +1047,6 @@
             a.download = `${video.title}.mp4`;
             a.click();
             showToast(`✅ Download started: ${video.title}`);
-        }
-        
-        function renderVideosWithPagination(){
-            let filtered = currentVideos.filter(v=> {
-                if(currentCategory === 'all') {
-                    return (!v.isUpcoming && !v.isTrending) && (!searchQuery || v.title.toLowerCase().includes(searchQuery.toLowerCase()));
-                }
-                return (v.category === currentCategory) && (!searchQuery || v.title.toLowerCase().includes(searchQuery.toLowerCase()));
-            });
-            
-            totalPages = Math.ceil(filtered.length / itemsPerPage);
-            if(currentPage > totalPages) currentPage = totalPages || 1;
-            let start = (currentPage-1)*itemsPerPage;
-            let paginatedVideos = filtered.slice(start, start+itemsPerPage);
-            const videosGrid = document.getElementById('videosGrid');
-            if(videosGrid) videosGrid.innerHTML = paginatedVideos.length ? paginatedVideos.map(v=>movieCard(v)).join('') : '<div class="empty-state" style="text-align:center;padding:50px;color:#666;">No videos found</div>';
-            renderPagination();
         }
         
         function renderUpcomingTrending(){
@@ -1006,6 +1297,7 @@
             setupBackButtonHandler();
             setTimeout(() => checkAndShowPopupNote(), 1000);
             init();
+            observePaginationForAds();
         }
         
         async function init(){ 
@@ -1015,7 +1307,6 @@
             updateCategoryTitle(); 
         }
         
-        // Event Listeners
         document.getElementById('searchBtn')?.addEventListener('click',()=>{ 
             if(!ageVerificationDone) {
                 showToast("Please verify your age first!", true);
@@ -1029,7 +1320,6 @@
         document.getElementById('nextSlide')?.addEventListener('click',nextSlide);
         document.getElementById('logoBtn')?.addEventListener('click',()=>window.location.reload());
         
-        // Make functions global
         window.handlePlay = handlePlay;
         window.closeVideoModal = closeVideoModal;
         window.openCoinsModal = openCoinsModal;
@@ -1054,13 +1344,13 @@
         window.openTelegram = openTelegram;
         window.closePopupNote = closePopupNote;
         window.verifyAge = verifyAge;
-        window.goToPage = goToPage;
         window.downloadVideo = downloadVideo;
         
         let isAgeVerified = localStorage.getItem('ageVerified') === 'true';
         if(isAgeVerified) {
             ageVerificationDone = true;
-            init(); 
+            init();
+            observePaginationForAds();
         }
         else document.getElementById('ageVerificationModal').classList.remove('hidden');
     </script>
