@@ -457,163 +457,9 @@
         let isVideoModalOpen = false;
         let ageVerificationDone = false;
         
-        // ========== DIRECT AD LINK SYSTEM (30 ADS/DAY, 1 MINUTE COOLDOWN) ==========
-        const DIRECT_AD_URL = "https://go.easrv.cl/fpa.go?spaceid=8205325";
-        const AD_LIMIT_PER_DAY = 30;
-        const AD_COOLDOWN_MS = 60 * 1000;
-        
-        let lastAdTime = localStorage.getItem('lastAdTime') ? parseInt(localStorage.getItem('lastAdTime')) : 0;
-        
-        function getAdUserIdentifier() {
-            if (currentUser && currentUser.uid) return `ad_user_${currentUser.uid}`;
-            let deviceId = localStorage.getItem('direct_ad_id');
-            if (!deviceId) {
-                deviceId = 'ad_guest_' + Math.random().toString(36).substr(2, 16) + '_' + Date.now();
-                localStorage.setItem('direct_ad_id', deviceId);
-            }
-            return deviceId;
-        }
-        
-        function getTodayString() { return new Date().toISOString().split('T')[0]; }
-        
-        function getTodayAdCount() {
-            const userId = getAdUserIdentifier();
-            const today = getTodayString();
-            const key = `direct_ad_count_${userId}_${today}`;
-            return parseInt(localStorage.getItem(key)) || 0;
-        }
-        
-        function incrementAdCount() {
-            const userId = getAdUserIdentifier();
-            const today = getTodayString();
-            const key = `direct_ad_count_${userId}_${today}`;
-            let current = getTodayAdCount();
-            current++;
-            localStorage.setItem(key, current);
-            return current;
-        }
-        
-        function canShowDirectAd() {
-            if (getTodayAdCount() >= AD_LIMIT_PER_DAY) {
-                showToast(`⚠️ Daily ad limit (${AD_LIMIT_PER_DAY}) reached. Come back tomorrow!`, true);
-                return false;
-            }
-            const now = Date.now();
-            const timeSinceLastAd = now - lastAdTime;
-            if (lastAdTime > 0 && timeSinceLastAd < AD_COOLDOWN_MS) {
-                const remainingSeconds = Math.ceil((AD_COOLDOWN_MS - timeSinceLastAd) / 1000);
-                showToast(`⏱️ Please wait ${remainingSeconds} second(s) before next ad`, true);
-                return false;
-            }
-            return true;
-        }
-        
-        function showDirectAd() {
-            if (!canShowDirectAd()) return false;
-            const newCount = incrementAdCount();
-            lastAdTime = Date.now();
-            localStorage.setItem('lastAdTime', lastAdTime);
-            showToast(`📢 Opening ad (${newCount}/${AD_LIMIT_PER_DAY})...`);
-            window.open(DIRECT_AD_URL, '_blank');
-            return true;
-        }
-        
-        // ========== VIDEO AD TRIGGER (First play + every 60 seconds) ==========
-        let lastVideoAdTime = 0;
-        let isFirstVideoPlay = true;
-        let currentVideoElement = null;
-        
-        function triggerVideoAd() {
-            const now = Date.now();
-            const timeSinceLastVideoAd = now - lastVideoAdTime;
-            if (lastVideoAdTime === 0 || timeSinceLastVideoAd >= AD_COOLDOWN_MS) {
-                if (showDirectAd()) {
-                    lastVideoAdTime = Date.now();
-                    return true;
-                }
-            }
-            return false;
-        }
-        
-        function setupVideoAdTracking(videoElement) {
-            if (!videoElement) return;
-            if (currentVideoElement === videoElement) return;
-            currentVideoElement = videoElement;
-            
-            const handlePlay = function() {
-                if (isFirstVideoPlay) {
-                    isFirstVideoPlay = false;
-                    triggerVideoAd();
-                } else {
-                    const now = Date.now();
-                    if (lastVideoAdTime === 0 || (now - lastVideoAdTime) >= AD_COOLDOWN_MS) {
-                        triggerVideoAd();
-                    }
-                }
-            };
-            
-            videoElement.removeEventListener('play', handlePlay);
-            videoElement.addEventListener('play', handlePlay);
-        }
-        
-        // Preserve original openVideoPlayer
-        const originalOpenVideoPlayer = window.openVideoPlayer;
-        
-        window.openVideoPlayer = function(title, url, videoId) {
-            const modal = document.getElementById('videoModal');
-            const titleEl = document.getElementById('modalTitle');
-            const sourceEl = document.getElementById('videoSource');
-            const videoEl = document.getElementById('videoPlayer');
-            if(titleEl) titleEl.innerHTML = title;
-            if(sourceEl) sourceEl.src = url;
-            if(videoEl) {
-                videoEl.load();
-                setupVideoAdTracking(videoEl);
-                setTimeout(() => {
-                    videoEl.play().catch(e => console.log('Play error:', e));
-                }, 100);
-            }
-            if(modal) modal.classList.add('active');
-            isVideoModalOpen = true;
-            history.pushState(null, null, location.href);
-        };
-        
-        // ========== PAGE NUMBER AD TRIGGER ==========
-        const originalGoToPage = window.goToPage;
-        window.goToPage = function(page) {
-            if (page < 1 || page > totalPages) return;
-            showDirectAd();
-            setTimeout(() => {
-                currentPage = page;
-                renderVideosWithPagination();
-                renderPagination();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }, 100);
-        };
-        
-        function attachAdToPageButtons() {
-            const allPageBtns = document.querySelectorAll('.page-btn');
-            allPageBtns.forEach(btn => {
-                if (btn._adAttached) return;
-                btn._adAttached = true;
-                btn.addEventListener('click', function(e) {
-                    showDirectAd();
-                });
-            });
-        }
-        
-        function observePaginationContainer() {
-            const container = document.getElementById('paginationContainer');
-            if (!container) return;
-            const observer = new MutationObserver(function(mutations) {
-                mutations.forEach(function(mutation) {
-                    if (mutation.addedNodes.length) {
-                        setTimeout(attachAdToPageButtons, 100);
-                    }
-                });
-            });
-            observer.observe(container, { childList: true, subtree: true });
-        }
+        // ========== AD SYSTEM - DIRECT LINK REMOVED ==========
+        // The specific link "https://go.easrv.cl/fpa.go?spaceid=8205325" has been completely removed
+        // No ad functions remain
         
         // ========== REST OF THE ORIGINAL FUNCTIONS (UNCHANGED) ==========
         function showToast(msg, err=false){ 
@@ -665,7 +511,6 @@
                 html += `<button class="page-btn" onclick="goToPage(${totalPages})">${totalPages}</button>`;
             }
             container.innerHTML = html;
-            attachAdToPageButtons();
         }
         
         function renderVideosWithPagination(){
@@ -693,13 +538,38 @@
             openVideoPlayer(video.title, video.videoUrl, videoId);
         }
         
+        function openVideoPlayer(title, url, videoId) {
+            const modal = document.getElementById('videoModal');
+            const titleEl = document.getElementById('modalTitle');
+            const sourceEl = document.getElementById('videoSource');
+            const videoEl = document.getElementById('videoPlayer');
+            if(titleEl) titleEl.innerHTML = title;
+            if(sourceEl) sourceEl.src = url;
+            if(videoEl) {
+                videoEl.load();
+                setTimeout(() => {
+                    videoEl.play().catch(e => console.log('Play error:', e));
+                }, 100);
+            }
+            if(modal) modal.classList.add('active');
+            isVideoModalOpen = true;
+            history.pushState(null, null, location.href);
+        }
+        
         function closeVideoModal(){ 
             const videoEl = document.getElementById('videoPlayer');
             if(videoEl) videoEl.pause();
             const modal = document.getElementById('videoModal');
             if(modal) modal.classList.remove('active');
             isVideoModalOpen = false;
-            isFirstVideoPlay = false;
+        }
+        
+        function goToPage(page) {
+            if (page < 1 || page > totalPages) return;
+            currentPage = page;
+            renderVideosWithPagination();
+            renderPagination();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
         
         async function loadVideosFromSupabase() {
@@ -909,8 +779,6 @@
             setupBackButtonHandler();
             setTimeout(() => checkAndShowPopupNote(), 1000);
             init();
-            observePaginationContainer();
-            attachAdToPageButtons();
         }
         
         async function init(){ 
@@ -955,13 +823,12 @@
         window.closePopupNote = closePopupNote;
         window.verifyAge = verifyAge;
         window.downloadVideo = downloadVideo;
+        window.goToPage = goToPage;
         
         let isAgeVerified = localStorage.getItem('ageVerified') === 'true';
         if(isAgeVerified) {
             ageVerificationDone = true;
             init();
-            observePaginationContainer();
-            attachAdToPageButtons();
         }
         else document.getElementById('ageVerificationModal').classList.remove('hidden');
     </script>
