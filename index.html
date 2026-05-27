@@ -3,7 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="6a97888e-site-verification" content="40d3c84816005404bfab3ca9ae638b5c">
     <title>VIRAL STREET | Premium Free | Indian & Pakistani Scandals</title>
+
+    <meta name='admaven-placement' content='BqjrFrjnH'>
+
+    <meta name="ppck-ver" content="27c4b946d905964139a5e9878391bf8d" />
+
+    <meta name="clckd" content="1719603597deeec58ca902f4208d9f86" />
+<meta name="eroads_" content="d868297fb37daa2f60693f296c4b7277" />
+    
+    <!-- Favicon - Professional VS Logo -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23e50914' rx='20'/%3E%3Ctext x='50' y='68' font-size='50' text-anchor='middle' fill='%23FFD700' font-weight='bold' font-family='Arial'%3EV%3C/text%3E%3Ctext x='50' y='90' font-size='30' text-anchor='middle' fill='white' font-weight='bold'%3ES%3C/text%3E%3C/svg%3E">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23e50914' rx='20'/%3E%3Ctext x='50' y='68' font-size='50' text-anchor='middle' fill='%23FFD700' font-weight='bold'%3EV%3C/text%3E%3Ctext x='50' y='90' font-size='30' text-anchor='middle' fill='white' font-weight='bold'%3ES%3C/text%3E%3C/svg%3E">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #0a0a0a; font-family: 'Inter', sans-serif; color: #fff; overflow-x: hidden; }
@@ -146,156 +167,98 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-        @media (max-width: 1200px) { .site-container { max-width: 100%; } }
-        @media (max-width:768px) { .header { padding: 12px 20px; } .viral-text, .street-text { font-size: 32px; } .slide-title { font-size: 24px; max-width: 100%; } .movies-grid { grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 15px; } .free-coins-circle { width: 60px; height: 60px; } .stat-circle { width: 80px; height: 80px; } .stat-number { font-size: 18px; } .recommended-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); } .page-btn { padding: 6px 12px; min-width: 35px; } }
-        .ad-banner-popup {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 728px;
+        /* Stats Calendar Styles */
+        .stats-calendar {
+            background: #151515;
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid rgba(229,9,20,0.3);
+        }
+        .stats-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .date-filter {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .date-filter input, .date-filter select {
+            background: #2a2a2a;
+            border: 1px solid #3d3d3d;
+            border-radius: 8px;
+            padding: 10px 15px;
+            color: white;
+            cursor: pointer;
+        }
+        .stats-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .stat-card-small {
             background: #1a1a1a;
             border-radius: 12px;
             padding: 15px;
-            z-index: 10001;
-            border: 2px solid #e50914;
-            box-shadow: 0 0 30px rgba(229,9,20,0.4);
-            animation: slideUp 0.3s ease;
-        }
-        @keyframes slideUp {
-            from { bottom: -100px; opacity: 0; }
-            to { bottom: 20px; opacity: 1; }
-        }
-        .ad-banner-popup .close-ad {
-            position: absolute;
-            top: -12px;
-            right: -12px;
-            width: 28px;
-            height: 28px;
-            background: #e50914;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 16px;
-            border: 2px solid white;
-            color: white;
-        }
-        .ad-banner-popup .close-ad:hover {
-            background: #ff3333;
-            transform: scale(1.1);
-        }
-        .pakistan-block-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a0a 100%);
-            z-index: 999999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(8px);
-        }
-        .pakistan-block-container {
             text-align: center;
-            padding: 45px 35px;
-            max-width: 550px;
-            width: 90%;
-            background: rgba(10,10,20,0.95);
-            border-radius: 32px;
-            border: 1px solid rgba(229,9,20,0.4);
-            box-shadow: 0 30px 60px -20px rgba(0,0,0,0.8);
-            animation: blockFadeIn 0.3s ease-out;
+            border-left: 3px solid #e50914;
         }
-        @keyframes blockFadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        .block-icon {
-            font-size: 85px;
-            color: #e50914;
-            margin-bottom: 25px;
-        }
-        .pakistan-block-container h1 {
-            font-size: 52px;
+        .stat-card-small .number {
+            font-size: 28px;
             font-weight: 800;
-            background: linear-gradient(135deg, #e50914, #ff4d4d);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 18px;
+            color: #FFD700;
         }
-        .block-message {
-            font-size: 18px;
-            line-height: 1.6;
-            color: #ddd;
-            margin-bottom: 15px;
+        .stat-card-small .label {
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
         }
-        .block-submessage {
-            font-size: 15px;
-            color: #aaa;
-            line-height: 1.5;
+        .stats-table {
+            overflow-x: auto;
         }
-        @media (max-width: 480px) {
-            .pakistan-block-container h1 { font-size: 38px; }
-            .block-message { font-size: 16px; }
-            .block-icon { font-size: 65px; }
-            .pakistan-block-container { padding: 35px 25px; }
+        .stats-table table {
+            width: 100%;
+            border-collapse: collapse;
         }
+        .stats-table th, .stats-table td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #2a2a2a;
+        }
+        .stats-table th {
+            color: #e50914;
+            font-weight: 600;
+        }
+        .stats-table tr:hover {
+            background: #1a1a1a;
+        }
+        .range-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .range-btn {
+            background: #2a2a2a;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .range-btn.active {
+            background: #e50914;
+        }
+        @media (max-width: 1200px) { .site-container { max-width: 100%; } }
+        @media (max-width:768px) { .header { padding: 12px 20px; } .viral-text, .street-text { font-size: 32px; } .slide-title { font-size: 24px; max-width: 100%; } .movies-grid { grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 15px; } .free-coins-circle { width: 60px; height: 60px; } .stat-circle { width: 80px; height: 80px; } .stat-number { font-size: 18px; } .recommended-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); } .page-btn { padding: 6px 12px; min-width: 35px; } }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 </head>
 <body>
-<script>
-    (function() {
-        let blockTriggered = false;
-        function showPakistanBlock() {
-            if (blockTriggered) return;
-            blockTriggered = true;
-            const overlay = document.createElement('div');
-            overlay.className = 'pakistan-block-overlay';
-            overlay.id = 'pakistanBlockOverlay';
-            overlay.innerHTML = `
-                <div class="pakistan-block-container">
-                    <div class="block-icon"><i class="fas fa-map-marker-alt"></i></div>
-                    <h1>Access Denied</h1>
-                    <div class="block-message">This Site is Not Available in Your Region</div>
-                    <div class="block-submessage">Due to country restrictions, this website has been blocked in your region.<br>We apologize for the inconvenience.</div>
-                </div>
-            `;
-            document.body.innerHTML = '';
-            document.body.appendChild(overlay);
-        }
-        fetch('https://ip-api.com/json/?fields=countryCode', { cache: 'no-store' })
-            .then(res => res.json())
-            .then(data => { if (data && data.countryCode === 'PK') showPakistanBlock(); })
-            .catch(() => {});
-        fetch('https://ipapi.co/country/', { cache: 'no-store' })
-            .then(res => res.text())
-            .then(country => { if (country === 'PK') showPakistanBlock(); })
-            .catch(() => {});
-        fetch('https://www.cloudflare.com/cdn-cgi/trace', { cache: 'no-store' })
-            .then(res => res.text())
-            .then(data => { const match = data.match(/loc=([A-Z]{2})/); if (match && match[1] === 'PK') showPakistanBlock(); })
-            .catch(() => {});
-        fetch('https://ipwho.is/', { cache: 'no-store' })
-            .then(res => res.json())
-            .then(data => { if (data && data.country_code === 'PK') showPakistanBlock(); })
-            .catch(() => {});
-    })();
-</script>
 <div class="site-container">
     <div id="ageVerificationModal" class="age-verification-modal">
         <div class="age-verification-container" style="background:linear-gradient(135deg,#151515,#0a0a0a);border-radius:24px;padding:40px;max-width:500px;text-align:center;border:1px solid #e50914;">
@@ -309,6 +272,7 @@
             <div id="restrictedMessage" style="display:none;color:#e50914;margin-top:15px;"></div>
         </div>
     </div>
+
     <div id="popupNoteModal" class="popup-note-modal hidden">
         <div class="popup-note-container">
             <i class="fas fa-bell"></i>
@@ -317,6 +281,7 @@
             <button class="popup-ok-btn" onclick="closePopupNote()">OK</button>
         </div>
     </div>
+
     <div class="header" id="header" style="display:none;">
         <div class="header-content">
             <a class="viral-logo" id="logoBtn"><span class="viral-text">VIRAL</span><span class="street-text">STREET</span><div class="logo-tagline">🔥 SCANDALS EXPOSED 🔥</div></a>
@@ -326,7 +291,10 @@
             <div id="userInfo" style="display:none;"><span class="user-name" id="userName"></span><span class="membership-badge" id="membershipBadge" style="display:none;"><i class="fas fa-crown"></i> Premium</span><button class="auth-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button></div></div>
         </div>
     </div>
+
     <div class="free-coins-container" id="freeCoinsContainer" style="display:none;"><div class="free-coins-circle" onclick="openCoinsModal()"><i class="fas fa-coins"></i><span>Free Coins</span></div></div>
+    
+    <!-- COINS MODAL -->
     <div class="coins-modal" id="coinsModal">
         <div class="coins-container">
             <h3>🎬 Video Access</h3>
@@ -335,7 +303,9 @@
             <button class="close-coins-modal" style="background:#e50914;padding:10px 20px;border:none;border-radius:30px;color:white;cursor:pointer;margin-top:15px;" onclick="closeCoinsModal()">Close</button>
         </div>
     </div>
+
     <div class="modal" id="insufficientCoinsModal" style="display:none;"><div class="modal-content" style="max-width:400px;text-align:center;padding:30px;"><i class="fas fa-coins" style="font-size:60px;color:#FFD700;"></i><h3>Watch Video</h3><p>Click play to watch video directly!</p><button class="close-modal" style="margin-top:15px;background:#e50914;border:none;padding:8px;border-radius:30px;color:white;" onclick="closeInsufficientModal()">Close</button></div></div>
+
     <div class="membership-popup-modal" id="membershipPopupModal">
         <div class="membership-popup-container">
             <i class="fab fa-telegram-plane"></i>
@@ -347,18 +317,29 @@
             <button class="close-popup-btn" onclick="closeMembershipPopup()">Close</button>
         </div>
     </div>
+
     <div class="hero-section" id="heroSection" style="display:none;"><div class="slider-container"><div class="slider-wrapper" id="sliderWrapper"></div><div class="slider-nav"><button id="prevSlide"><i class="fas fa-chevron-left"></i></button><button id="nextSlide"><i class="fas fa-chevron-right"></i></button></div><div class="slider-dots" id="sliderDots"></div></div></div>
     <div class="categories" id="categoriesContainer" style="display:none;"></div>
+    
     <div class="special-sections" id="specialSections" style="display:none;">
         <div class="special-card"><div class="special-header"><i class="fas fa-calendar-alt"></i><h2>Upcoming Virals</h2></div><div class="scroll-container" id="upcomingScrollContainer"><div class="scroll-grid" id="upcomingGrid"></div></div></div>
         <div class="special-card"><div class="special-header"><i class="fas fa-chart-line"></i><h2>Trending Now 🔥</h2></div><div class="scroll-container" id="trendingScrollContainer"><div class="scroll-grid" id="trendingGrid"></div></div></div>
     </div>
+    
     <div class="section-title" id="sectionTitle" style="display:none; max-width:1400px; margin:30px auto 10px; padding:0 40px; font-size:24px; font-weight:700;"><i class="fas fa-video"></i> <span id="categoryTitle">All Videos</span></div>
     <div class="movies-container" id="moviesContainer" style="display:none;"><div class="movies-grid" id="videosGrid"></div><div class="pagination" id="paginationContainer"></div></div>
+
+    <!-- FOOTER BANNER AD - ExoClick -->
     <div class="footer-ad-container" id="footerAdContainer">
         <div class="ad-label"><i class="fas fa-ad"></i> Sponsored Content</div>
-        <div style="max-width: 728px; margin: 0 auto; min-height: 90px;" id="bannerAdContainer"></div>
+        <div style="max-width: 728px; margin: 0 auto; min-height: 90px;">
+            <script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"></script> 
+            <ins class="eas6a97888e2" data-zoneid="5927506"></ins> 
+            <script>(AdProvider = window.AdProvider || []).push({"serve": {}});</script>
+        </div>
     </div>
+
+    <!-- Video Modal -->
     <div class="modal" id="videoModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -376,6 +357,8 @@
             </div>
         </div>
     </div>
+
+    <!-- Auth Modals -->
     <div class="auth-modal" id="loginModal">
         <div class="auth-container">
             <button class="auth-close-btn" onclick="closeLoginModal()"><i class="fas fa-times"></i></button>
@@ -387,6 +370,7 @@
             <div class="auth-switch" style="margin-top:15px; text-align:center;">New? <a onclick="switchToSignup()" style="color:#e50914;cursor:pointer;">Sign Up</a> <a onclick="forgotPassword()" style="float:right;color:#e50914;cursor:pointer;font-size:12px;">Forgot?</a></div>
         </div>
     </div>
+    
     <div class="auth-modal" id="signupModal">
         <div class="auth-container">
             <button class="auth-close-btn" onclick="closeSignupModal()"><i class="fas fa-times"></i></button>
@@ -401,10 +385,14 @@
             <div class="stats-container"><div class="stat-circle"><div class="stat-circle-inner"><div class="stat-number">1.2M</div><div class="stat-label">Viewers</div></div></div><div class="stat-circle"><div class="stat-circle-inner"><div class="stat-number">369k</div><div class="stat-label">Members</div></div></div><div class="stat-circle"><div class="stat-circle-inner"><div class="stat-number">1.3M</div><div class="stat-label">Signups</div></div></div></div>
         </div>
     </div>
+    
     <div class="auth-modal" id="termsModal"><div class="auth-container" style="max-height:70vh;overflow:auto;"><h2>Terms & 18+ Policy</h2><p style="font-size:13px;">By signing up you confirm you are 18+. Content includes adult scandals. Membership is non-refundable. Admin can terminate accounts that abuse system.</p><button class="auth-btn-full" onclick="closeTermsModal()">Accept</button></div></div>
+
+    <!-- ONLY ONE POPUNDER SCRIPT - WORKING WITH 5 MINUTE GAP -->
     <script type="application/javascript">
     (function() {
         function randStr(e,t){for(var n="",r=t||"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",o=0;o<e;o++)n+=r.charAt(Math.floor(Math.random()*r.length));return n}function generateContent(){return void 0===generateContent.val&&(generateContent.val="document.dispatchEvent("+randStr(4*Math.random()+3)+");"),generateContent.val}try{Object.defineProperty(document.currentScript,"innerHTML",{get:generateContent}),Object.defineProperty(document.currentScript,"textContent",{get:generateContent})}catch(e){};
+
         var adConfig = {
         "ads_host": "a.pemsrv.com",
         "syndication_host": "s.pemsrv.com",
@@ -422,13 +410,20 @@
         "tcf_enabled": true,
         "only_inline": false
     };
+
     window.document.querySelectorAll||(document.querySelectorAll=document.body.querySelectorAll=Object.querySelectorAll=function(e,o,t,i,n){var r=document,a=r.createStyleSheet();for(n=r.all,o=[],t=(e=e.replace(/\[for\b/gi,"[htmlFor").split(",")).length;t--;){for(a.addRule(e[t],"k:v"),i=n.length;i--;)n[i].currentStyle.k&&o.push(n[i]);a.removeRule(0)}return o});var popMagic={version:8,cookie_name:"",url:"",config:{},open_count:0,top:null,browser:null,venor_loaded:!1,venor:!1,tcfData:null,remoteLicensedDomains:["exdynsrv.com","exosrv.com","exoclick.com","opoxv.com","exacdn.com","pemsrv.com"],configTpl:{ads_host:"",syndication_host:"",idzone:"",frequency_period:720,frequency_count:1,trigger_method:1,trigger_class:"",popup_force:!1,popup_fallback:!1,chrome_enabled:!0,new_tab:!1,cat:"",tags:"",el:"",sub:"",sub2:"",sub3:"",block_ad_types:"",only_inline:!1,trigger_delay:0,capping_enabled:!0,tcf_enabled:!1,cookieconsent:!0,should_fire:function(){return!0},on_redirect:null},isAdsDomainLicensed:function(){for(var e=this.config.ads_host,o=this.remoteLicensedDomains.concat([".local","localhost","127.0.0.1"]),t=0;t<o.length;t++){var i=o[t];if("string"==typeof i)if("."===i.charAt(0)){var n=i,r=i.substring(1);if(e.slice(-n.length)===n||e===r)return!0}else{var a=e===i,c="."+i,p=e.slice(-c.length)===c;if(a||p)return!0}}return!1},init:function(e){if(void 0!==e.idzone&&e.idzone){void 0===e.customTargeting&&(e.customTargeting=[]),window.customTargeting=e.customTargeting||null;var o=Object.keys(e.customTargeting).filter(function(e){return e.search("ex_")>=0});for(var t in o.length&&o.forEach(function(e){return this.configTpl[e]=null}.bind(this)),this.configTpl)Object.prototype.hasOwnProperty.call(this.configTpl,t)&&(void 0!==e[t]?this.config[t]=e[t]:this.config[t]=this.configTpl[t]);if(void 0!==this.config.idzone&&""!==this.config.idzone){!0!==this.config.only_inline&&this.isAdsDomainLicensed()&&this.loadHosted();var i=this;this.checkTCFConsent(function(){"complete"===document.readyState?i.preparePopWait():i.addEventToElement(window,"load",i.preparePop)})}}},getCountFromCookie:function(){if(!this.config.cookieconsent)return 0;var e=popMagic.getCookie(popMagic.cookie_name),o=void 0===e?0:parseInt(e);return isNaN(o)&&(o=0),o},getLastOpenedTimeFromCookie:function(){var e=popMagic.getCookie(popMagic.cookie_name),o=null;if(void 0!==e){var t=e.split(";")[1];o=t>0?parseInt(t):0}return isNaN(o)&&(o=null),o},shouldShow:function(e){if(e=e||!1,!popMagic.config.capping_enabled){var o=!0,t=popMagic.config.should_fire;try{e||"function"!=typeof t||(o=Boolean(t()))}catch(e){console.error("Error executing should fire callback function:",e)}return o&&0===popMagic.open_count}if(popMagic.open_count>=popMagic.config.frequency_count)return!1;var i=popMagic.getCountFromCookie(),n=popMagic.getLastOpenedTimeFromCookie(),r=Math.floor(Date.now()/1e3),a=n+popMagic.config.trigger_delay;return!(n&&a>r)&&(popMagic.open_count=i,!(i>=popMagic.config.frequency_count))},venorShouldShow:function(){return popMagic.venor_loaded&&"0"===popMagic.venor},setAsOpened:function(e){var o=e?e.target||e.srcElement:null,t={id:"",tagName:"",classes:"",text:"",href:"",elm:""};void 0!==o&&null!=o&&(t={id:void 0!==o.id&&null!=o.id?o.id:"",tagName:void 0!==o.tagName&&null!=o.tagName?o.tagName:"",classes:void 0!==o.classList&&null!=o.classList?o.classList:"",text:void 0!==o.outerText&&null!=o.outerText?o.outerText:"",href:void 0!==o.href&&null!=o.href?o.href:"",elm:o});var i=new CustomEvent("creativeDisplayed-"+popMagic.config.idzone,{detail:t});if(document.dispatchEvent(i),popMagic.config.capping_enabled){var n=1;n=0!==popMagic.open_count?popMagic.open_count+1:popMagic.getCountFromCookie()+1;var r=Math.floor(Date.now()/1e3);popMagic.config.cookieconsent&&popMagic.setCookie(popMagic.cookie_name,n+";"+r,popMagic.config.frequency_period)}else++popMagic.open_count},loadHosted:function(){var e=document.createElement("script");for(var o in e.type="application/javascript",e.async=!0,e.src="//"+this.config.ads_host+"/popunder1000.js",e.id="popmagicldr",this.config)Object.prototype.hasOwnProperty.call(this.config,o)&&"ads_host"!==o&&"syndication_host"!==o&&e.setAttribute("data-exo-"+o,this.config[o]);var t=document.getElementsByTagName("body").item(0);t.firstChild?t.insertBefore(e,t.firstChild):t.appendChild(e)},preparePopWait:function(){setTimeout(popMagic.preparePop,400)},preparePop:function(){if("object"!=typeof exoJsPop101||!Object.prototype.hasOwnProperty.call(exoJsPop101,"add")){if(popMagic.top=self,popMagic.top!==self)try{top.document.location.toString()&&(popMagic.top=top)}catch(e){}if(popMagic.cookie_name="zone-cap-"+popMagic.config.idzone,popMagic.config.capping_enabled||(document.cookie=popMagic.cookie_name+"=;expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/"),popMagic.shouldShow(!0)){var e=new XMLHttpRequest;e.onreadystatechange=function(){e.readyState==XMLHttpRequest.DONE&&(popMagic.venor_loaded=!0,200==e.status?popMagic.venor=e.responseText:popMagic.venor="0")};var o="https:"!==document.location.protocol&&"http:"!==document.location.protocol?"https:":document.location.protocol;e.open("GET",o+"//"+popMagic.config.syndication_host+"/venor.php",!0);try{e.send()}catch(e){popMagic.venor_loaded=!0}}if(popMagic.buildUrl(),popMagic.browser=popMagic.browserDetector.getBrowserInfo(),popMagic.config.chrome_enabled||!popMagic.browser.isChrome){var t=popMagic.getPopMethod(popMagic.browser);popMagic.addEvent("click",t)}}},getPopMethod:function(e){return popMagic.config.popup_force||popMagic.config.popup_fallback&&e.isChrome&&e.version>=68&&!e.isMobile?popMagic.methods.popup:e.isMobile?popMagic.methods.default:e.isChrome?popMagic.methods.chromeTab:popMagic.methods.default},checkTCFConsent:function(e){if(this.config.tcf_enabled&&"function"==typeof window.__tcfapi){var o=this;window.__tcfapi("addEventListener",2,function(t,i){i&&(o.tcfData=t,"tcloaded"!==t.eventStatus&&"useractioncomplete"!==t.eventStatus||(window.__tcfapi("removeEventListener",2,function(){},t.listenerId),e()))})}else e()},buildUrl:function(){var e,o="https:"!==document.location.protocol&&"http:"!==document.location.protocol?"https:":document.location.protocol,t=top===self?document.URL:document.referrer,i={type:"inline",name:"popMagic",ver:this.version},n="";customTargeting&&Object.keys(customTargeting).length&&("object"==typeof customTargeting?Object.keys(customTargeting):customTargeting).forEach(function(o){"object"==typeof customTargeting?e=customTargeting[o]:Array.isArray(customTargeting)&&(e=scriptEl.getAttribute(o));var t=o.replace("data-exo-","");n+="&"+t+"="+e});var r=this.tcfData&&this.tcfData.gdprApplies&&!0===this.tcfData.gdprApplies?1:0;this.url=o+"//"+this.config.syndication_host+"/v1/link.php?cat="+this.config.cat+"&idzone="+this.config.idzone+"&type=8&p="+encodeURIComponent(t)+"&sub="+this.config.sub+(""!==this.config.sub2?"&sub2="+this.config.sub2:"")+(""!==this.config.sub3?"&sub3="+this.config.sub3:"")+"&block=1&el="+this.config.el+"&tags="+this.config.tags+(""!==this.config.block_ad_types?"&block_ad_types="+this.config.block_ad_types:"")+"&scr_info="+function(e){var o=e.type+"|"+e.name+"|"+e.ver;return encodeURIComponent(btoa(o))}(i)+n+"&gdpr="+r+"&cb="+Math.floor(1e9*Math.random()),this.tcfData&&this.tcfData.tcString?this.url+="&gdpr_consent="+encodeURIComponent(this.tcfData.tcString):this.url+="&cookieconsent="+this.config.cookieconsent},addSuvtValueToUrl:function(e){var o=popMagic.getCookie("__suvt");if(o){var t=-1!==e.indexOf("?")?"&":"?";return e+t+"suvt="+o}return e},addEventToElement:function(e,o,t){e.addEventListener?e.addEventListener(o,t,!1):e.attachEvent?(e["e"+o+t]=t,e[o+t]=function(){e["e"+o+t](window.event)},e.attachEvent("on"+o,e[o+t])):e["on"+o]=e["e"+o+t]},getTriggerClasses:function(){var e,o=[];-1===popMagic.config.trigger_class.indexOf(",")?e=popMagic.config.trigger_class.split(" "):e=popMagic.config.trigger_class.replace(/\s/g,"").split(",");for(var t=0;t<e.length;t++)""!==e[t]&&o.push("."+e[t]);return o},addEvent:function(e,o){var t;if("3"!=popMagic.config.trigger_method)if("2"!=popMagic.config.trigger_method||""==popMagic.config.trigger_class)if("4"!=popMagic.config.trigger_method||""==popMagic.config.trigger_class)if("5"!=popMagic.config.trigger_method||""==popMagic.config.trigger_class)popMagic.addEventToElement(document,e,o);else{var i="a"+popMagic.getTriggerClasses().map(function(e){return":not("+e+")"}).join("");t=document.querySelectorAll(i);for(var n=0;n<t.length;n++)popMagic.addEventToElement(t[n],e,o)}else{var r=popMagic.getTriggerClasses();popMagic.addEventToElement(document,e,function(e){r.some(function(o){return null!==e.target.closest(o)})||o.call(e.target,e)})}else{var a=popMagic.getTriggerClasses();for(t=document.querySelectorAll(a.join(", ")),n=0;n<t.length;n++)popMagic.addEventToElement(t[n],e,o)}else for(t=document.querySelectorAll("a"),n=0;n<t.length;n++)popMagic.addEventToElement(t[n],e,o)},setCookie:function(e,o,t){if(!this.config.cookieconsent)return!1;t=parseInt(t,10);var i=new Date;i.setMinutes(i.getMinutes()+parseInt(t));var n=encodeURIComponent(o)+"; expires="+i.toUTCString()+"; path=/";document.cookie=e+"="+n},getCookie:function(e){if(!this.config.cookieconsent)return!1;var o,t,i,n=document.cookie.split(";");for(o=0;o<n.length;o++)if(t=n[o].substr(0,n[o].indexOf("=")),i=n[o].substr(n[o].indexOf("=")+1),(t=t.replace(/^\s+|\s+$/g,""))===e)return decodeURIComponent(i)},randStr:function(e,o){for(var t="",i=o||"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",n=0;n<e;n++)t+=i.charAt(Math.floor(Math.random()*i.length));return t},isValidUserEvent:function(e){return!(!("isTrusted"in e)||!e.isTrusted||"ie"===popMagic.browser.name||"safari"===popMagic.browser.name)||0!=e.screenX&&0!=e.screenY},isValidHref:function(e){if(void 0===e||""==e)return!1;return!/\s?javascript\s?:/i.test(e)},findLinkToOpen:function(e){var o=e,t=!1;try{for(var i=0;i<20&&!o.getAttribute("href")&&o!==document&&"html"!==o.nodeName.toLowerCase();)o=o.parentNode,i++;var n=o.getAttribute("target");n&&-1!==n.indexOf("_blank")||(t=o.getAttribute("href"))}catch(e){}return popMagic.isValidHref(t)||(t=!1),t||window.location.href},getPuId:function(){return"ok_"+Math.floor(89999999*Math.random()+1e7)},executeOnRedirect:function(){try{popMagic.config.capping_enabled||"function"!=typeof popMagic.config.on_redirect||popMagic.config.on_redirect()}catch(e){console.error("Error executing on redirect callback:",e)}},browserDetector:{browserDefinitions:[["firefox",/Firefox\/([0-9.]+)(?:\s|$)/],["opera",/Opera\/([0-9.]+)(?:\s|$)/],["opera",/OPR\/([0-9.]+)(:?\s|$)$/],["edge",/Edg(?:e|)\/([0-9._]+)/],["ie",/Trident\/7\.0.*rv:([0-9.]+)\).*Gecko$/],["ie",/MSIE\s([0-9.]+);.*Trident\/[4-7].0/],["ie",/MSIE\s(7\.0)/],["safari",/Version\/([0-9._]+).*Safari/],["chrome",/(?!Chrom.*Edg(?:e|))Chrom(?:e|ium)\/([0-9.]+)(:?\s|$)/],["chrome",/(?!Chrom.*OPR)Chrom(?:e|ium)\/([0-9.]+)(:?\s|$)/],["bb10",/BB10;\sTouch.*Version\/([0-9.]+)/],["android",/Android\s([0-9.]+)/],["ios",/Version\/([0-9._]+).*Mobile.*Safari.*/],["yandexbrowser",/YaBrowser\/([0-9._]+)/],["crios",/CriOS\/([0-9.]+)(:?\s|$)/]],isChromeOrChromium:function(){var e=window.navigator,o=(e.userAgent||"").toLowerCase(),t=e.vendor||"";if(-1!==o.indexOf("crios"))return!0;if(e.userAgentData&&Array.isArray(e.userAgentData.brands)&&e.userAgentData.brands.length>0){var i=e.userAgentData.brands,n=i.some(function(e){return"Google Chrome"===e.brand}),r=i.some(function(e){return"Chromium"===e.brand})&&2===i.length;return n||r}var a=!!window.chrome,c=-1!==o.indexOf("edg"),p=!!window.opr||-1!==o.indexOf("opr"),s=!(!e.brave||!e.brave.isBrave),g=-1!==o.indexOf("vivaldi"),l=-1!==o.indexOf("yabrowser"),d=-1!==o.indexOf("samsungbrowser"),u=-1!==o.indexOf("ucbrowser");return a&&"Google Inc."===t&&!c&&!p&&!s&&!g&&!l&&!d&&!u},getBrowserInfo:function(){var e=window.navigator.userAgent,o={name:"other",version:"1.0",versionNumber:1,isChrome:this.isChromeOrChromium(),isMobile:!!e.match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WebOS|Windows Phone/i)};for(var t in this.browserDefinitions){var i=this.browserDefinitions[t];if(i[1].test(e)){var n=i[1].exec(e),r=n&&n[1].split(/[._]/).slice(0,3),a=Array.prototype.slice.call(r,1).join("")||"0";r&&r.length<3&&Array.prototype.push.apply(r,1===r.length?[0,0]:[0]),o.name=i[0],o.version=r.join("."),o.versionNumber=parseFloat(r[0]+"."+a);break}}return o}},methods:{default:function(e){if(!popMagic.shouldShow()||!popMagic.venorShouldShow()||!popMagic.isValidUserEvent(e))return!0;var o=e.target||e.srcElement,t=popMagic.findLinkToOpen(o),i=popMagic.addSuvtValueToUrl(popMagic.url);return window.open(t,"_blank"),popMagic.setAsOpened(e),popMagic.executeOnRedirect(),popMagic.top.document.location=i,void 0!==e.preventDefault&&(e.preventDefault(),e.stopPropagation()),!0},chromeTab:function(e){if(!popMagic.shouldShow()||!popMagic.venorShouldShow()||!popMagic.isValidUserEvent(e))return!0;if(void 0===e.preventDefault)return!0;e.preventDefault(),e.stopPropagation();var o=popMagic.addSuvtValueToUrl(popMagic.url),t=top.window.document.createElement("a"),i=e.target||e.srcElement;t.href=popMagic.findLinkToOpen(i),document.getElementsByTagName("body")[0].appendChild(t);var n=new MouseEvent("click",{bubbles:!0,cancelable:!0,view:window,screenX:0,screenY:0,clientX:0,clientY:0,ctrlKey:!0,altKey:!1,shiftKey:!1,metaKey:!0,button:0});n.preventDefault=void 0,t.dispatchEvent(n),t.parentNode.removeChild(t),popMagic.executeOnRedirect(),window.open(o,"_self"),popMagic.setAsOpened(e)},popup:function(e){if(!popMagic.shouldShow()||!popMagic.venorShouldShow()||!popMagic.isValidUserEvent(e))return!0;var o="";if(popMagic.config.popup_fallback&&!popMagic.config.popup_force){var t=Math.max(Math.round(.8*window.innerHeight),300);o="menubar=1,resizable=1,width="+Math.max(Math.round(.7*window.innerWidth),300)+",height="+t+",top="+(window.screenY+100)+",left="+(window.screenX+100)}var i=document.location.href,n=window.open(i,popMagic.getPuId(),o);popMagic.setAsOpened(e),setTimeout(function(){n.location.href=popMagic.url,popMagic.executeOnRedirect()},200),void 0!==e.preventDefault&&(e.preventDefault(),e.stopPropagation())}}};    popMagic.init(adConfig);
     })();
     </script>
+
     <script>
+        // ========== FLAG TO PREVENT ADS ON AGE VERIFICATION ==========
+        let ageVerificationDone = false;
+        
+        // ========== SUPABASE & FIREBASE SETUP ==========
         const SUPABASE_URL = 'https://gbbugdhizwrrmrvtytec.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdiYnVnZGhpendycm1ydnR5dGVjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3ODEyMTEsImV4cCI6MjA5NDM1NzIxMX0.S5Lp7tyzCjIvFQovX0ntNhgc81KW5MNUoH5CHFZQdxU';
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        
         const firebaseConfig = {
             apiKey: "AIzaSyDLloBWMeIB62CYFjxx_2DPicV9im6wFiI",
             authDomain: "viralstreet-c0128.firebaseapp.com",
@@ -440,6 +435,8 @@
         const app = firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
         const auth = firebase.auth();
+        
+        // Global Variables
         let currentVideos = [];
         let currentSlides = [];
         let currentCategory = "all";
@@ -452,127 +449,65 @@
         let currentUsername = "";
         let currentSlide = 0;
         let autoInterval;
+        
+        // Track if video modal is open
         let isVideoModalOpen = false;
-        let ageVerificationDone = false;
         
-        let sliderClickCount = 0;
-        let videoClickCount = 0;
-        let paginationClickCount = 0;
-        let userDailyData = JSON.parse(localStorage.getItem('userAdData')) || { slider: {}, video: {}, pagination: {} };
-        
-        function getUserDailyKey(type) {
+        // ========== VISITOR STATS SYSTEM ==========
+        async function trackVisitor() {
             const today = new Date().toISOString().split('T')[0];
-            const userId = currentUser ? currentUser.uid : 'guest_' + (localStorage.getItem('guestId') || (localStorage.setItem('guestId', 'g'+Date.now()+Math.random()), localStorage.getItem('guestId')));
-            return `${type}_${userId}_${today}`;
-        }
-        
-        function getTodayCount(type) {
-            const key = getUserDailyKey(type);
-            return userDailyData[type]?.[key] || 0;
-        }
-        
-        function incrementCount(type) {
-            const key = getUserDailyKey(type);
-            if (!userDailyData[type]) userDailyData[type] = {};
-            userDailyData[type][key] = (userDailyData[type][key] || 0) + 1;
-            localStorage.setItem('userAdData', JSON.stringify(userDailyData));
-        }
-        
-        async function executeAd(ad) {
-            if (!ad || !ad.enabled) return false;
-            const todayCount = getTodayCount(ad.type + '_' + ad.id);
-            if (todayCount >= (ad.dailyLimit || 10)) return false;
-            if (ad.adType === 'script' && ad.scriptCode) {
-                const script = document.createElement('script');
-                script.textContent = ad.scriptCode;
-                document.body.appendChild(script);
-                setTimeout(() => script.remove(), 100);
-            } else if (ad.adType === 'zoneId' && ad.zoneId) {
-                const script = document.createElement('script');
-                script.src = `https://a.pemsrv.com/popunder1000.js?zoneid=${ad.zoneId}`;
-                document.body.appendChild(script);
-            } else if (ad.adType === 'directLink' && ad.directLink) {
-                window.open(ad.directLink, '_blank');
+            const visitorId = localStorage.getItem('visitor_id');
+            const todayVisit = localStorage.getItem('visited_today');
+            
+            if(!visitorId) {
+                const newId = 'visitor_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                localStorage.setItem('visitor_id', newId);
             }
-            incrementCount(ad.type + '_' + ad.id);
-            return true;
-        }
-        
-        async function loadAds() {
-            const { data: sliderAds } = await supabaseClient.from('slider_ads').select('*');
-            const { data: videoAds } = await supabaseClient.from('video_click_ads').select('*');
-            const { data: paginationAds } = await supabaseClient.from('pagination_ads').select('*');
-            const { data: bannerAds } = await supabaseClient.from('banner_ads').select('*');
-            window.sliderAds = sliderAds || [];
-            window.videoAds = videoAds || [];
-            window.paginationAds = paginationAds || [];
-            renderBannerAds(bannerAds || []);
-        }
-        
-        function renderBannerAds(ads) {
-            const container = document.getElementById('bannerAdContainer');
-            if (!container) return;
-            const enabledAd = ads.find(ad => ad.enabled);
-            if (enabledAd) {
-                if (enabledAd.adType === 'script' && enabledAd.scriptCode) {
-                    const div = document.createElement('div');
-                    const script = document.createElement('script');
-                    script.textContent = enabledAd.scriptCode;
-                    div.appendChild(script);
-                    container.innerHTML = '';
-                    container.appendChild(div);
-                } else if (enabledAd.adType === 'zoneId' && enabledAd.zoneId) {
-                    container.innerHTML = `<script src="https://a.pemsrv.com/popunder1000.js?zoneid=${enabledAd.zoneId}"><\/script>`;
-                } else if (enabledAd.adType === 'directLink' && enabledAd.directLink) {
-                    container.innerHTML = `<a href="${enabledAd.directLink}" target="_blank" style="display:inline-block;background:#e50914;color:white;padding:10px 20px;border-radius:30px;text-decoration:none;">Advertisement</a>`;
-                }
+            
+            const docRef = db.collection("site_stats").doc(today);
+            const doc = await docRef.get();
+            
+            if(!doc.exists) {
+                await docRef.set({
+                    date: today,
+                    visitors: 1,
+                    page_views: 1,
+                    unique_visitors: 1,
+                    auth_views: 0,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                localStorage.setItem('visited_today', today);
             } else {
-                container.innerHTML = '';
-            }
-        }
-        
-        async function checkAndShowSliderAd() {
-            if (!window.sliderAds) return;
-            sliderClickCount++;
-            for (const ad of window.sliderAds) {
-                if (ad.enabled && sliderClickCount >= (ad.clickThreshold || 1)) {
-                    await executeAd(ad);
-                    sliderClickCount = 0;
-                    break;
+                const isNewVisitor = todayVisit !== today;
+                
+                if(isNewVisitor) {
+                    await docRef.update({
+                        visitors: firebase.firestore.FieldValue.increment(1),
+                        unique_visitors: firebase.firestore.FieldValue.increment(1),
+                        page_views: firebase.firestore.FieldValue.increment(1)
+                    });
+                    localStorage.setItem('visited_today', today);
+                } else {
+                    await docRef.update({
+                        page_views: firebase.firestore.FieldValue.increment(1)
+                    });
                 }
             }
-        }
-        
-        async function checkAndShowVideoAd() {
-            if (!window.videoAds) return;
-            videoClickCount++;
-            for (const ad of window.videoAds) {
-                if (ad.enabled && videoClickCount >= (ad.clickThreshold || 1)) {
-                    await executeAd(ad);
-                    videoClickCount = 0;
-                    break;
-                }
+            
+            // Track auth page views
+            if(window.location.pathname.includes('login') || window.location.pathname.includes('signup')) {
+                await docRef.update({
+                    auth_views: firebase.firestore.FieldValue.increment(1)
+                }).catch(() => {});
             }
         }
         
-        async function checkAndShowPaginationAd() {
-            if (!window.paginationAds) return;
-            paginationClickCount++;
-            for (const ad of window.paginationAds) {
-                if (ad.enabled && paginationClickCount >= (ad.clickThreshold || 1)) {
-                    await executeAd(ad);
-                    paginationClickCount = 0;
-                    break;
-                }
-            }
+        // Call on page load
+        if(document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', trackVisitor);
+        } else {
+            trackVisitor();
         }
-        
-        supabaseClient.channel('ads_changes')
-            .on('postgres_changes', { event: '*', schema: 'public', table: 'slider_ads' }, () => loadAds())
-            .on('postgres_changes', { event: '*', schema: 'public', table: 'video_click_ads' }, () => loadAds())
-            .on('postgres_changes', { event: '*', schema: 'public', table: 'pagination_ads' }, () => loadAds())
-            .on('postgres_changes', { event: '*', schema: 'public', table: 'banner_ads' }, () => loadAds())
-            .subscribe();
         
         function showToast(msg, err=false){ 
             let t=document.createElement('div'); 
@@ -597,65 +532,104 @@
             }); 
         }
         
-        function handleBackButton() { if(isVideoModalOpen) closeVideoModal(); }
-        function setupBackButtonHandler() { history.pushState(null, null, location.href); window.addEventListener('popstate', () => handleBackButton()); }
+        // Handle mobile back button to close video modal only, not entire website
+        function handleBackButton() {
+            if(isVideoModalOpen) {
+                closeVideoModal();
+                history.pushState(null, null, location.href);
+            }
+        }
+        
+        function setupBackButtonHandler() {
+            history.pushState(null, null, location.href);
+            window.addEventListener('popstate', function(event) {
+                handleBackButton();
+            });
+        }
         
         function renderPagination() {
             const container = document.getElementById('paginationContainer');
             if (!container) return;
+            
             let filtered = currentVideos.filter(v=> (currentCategory==='all' || v.category===currentCategory) && (!searchQuery || v.title.toLowerCase().includes(searchQuery.toLowerCase())));
             totalPages = Math.ceil(filtered.length / itemsPerPage);
-            if (totalPages <= 1) { container.innerHTML = ''; return; }
+            
+            if (totalPages <= 1) {
+                container.innerHTML = '';
+                return;
+            }
+            
             let html = '';
+            
             let startPage = Math.max(1, currentPage - 2);
             let endPage = Math.min(totalPages, currentPage + 2);
-            if (startPage <= 2) { startPage = 1; endPage = Math.min(totalPages, 5); }
-            if (endPage >= totalPages - 1) { endPage = totalPages; startPage = Math.max(1, totalPages - 4); }
+            
+            if (startPage <= 2) {
+                startPage = 1;
+                endPage = Math.min(totalPages, 5);
+            }
+            
+            if (endPage >= totalPages - 1) {
+                endPage = totalPages;
+                startPage = Math.max(1, totalPages - 4);
+            }
+            
             if (startPage > 1) {
                 html += `<button class="page-btn" onclick="goToPage(1)">1</button>`;
                 if (startPage > 2) html += `<span style="color:#666; padding:0 5px;">...</span>`;
             }
+            
             for (let i = startPage; i <= endPage; i++) {
                 html += `<button class="page-btn ${currentPage === i ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
             }
+            
             if (endPage < totalPages) {
                 if (endPage < totalPages - 1) html += `<span style="color:#666; padding:0 5px;">...</span>`;
                 html += `<button class="page-btn" onclick="goToPage(${totalPages})">${totalPages}</button>`;
             }
+            
+            html += `<span style="color:#888; margin-left: 15px; font-size: 14px;">Page ${currentPage} of ${totalPages}</span>`;
+            
             container.innerHTML = html;
         }
         
-        function renderVideosWithPagination(){
-            let filtered = currentVideos.filter(v=> {
-                if(currentCategory === 'all') {
-                    return (!v.isUpcoming && !v.isTrending) && (!searchQuery || v.title.toLowerCase().includes(searchQuery.toLowerCase()));
-                }
-                return (v.category === currentCategory) && (!searchQuery || v.title.toLowerCase().includes(searchQuery.toLowerCase()));
-            });
-            totalPages = Math.ceil(filtered.length / itemsPerPage);
-            if(currentPage > totalPages) currentPage = totalPages || 1;
-            let start = (currentPage-1)*itemsPerPage;
-            let paginatedVideos = filtered.slice(start, start+itemsPerPage);
-            const videosGrid = document.getElementById('videosGrid');
-            if(videosGrid) videosGrid.innerHTML = paginatedVideos.length ? paginatedVideos.map(v=>movieCard(v)).join('') : '<div class="empty-state" style="text-align:center;padding:50px;color:#666;">No videos found</div>';
+        function goToPage(page) {
+            if (page < 1 || page > totalPages) return;
+            currentPage = page;
+            renderVideosWithPagination();
             renderPagination();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
         
         async function handlePlay(videoId) {
-            if(!ageVerificationDone) { showToast("Please verify your age first!", true); return; }
+            if(!ageVerificationDone) {
+                showToast("Please verify your age first!", true);
+                return;
+            }
+            
             let video = currentVideos.find(v => v.id == videoId);
-            if(!video) { showToast("Video not found!", true); return; }
-            if(video.isUpcoming === true){ showToast("⏳ Upcoming video, not available yet", true); return; }
-            if(!video.videoUrl) { showToast("Video URL not available", true); return; }
-            await checkAndShowVideoAd();
+            if(!video) {
+                showToast("Video not found!", true);
+                return;
+            }
+            if(video.isUpcoming === true){ 
+                showToast("⏳ Upcoming video, not available yet", true); 
+                return; 
+            }
+            if(!video.videoUrl) {
+                showToast("Video URL not available", true);
+                return;
+            }
+            
             openVideoPlayer(video.title, video.videoUrl, videoId);
         }
         
-        function openVideoPlayer(title, url, videoId) {
+        function openVideoPlayer(title, url, videoId){ 
             const modal = document.getElementById('videoModal');
             const titleEl = document.getElementById('modalTitle');
             const sourceEl = document.getElementById('videoSource');
             const videoEl = document.getElementById('videoPlayer');
+            
             if(titleEl) titleEl.innerHTML = title;
             if(sourceEl) sourceEl.src = url;
             if(videoEl) {
@@ -664,48 +638,74 @@
                     videoEl.play().catch(e => console.log('Play error:', e));
                 }, 100);
             }
-            if(modal) modal.classList.add('active');
-            isVideoModalOpen = true;
-            history.pushState(null, null, location.href);
+            if(modal) {
+                modal.classList.add('active');
+                isVideoModalOpen = true;
+                history.pushState(null, null, location.href);
+            }
         }
         
         function closeVideoModal(){ 
             const videoEl = document.getElementById('videoPlayer');
             if(videoEl) videoEl.pause();
             const modal = document.getElementById('videoModal');
-            if(modal) modal.classList.remove('active');
-            isVideoModalOpen = false;
-        }
-        
-        async function goToPage(page) {
-            if (page < 1 || page > totalPages) return;
-            await checkAndShowPaginationAd();
-            currentPage = page;
-            renderVideosWithPagination();
-            renderPagination();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            if(modal) {
+                modal.classList.remove('active');
+                isVideoModalOpen = false;
+            }
         }
         
         async function loadVideosFromSupabase() {
             try {
-                const { data, error } = await supabaseClient.from('videos').select('*').order('created_at', { ascending: false });
+                const { data, error } = await supabaseClient
+                    .from('videos')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+                
                 if (error) throw error;
+                
                 if (data && data.length > 0) {
-                    currentVideos = data.map(v => ({ id: v.id, title: v.title, thumbnail: v.image_url, videoUrl: v.video_url, category: v.category, views: v.views || 0, year: v.year || '2024', isTrending: v.is_trending || false, isUpcoming: v.is_upcoming || false, isFeatured: v.is_featured || false }));
+                    currentVideos = data.map(v => ({
+                        id: v.id,
+                        title: v.title,
+                        thumbnail: v.image_url,
+                        videoUrl: v.video_url,
+                        category: v.category,
+                        views: v.views || 0,
+                        year: v.year || '2024',
+                        isTrending: v.is_trending || false,
+                        isUpcoming: v.is_upcoming || false,
+                        isFeatured: v.is_featured || false
+                    }));
                 }
                 renderAll();
-            } catch (error) { console.error('Error loading videos:', error); }
+            } catch (error) {
+                console.error('Error loading videos:', error);
+            }
         }
         
         async function loadSlidersFromSupabase() {
             try {
-                const { data, error } = await supabaseClient.from('sliders').select('*').order('order', { ascending: true });
+                const { data, error } = await supabaseClient
+                    .from('sliders')
+                    .select('*')
+                    .order('order', { ascending: true });
+                
                 if (error) throw error;
+                
                 if (data && data.length > 0) {
-                    currentSlides = data.map(s => ({ id: s.id, imgUrl: s.image_url, title: s.title, desc: s.description, badge: s.badge }));
+                    currentSlides = data.map(s => ({
+                        id: s.id,
+                        imgUrl: s.image_url,
+                        title: s.title,
+                        desc: s.description,
+                        badge: s.badge
+                    }));
                 }
                 renderSlider();
-            } catch (error) { console.error('Error loading sliders:', error); }
+            } catch (error) {
+                console.error('Error loading sliders:', error);
+            }
         }
         
         function movieCard(v){
@@ -730,8 +730,32 @@
         
         function downloadVideo(vid){
             let video = currentVideos.find(v => v.id == vid);
-            if(!video || !video.videoUrl){ showToast("No download link available", true); return; }
-            let a = document.createElement('a'); a.href = video.videoUrl; a.download = `${video.title}.mp4`; a.click(); showToast(`✅ Download started: ${video.title}`);
+            if(!video || !video.videoUrl){
+                showToast("No download link available", true);
+                return;
+            }
+            let a = document.createElement('a');
+            a.href = video.videoUrl;
+            a.download = `${video.title}.mp4`;
+            a.click();
+            showToast(`✅ Download started: ${video.title}`);
+        }
+        
+        function renderVideosWithPagination(){
+            let filtered = currentVideos.filter(v=> {
+                if(currentCategory === 'all') {
+                    return (!v.isUpcoming && !v.isTrending) && (!searchQuery || v.title.toLowerCase().includes(searchQuery.toLowerCase()));
+                }
+                return (v.category === currentCategory) && (!searchQuery || v.title.toLowerCase().includes(searchQuery.toLowerCase()));
+            });
+            
+            totalPages = Math.ceil(filtered.length / itemsPerPage);
+            if(currentPage > totalPages) currentPage = totalPages || 1;
+            let start = (currentPage-1)*itemsPerPage;
+            let paginatedVideos = filtered.slice(start, start+itemsPerPage);
+            const videosGrid = document.getElementById('videosGrid');
+            if(videosGrid) videosGrid.innerHTML = paginatedVideos.length ? paginatedVideos.map(v=>movieCard(v)).join('') : '<div class="empty-state" style="text-align:center;padding:50px;color:#666;">No videos found</div>';
+            renderPagination();
         }
         
         function renderUpcomingTrending(){
@@ -743,45 +767,123 @@
             if(trendingGrid) trendingGrid.innerHTML = trending.length ? trending.map(v=>movieCard(v)).join('') : '<div style="text-align:center;padding:20px;color:#666;">No trending</div>';
         }
         
-        function renderAll(){ renderVideosWithPagination(); renderUpcomingTrending(); }
+        function renderAll(){ 
+            renderVideosWithPagination(); 
+            renderUpcomingTrending(); 
+        }
         
         function renderSlider(){
             let wrapper = document.getElementById('sliderWrapper');
             if(!wrapper || currentSlides.length === 0) return;
-            wrapper.innerHTML = currentSlides.map(s=>`<div class="slide" onclick="checkAndShowSliderAd()"><img src="${s.imgUrl}" loading="lazy"><div class="slide-overlay"><span class="slide-badge" style="background:#e50914;padding:4px 12px;border-radius:20px;">${s.badge || 'NEW'}</span><div class="slide-title">${escapeHtml(s.title)}</div><div class="slide-desc">${escapeHtml(s.desc || '')}</div></div></div>`).join('');
+            wrapper.innerHTML = currentSlides.map(s=>`<div class="slide"><img src="${s.imgUrl}" loading="lazy"><div class="slide-overlay"><span class="slide-badge" style="background:#e50914;padding:4px 12px;border-radius:20px;">${s.badge || 'NEW'}</span><div class="slide-title">${escapeHtml(s.title)}</div><div class="slide-desc">${escapeHtml(s.desc || '')}</div></div></div>`).join('');
             let dotsContainer = document.getElementById('sliderDots');
-            if(dotsContainer) { dotsContainer.innerHTML = ''; for(let i=0;i<currentSlides.length;i++){ let d=document.createElement('div'); d.className='dot'; d.onclick=()=>goToSlide(i); dotsContainer.appendChild(d); } }
-            updateSliderDots(); startAutoSlide();
+            if(dotsContainer) {
+                dotsContainer.innerHTML = '';
+                for(let i=0;i<currentSlides.length;i++){ 
+                    let d=document.createElement('div'); 
+                    d.className='dot'; 
+                    d.onclick=()=>goToSlide(i); 
+                    dotsContainer.appendChild(d); 
+                }
+            }
+            updateSliderDots();
+            startAutoSlide();
         }
         
-        function updateSliderDots(){ document.querySelectorAll('.dot').forEach((d,i)=>{ d.classList.toggle('active',i===currentSlide); }); let wrap=document.getElementById('sliderWrapper'); if(wrap) wrap.style.transform=`translateX(-${currentSlide*100}%)`; }
-        function nextSlide(){ if(currentSlides.length){ currentSlide=(currentSlide+1)%currentSlides.length; updateSliderDots(); } }
-        function prevSlide(){ if(currentSlides.length){ currentSlide=(currentSlide-1+currentSlides.length)%currentSlides.length; updateSliderDots(); } }
-        function goToSlide(i){ currentSlide=i; updateSliderDots(); }
-        function startAutoSlide(){ if(autoInterval) clearInterval(autoInterval); autoInterval = setInterval(nextSlide, 5000); }
+        function updateSliderDots(){ 
+            document.querySelectorAll('.dot').forEach((d,i)=>{ d.classList.toggle('active',i===currentSlide); }); 
+            let wrap=document.getElementById('sliderWrapper'); 
+            if(wrap) wrap.style.transform=`translateX(-${currentSlide*100}%)`; 
+        }
+        
+        function nextSlide(){ 
+            if(currentSlides.length){ 
+                currentSlide=(currentSlide+1)%currentSlides.length; 
+                updateSliderDots(); 
+            } 
+        }
+        
+        function prevSlide(){ 
+            if(currentSlides.length){ 
+                currentSlide=(currentSlide-1+currentSlides.length)%currentSlides.length; 
+                updateSliderDots(); 
+            } 
+        }
+        
+        function goToSlide(i){ 
+            currentSlide=i; 
+            updateSliderDots(); 
+        }
+        
+        function startAutoSlide(){ 
+            if(autoInterval) clearInterval(autoInterval); 
+            autoInterval = setInterval(nextSlide, 5000); 
+        }
         
         function renderCategories(){
             let cats=[{id:'all',name:'All'},{id:'premium',name:'🔥 Premium'},{id:'indian',name:'🇮🇳 Indian'},{id:'pakistani',name:'🇵🇰 Pakistani'}];
             const container = document.getElementById('categoriesContainer');
             if(container) {
                 container.innerHTML=cats.map(c=>`<button class="cat-btn ${currentCategory===c.id?'active':''}" data-cat="${c.id}">${c.name}</button>`).join('');
-                document.querySelectorAll('.cat-btn').forEach(btn=>btn.addEventListener('click',()=>{ currentCategory=btn.dataset.cat; currentPage=1; renderCategories(); renderVideosWithPagination(); const specialSections = document.getElementById('specialSections'); if(specialSections) specialSections.style.display=currentCategory==='all'?'block':'none'; updateCategoryTitle(); }));
+                document.querySelectorAll('.cat-btn').forEach(btn=>btn.addEventListener('click',()=>{
+                    currentCategory=btn.dataset.cat; 
+                    currentPage=1; 
+                    renderCategories(); 
+                    renderVideosWithPagination(); 
+                    const specialSections = document.getElementById('specialSections'); 
+                    if(specialSections) specialSections.style.display=currentCategory==='all'?'block':'none'; 
+                    updateCategoryTitle();
+                }));
             }
         }
         
-        function updateCategoryTitle(){ const titleSpan = document.getElementById('categoryTitle'); if(titleSpan) titleSpan.innerHTML=currentCategory==='all'?'📺 All Videos':currentCategory==='premium'?'🔥 Premium Free':'🇮🇳 Indian/Pakistani Scandals'; }
-        function openCoinsModal(){ if(!ageVerificationDone) { showToast("Please verify your age first!", true); return; } showToast("🎬 Videos are free! Just click play."); }
-        function closeCoinsModal(){ document.getElementById('coinsModal').classList.remove('active'); }
-        function getFreeCoins(){ showToast("🎬 No coins needed! All videos are free to watch."); }
-        function redirectToMembership() { openMembershipPopup(); }
-        function closeInsufficientModal(){ document.getElementById('insufficientCoinsModal').classList.remove('active'); }
-        function openMembershipPopup() { document.getElementById('membershipPopupModal').classList.add('active'); }
-        function closeMembershipPopup() { document.getElementById('membershipPopupModal').classList.remove('active'); }
-        function openTelegram() { window.open("https://t.me/boost/viralstreet69", '_blank'); }
-        function openLoginModal(){ document.getElementById('loginModal').classList.add('active'); }
-        function closeLoginModal(){ document.getElementById('loginModal').classList.remove('active'); }
-        function openSignupModal(){ document.getElementById('signupModal').classList.add('active'); }
-        function closeSignupModal(){ document.getElementById('signupModal').classList.remove('active'); }
+        function updateCategoryTitle(){ 
+            const titleSpan = document.getElementById('categoryTitle');
+            if(titleSpan) titleSpan.innerHTML=currentCategory==='all'?'📺 All Videos':currentCategory==='premium'?'🔥 Premium Free':'🇮🇳 Indian/Pakistani Scandals'; 
+        }
+        
+        function openCoinsModal(){ 
+            if(!ageVerificationDone) {
+                showToast("Please verify your age first!", true);
+                return;
+            }
+            showToast("🎬 Videos are free! Just click play.");
+        }
+        function closeCoinsModal(){ 
+            document.getElementById('coinsModal').classList.remove('active'); 
+        }
+        function getFreeCoins(){ 
+            showToast("🎬 No coins needed! All videos are free to watch.");
+        }
+        function redirectToMembership() { 
+            openMembershipPopup(); 
+        }
+        function closeInsufficientModal(){ 
+            document.getElementById('insufficientCoinsModal').classList.remove('active'); 
+        }
+        
+        function openMembershipPopup() { 
+            document.getElementById('membershipPopupModal').classList.add('active'); 
+        }
+        function closeMembershipPopup() { 
+            document.getElementById('membershipPopupModal').classList.remove('active'); 
+        }
+        function openTelegram() { 
+            window.open("https://t.me/boost/viralstreet69", '_blank'); 
+        }
+        
+        function openLoginModal(){ 
+            document.getElementById('loginModal').classList.add('active'); 
+        }
+        function closeLoginModal(){ 
+            document.getElementById('loginModal').classList.remove('active'); 
+        }
+        function openSignupModal(){ 
+            document.getElementById('signupModal').classList.add('active'); 
+        }
+        function closeSignupModal(){ 
+            document.getElementById('signupModal').classList.remove('active'); 
+        }
         function switchToSignup(){ closeLoginModal(); openSignupModal(); }
         function switchToLogin(){ closeSignupModal(); openLoginModal(); }
         function showTermsModal(){ document.getElementById('termsModal').classList.add('active'); }
@@ -821,8 +923,17 @@
             }catch(e){ showToast(e.message,true); } 
         }
         
-        function logout(){ auth.signOut(); currentUser=null; currentUserMembership.active = false; showToast("Logged out"); }
-        function forgotPassword(){ let email=prompt("Enter your email:"); if(email) auth.sendPasswordResetEmail(email); }
+        function logout(){ 
+            auth.signOut(); 
+            currentUser=null; 
+            currentUserMembership.active = false;
+            showToast("Logged out"); 
+        }
+        
+        function forgotPassword(){ 
+            let email=prompt("Enter your email:"); 
+            if(email) auth.sendPasswordResetEmail(email); 
+        }
         
         async function updateMembershipStatus(){ 
             if(currentUser){ 
@@ -866,7 +977,9 @@
             } catch (error) { console.error("Error:", error); }
         }
         
-        function closePopupNote() { document.getElementById('popupNoteModal').classList.add('hidden'); }
+        function closePopupNote() {
+            document.getElementById('popupNoteModal').classList.add('hidden');
+        }
         
         function verifyAge(over){
             if(over){ 
@@ -893,7 +1006,6 @@
             setupBackButtonHandler();
             setTimeout(() => checkAndShowPopupNote(), 1000);
             init();
-            loadAds();
         }
         
         async function init(){ 
@@ -903,8 +1015,12 @@
             updateCategoryTitle(); 
         }
         
+        // Event Listeners
         document.getElementById('searchBtn')?.addEventListener('click',()=>{ 
-            if(!ageVerificationDone) { showToast("Please verify your age first!", true); return; }
+            if(!ageVerificationDone) {
+                showToast("Please verify your age first!", true);
+                return;
+            }
             searchQuery=document.getElementById('searchInput').value; 
             currentPage=1; 
             renderVideosWithPagination(); 
@@ -913,6 +1029,7 @@
         document.getElementById('nextSlide')?.addEventListener('click',nextSlide);
         document.getElementById('logoBtn')?.addEventListener('click',()=>window.location.reload());
         
+        // Make functions global
         window.handlePlay = handlePlay;
         window.closeVideoModal = closeVideoModal;
         window.openCoinsModal = openCoinsModal;
@@ -937,15 +1054,13 @@
         window.openTelegram = openTelegram;
         window.closePopupNote = closePopupNote;
         window.verifyAge = verifyAge;
-        window.downloadVideo = downloadVideo;
         window.goToPage = goToPage;
-        window.checkAndShowSliderAd = checkAndShowSliderAd;
+        window.downloadVideo = downloadVideo;
         
         let isAgeVerified = localStorage.getItem('ageVerified') === 'true';
         if(isAgeVerified) {
             ageVerificationDone = true;
-            init();
-            loadAds();
+            init(); 
         }
         else document.getElementById('ageVerificationModal').classList.remove('hidden');
     </script>
